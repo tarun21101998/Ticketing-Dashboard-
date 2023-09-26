@@ -1,4 +1,5 @@
 const collection=  require('../modals/data')
+  const bcrypt = require('bcryptjs');
 const collection1 = require('../modals/loginData')
 const Jwt = require('jsonwebtoken');
 const jwtKey = 'e-com';
@@ -37,14 +38,19 @@ module.exports.registerData= async (req, resp)=>{
 
 try {
 let user = new collection1(req.body);
-let result = await user.save();
+console.log(user.password)
+const passwordHash = await bcrypt.hash(user.password , 10);
+console.log(passwordHash)
+// req.body.password = passwordHash
+// console.log(req.body.password)
+let result = await collection1.create({"email": req.body.email, "password": passwordHash});
 result = result.toObject();
 delete result.password
 Jwt.sign({result}, jwtKey, {expiresIn:"2h"},(err,token)=>{
     if(err){
         return resp.send("Something went wrong")  
     }
-    console.log(token)
+    // console.log(token)
     return resp.send({result,auth:token})
 })
 }
@@ -56,12 +62,19 @@ return resp.redirect('back');
 }
 
 
-module.exports.loginData= async (req, resp)=>{
+module.exports.loginData  = async (req, resp)=>{
 
 try {
 if (req.body.password && req.body.email) {
-  let user = await collection1.findOne(req.body).select("-password");
-  if (user) {
+  const {email, password} = req.body
+  console.log(password)
+
+   let user = await collection1.findOne({email : req.body.email});
+const  passwordHash = await bcrypt.compare(password, user.password)
+// console.log(passwordHash)
+// console.log(user)
+// next()
+  if (user && passwordHash) {
       Jwt.sign({user}, jwtKey, {expiresIn:"2h"},(err,token)=>{
           if(err){
               resp.send("Something went wrong")  
@@ -73,6 +86,7 @@ if (req.body.password && req.body.email) {
   }
 } else {
   resp.send({ result: "No User found" })
+  console.log("tarun")
 }
 }
 catch (err) {
