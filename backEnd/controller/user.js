@@ -8,7 +8,7 @@ module.exports.createData= async (req, resp)=>{
         
         if (!existingUser) {
           const newUser = await collection.create(req.body);
-          return resp.send("data added");
+          return resp.redirect('https://www.google.com');
         } else {
          return resp.status(401).json({ error: 'Unauthorized' });
         }

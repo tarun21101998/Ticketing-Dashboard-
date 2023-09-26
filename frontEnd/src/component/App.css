@@ -1,0 +1,118 @@
+
+
+.body{
+  /* text-align: center; */
+  height: 100vh;
+  /* width: 70%; */
+  /* border: 10px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-around;
+  color: black;
+}
+.input{
+  background-color: yellow;
+  height: 10%;
+  width: 70%;
+  /* border: 5px solid red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sorting{
+  background-color: yellow;
+  height: 100%;
+  width: 20%;
+  border: 1px solid red;
+  overflow: scrool;
+}
+.sorting button{
+  background-color:  pink;
+  color: white;
+}
+.input input{
+  background-color : #d1d1d1; 
+  height: 40%;
+  width: 70%;
+  /* border: 2px solid black; */
+  color: white
+}
+.table_div{
+  height: 80%;
+  width: 100%;
+  /* border: 20px solid black; */
+  overflow: scroll;
+}
+.table{
+  height: 80px;
+  border-left: 2px solid black;
+
+}
+.table1{
+  /* height: 10%; */
+  width: 100%;
+  margin-left: auto;
+  /* margin-top: 20%; */
+  /* margin-bottom: auto; */
+  margin-right: auto;
+  text-align: center;
+}
+.table2{
+  background-color: grey;
+  border-bottom: 2px solid black;
+  font-size: 2rem;
+
+}
+.home{
+  color: white;
+  height: 20vh;
+  width: 50%;
+  margin: auto;
+  /* border: 5px solid black; */
+  display: flex;
+justify-content: space-around;
+align-items: center;
+/* padding-right: 20px; */
+background-color: #0275dd;
+}
+.home span{
+  margin-right: 50px;
+  font-size: 2rem;
+}
+.form{
+  height: 80vh;
+  width: 100%;
+  /* padding: auto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form1{
+  width: 40%;
+  height: 50%;
+  /* border: 5px solid white; */
+}
+.form1 label{
+font-size:  2rem;
+}
+.form1 input{
+  height: 20%; 
+  width: 50%;
+}
+.form1 button{
+  margin-left: 20%;
+  width: 15%;
+  height: 20px;
+}
+.homepage_details{
+  height: 70vh;
+  width: 100%;
+  border: 5px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
