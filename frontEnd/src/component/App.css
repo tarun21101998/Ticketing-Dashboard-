@@ -2,7 +2,7 @@
 
 .body{
   /* text-align: center; */
-  height: 100vh;
+  height: 100%;
   /* width: 70%; */
   /* border: 10px solid black; */
   display: flex;
@@ -41,9 +41,9 @@
   color: white
 }
 .table_div{
-  height: 80%;
+  height: 70%;
   width: 100%;
-  /* border: 20px solid black; */
+  /* border: 10px solid white; */
   overflow: scroll;
 }
 .table{
@@ -115,4 +115,11 @@ font-size:  2rem;
   justify-content: center;
   align-items: center;
   font-size: 3rem;
+}
+.paginationButton{
+  height: 10%;
+  width: 50%;
+  /* border: 5px solid white; */
+  display: flex;
+  justify-content:  space-around;
 }

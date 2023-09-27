@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 const  Listing = ()=> {
   const [message, setMessage] = useState([]);
   const [arr, setArr] = useState([])
+  const [currentPage, setCurrentPage]= useState(1)
+  const [dataPerPage, setDataPerPage]= useState(4);
   useEffect(()=>{
     fetch("http://localhost:8000/users").then((resp)=>{
       resp.json().then((result)=>{
@@ -19,7 +21,9 @@ const  Listing = ()=> {
   }, [])
 //   const [arr, setArr] = useState(message)
 // console.log(message)
-
+const lastDataIndex = currentPage * dataPerPage
+const firstPagePerIndex = lastDataIndex - dataPerPage
+const newData = arr.slice(firstPagePerIndex, lastDataIndex)
 // console.log(arr)
 const [val, setVal] = React.useState("")
 const filterFunction = (e)=>{
@@ -38,17 +42,36 @@ const filterFunction = (e)=>{
   }
 }
 const ascendingFunction = ()=>{
-    let result =  [...message].sort((a, b)=> a.firstName.localeCompare(b.firstName))
+    let result =  [...message].sort((a, b) => (a.firstName > b.firstName) ? 1 : -1);
+console.log(result)
     setArr(result)
   }
   const descendingFunction = ()=>{
-    let result =  [...message].sort((a, b)=> b.firstName.localeCompare(a.firstName))
+    // console.log(message)
+    const  result =    [...message].sort((a, b) => (a.firstName > b.firstName) ? -1 : 1);
+
+    // console.log("tarun")
+    console.log(result)
     setArr(result)
-  }
+}
   const normalFunction = ()=>{
     setArr(message);
   }
+const prePage = ()=>{
+  if(currentPage >1 ){
+    setCurrentPage(currentPage - 1)
+  }
+}
+
+const nextPage = ()=>{
+  // console.log(arr.length)
+  if(currentPage  <= (arr.length / dataPerPage)){
+    setCurrentPage(currentPage+1)
+    console.log(currentPage)
+  }
   
+
+}
 
 return(
       <div className="body">
@@ -75,9 +98,9 @@ return(
   </tr>
   
   </thead>
-  
-  {arr.map((value,key)=>(
-    <tr>
+  <tbody>
+  {newData.map((value, index)=>(
+    <tr key={index}>
       <td className="table">{value.firstName}</td>
       <td className="table">{value.lastName}</td>
       <td className="table">{value.email}</td>
@@ -86,8 +109,12 @@ return(
     </tr>
   ))}
   
-  
+  </tbody>
   </table>
+  </div>
+  <div className="paginationButton">
+    <button onClick={prePage}>Previous</button>
+    <button onClick={nextPage}>Next</button>
   </div>
       </div>
     );

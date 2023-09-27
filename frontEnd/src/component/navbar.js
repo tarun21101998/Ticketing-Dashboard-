@@ -4,7 +4,7 @@ import "./App.css"
 const Navbar = ()=>{
     const auth = localStorage.getItem('user');
     const navigate = useNavigate();
-    console.log(auth)
+    // console.log(auth)
     const logout = () => {
         localStorage.clear();
         navigate('/signup')
