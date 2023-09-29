@@ -5,7 +5,7 @@ const user = require('../controller/user')
 
 // Data sending to Data Base
 router.post('/users', user.createData)
-router.post('/register', user.registerData)
+
 router.post('/login', user.loginData)
 
 // Data is fetching from DataBase

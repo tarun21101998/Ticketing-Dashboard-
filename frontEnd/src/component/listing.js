@@ -93,6 +93,7 @@ return(
     <th className="table table2">First Name</th>
     <th className="table table2">Last Name</th>
     <th className="table table2">Email</th>
+    <th className="table table2">isActive</th>
     <th className="table table2">Created at</th>
     <th className="table table2">Updated At</th>
   </tr>
@@ -104,6 +105,7 @@ return(
       <td className="table">{value.firstName}</td>
       <td className="table">{value.lastName}</td>
       <td className="table">{value.email}</td>
+      {value.isActive==true ? <td className="table">Admin</td> : <td className="table">User</td>}
       <td className="table">{value.createdAt}</td>
       <td className="table">{value.updatedAt}</td>
     </tr>

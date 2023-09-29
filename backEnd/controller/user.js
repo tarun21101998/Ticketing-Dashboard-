@@ -1,97 +1,89 @@
-const collection=  require('../modals/data')
-  const bcrypt = require('bcryptjs');
+const collection = require('../modals/data')
+const bcrypt = require('bcryptjs');
 const collection1 = require('../modals/loginData')
 const Jwt = require('jsonwebtoken');
 const jwtKey = 'e-com';
 
 
 // creating user
-module.exports.createData= async (req, resp)=>{
 
-  try {
-    const existingUser = await collection.findOne({ email: req.body.email });
-    
-    if (!existingUser) {
-      const newUser = await collection.create(req.body);
-      return resp.send("data added");
-    } else {
-    
-      return resp.status(401).json({ error: 'Unauthorized' });
+module.exports.getData = async (req, resp) => {
+    const result = await collection.find({})
+    // console.log(result)
+    resp.send(result);
+}
+
+
+
+module.exports.createData = async (req, resp) => {
+
+    try {
+        console.log(req.body)
+        // if (req.body.firstName && req.body.lastName && req.body.email && req.body.password && req.body.isActive) {
+            let duplicate = await collection.findOne({ email: req.body.email });
+            console.log(duplicate)
+            if (duplicate) {
+                return resp.send({ responce: false })
+            }
+            let user = new collection(req.body);
+            const passwordHash = await bcrypt.hash(user.password, 10);
+            user.password = passwordHash
+
+            console.log(user)
+            let result = await collection.create(user);
+            result = result.toObject();
+            delete result.password
+            Jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+                if (err) {
+                    let responce = false;
+                    return resp.send({ responce })
+                }
+                let responce = true
+                // console.log(responce)
+                return resp.send({ responce, auth: token })
+            })
+        // }
+        // return resp.send({ responce: 10 })
+        console.log("error")
     }
-  } catch (err) {
-    console.log('Error in signing up:', err);
-    return res.redirect('back');
-  }
 
-}
-
-// fetching the data of user
-module.exports.getData = async (req, resp)=>{
-const result = await collection.find({})
-// console.log(result)
-resp.send(result);
-}
-
-
-
-module.exports.registerData= async (req, resp)=>{
-
-try {
-let user = new collection1(req.body);
-console.log(user.password)
-const passwordHash = await bcrypt.hash(user.password , 10);
-console.log(passwordHash)
-// req.body.password = passwordHash
-// console.log(req.body.password)
-let result = await collection1.create({"email": req.body.email, "password": passwordHash});
-result = result.toObject();
-delete result.password
-Jwt.sign({result}, jwtKey, {expiresIn:"2h"},(err,token)=>{
-    if(err){
-        return resp.send("Something went wrong")  
+    catch (err) {
+        console.log('Error in signing up:', err);
+        return resp.redirect('back',);
     }
-    // console.log(token)
-    return resp.send({result,auth:token})
-})
-}
-catch (err) {
-console.log('Error in signing up:', err);
-return resp.redirect('back');
-}
 
 }
 
 
-module.exports.loginData  = async (req, resp)=>{
+module.exports.loginData = async (req, resp) => {
 
-try {
-if (req.body.password && req.body.email) {
-  const {email, password} = req.body
-  console.log(password)
-
-   let user = await collection1.findOne({email : req.body.email});
-const  passwordHash = await bcrypt.compare(password, user.password)
-// console.log(passwordHash)
-// console.log(user)
-// next()
-  if (user && passwordHash) {
-      Jwt.sign({user}, jwtKey, {expiresIn:"2h"},(err,token)=>{
-          if(err){
-              resp.send("Something went wrong")  
-          }
-          resp.send({user,auth:token})
-      })
-  } else {
-      resp.send({ result: "No User found" })
-  }
-} else {
-  resp.send({ result: "No User found" })
-  console.log("tarun")
-}
-}
-catch (err) {
-console.log('Error in signing up:', err);
-return resp.redirect('back');
-}
+    try {
+        if (req.body.password && req.body.email) {
+            const { email, password } = req.body
+            let user = await collection.findOne({ email: req.body.email });
+            if(!user){
+                return resp.send({responce: false})
+            }
+            const passwordHash = await bcrypt.compare(password, user.password)
+            console.log(user)   
+            if (user && passwordHash) {
+                Jwt.sign({ user }, jwtKey, { expiresIn: "2h" }, (err, token) => {
+                    if (err) {
+                        return resp.status(401).json({ error: false });
+                    }
+                    return resp.send({ firstName: user.firstName, lastName: user.lastName, email: user.email, isActive: user.isActive, auth: token })
+                })
+            } else {
+                return resp.status(401).json({ result: 'no user found' });
+            }
+        } else {
+            return resp.status(401).json({ result: false });
+            //   console.log("tarun")
+        }
+    }
+    catch (err) {
+        console.log('Error in signing up:', err);
+        return resp.redirect('back');
+    }
 
 }

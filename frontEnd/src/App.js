@@ -1,4 +1,6 @@
 import React from "react";
+import SignUp from "./component/signUp";
+import CreateRequests from "./component/requests";
 
 import {
   createBrowserRouter,
@@ -22,6 +24,8 @@ const App = ()=>{
         { index: true, element: <Home /> },
         { path: "/users", element: <Listing /> },
         { path: "/login", element: <Login /> },
+        {path: "/createrequest", element: <CreateRequests />},
+        {path: "/signup", element: <SignUp/>}
       ],
     },
   ]);

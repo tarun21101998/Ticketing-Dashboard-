@@ -1,4 +1,4 @@
-import React from "react";
+    import React from "react";
 import { useEffect, useState } from "react";
 import "./App.css"
 import { Link ,   useNavigate  } from "react-router-dom";
@@ -8,31 +8,34 @@ const Login = ()=>{
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const navigate = useNavigate();
+    const [err, setErr] = useState("")
+    
 
-    useEffect(() => {
-        const auth = localStorage.getItem('user');
-        if (auth) {
-            navigate("/users")
-        }
-    }, [])
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        console.log(10)
         let result = await fetch("http://localhost:8000/login", {
             method: 'post',
             body: JSON.stringify({ email, password }),
-            headers: {
+                headers: {
                 'Content-Type': 'application/json'
             }
         });
         result = await result.json();
-        // console.warn(result)
+        console.log(result)
         if (result.auth) {
-            localStorage.setItem('user', JSON.stringify(result.user));
+            localStorage.setItem('user', JSON.stringify(result.email));
+            localStorage.setItem('firstName', JSON.stringify(result.firstName));
+            localStorage.setItem('lastName', JSON.stringify(result.lastName));
+            localStorage.setItem('isActive', JSON.stringify(result.isActive));
             localStorage.setItem('token', JSON.stringify(result.auth));
             navigate("/")
-        } else {
+        }
+        else if(result.responce === false){
+            setErr("Enter correct emailId")
+            // console.log("enter correct email")
+        }
+         else {
             alert("Please enter connect details")
         }
     }
@@ -51,6 +54,7 @@ required />
 <br/><input type="password" placeholder="Enter the password" required 
 onChange={(e) => setPassword(e.target.value)} value={password} />
 
+<br/>{err}
 <br/><br/><button onClick={handleLogin} type="submit">Login</button>
 </form>
 </div>

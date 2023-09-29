@@ -92,8 +92,9 @@ background-color: #0275dd;
 }
 .form1{
   width: 40%;
-  height: 50%;
+  height: 70%;
   /* border: 5px solid white; */
+  overflow: scroll;
 }
 .form1 label{
 font-size:  2rem;

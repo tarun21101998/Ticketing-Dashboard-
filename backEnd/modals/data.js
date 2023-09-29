@@ -9,14 +9,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-
     email: {
         type: String,
-        require: true,
-        unique: true
+        require: true
+        // unique: true
+    },
+    password: {
+        type: String,
+        require: true
     },
     isActive: {
-        type: Boolean
+        type: Boolean,
+        require: true
     }
     
 },
