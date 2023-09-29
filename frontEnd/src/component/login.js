@@ -1,4 +1,4 @@
-    import React from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import "./App.css"
 import { Link ,   useNavigate  } from "react-router-dom";
@@ -24,11 +24,11 @@ const Login = ()=>{
         result = await result.json();
         console.log(result)
         if (result.auth) {
-            localStorage.setItem('user', JSON.stringify(result.email));
-            localStorage.setItem('firstName', JSON.stringify(result.firstName));
-            localStorage.setItem('lastName', JSON.stringify(result.lastName));
-            localStorage.setItem('isActive', JSON.stringify(result.isActive));
-            localStorage.setItem('token', JSON.stringify(result.auth));
+            sessionStorage.setItem('user', JSON.stringify(result.email));
+            sessionStorage.setItem('firstName', JSON.stringify(result.firstName));
+            sessionStorage.setItem('lastName', JSON.stringify(result.lastName));
+            sessionStorage.setItem('isActive', JSON.stringify(result.isActive));
+                sessionStorage.setItem('token', JSON.stringify(result.auth));
             navigate("/")
         }
         else if(result.responce === false){

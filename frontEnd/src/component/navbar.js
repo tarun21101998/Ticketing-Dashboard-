@@ -2,15 +2,21 @@ import { Link, useNavigate, Outlet } from "react-router-dom";
 import "./App.css"
 
 const Navbar = () => {
-    const auth1 = localStorage.getItem('isActive');
+    const auth1 = sessionStorage.getItem('isActive');
+    const data = sessionStorage.getItem('token')
+    // console.log(data)
     const auth = JSON.parse(auth1)
 
     // const auth = false
-    console.log(auth)
+    // console.log(auth)
     const navigate = useNavigate();
     // console.log(auth)
     const logout = () => {
-        localStorage.clear();
+        sessionStorage.removeItem('isActive');
+        sessionStorage.removeItem('firstName')
+        sessionStorage.removeItem('lastName')
+        sessionStorage.removeItem('user')
+        sessionStorage.removeItem('token')
         navigate('/signup')
     }
 
