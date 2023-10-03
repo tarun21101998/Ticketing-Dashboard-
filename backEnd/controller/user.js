@@ -1,6 +1,6 @@
 const collection = require('../modals/data')
 const bcrypt = require('bcryptjs');
-const collection1 = require('../modals/loginData')
+const collection1 = require('../modals/requests')
 const Jwt = require('jsonwebtoken');
 const jwtKey = 'e-com';
 
@@ -23,7 +23,7 @@ module.exports.createData = async (req, resp) => {
             let duplicate = await collection.findOne({ email: req.body.email });
             console.log(duplicate)
             if (duplicate) {
-                return resp.send({ responce: false })
+                return resp.status(409).json({responce: false });
             }
             let user = new collection(req.body);
             const passwordHash = await bcrypt.hash(user.password, 10);
@@ -36,11 +36,11 @@ module.exports.createData = async (req, resp) => {
             Jwt.sign({ result }, jwtKey, { expiresIn: "2h" }, (err, token) => {
                 if (err) {
                     let responce = false;
-                    return resp.send({ responce })
+                    return resp.status(409).json({ responce })
                 }
                 let responce = true
                 // console.log(responce)
-                return resp.send({ responce, auth: token })
+                return resp.status(200).json({ responce, auth: token })
             })
         // }
         // return resp.send({ responce: 10 })
@@ -62,7 +62,7 @@ module.exports.loginData = async (req, resp) => {
             const { email, password } = req.body
             let user = await collection.findOne({ email: req.body.email });
             if(!user){
-                return resp.send({responce: false})
+                return resp.status(409).json({responce: false})
             }
             const passwordHash = await bcrypt.compare(password, user.password)
             console.log(user)   
@@ -71,7 +71,7 @@ module.exports.loginData = async (req, resp) => {
                     if (err) {
                         return resp.status(401).json({ error: false });
                     }
-                    return resp.send({ firstName: user.firstName, lastName: user.lastName, email: user.email, isActive: user.isActive, auth: token })
+                    return resp.status(200).json({ firstName: user.firstName, lastName: user.lastName, email: user.email, isActive: user.isActive, auth: token })
                 })
             } else {
                 return resp.status(401).json({ result: 'no user found' });
@@ -87,3 +87,48 @@ module.exports.loginData = async (req, resp) => {
     }
 
 }
+
+
+
+module.exports.createRequests= async (req, resp) => {
+
+    try {
+            let user = new collection1(req.body);
+            console.log(user)
+            let result = await collection1.create({email: req.body.email1, name: req.body.name, number: req.body.number});
+            result = result.toObject();
+            delete result.password
+
+            return resp.status(200).json("successful")
+    }
+
+    catch (err) {
+        console.log('Error in signing up:', err);
+        return resp.redirect('back',);
+    }
+
+}
+
+
+
+module.exports.getRequests= async (req, resp) => {
+    try {
+        let data = await collection.findOne({"email": req.body.email})
+        if(data.isActive == false){
+            let user1 = await collection1.find(req.body);
+            console.log(user1)
+            return resp.status(200).json(user1)
+        }
+        else{
+            let admin = await collection1.find({})
+            return resp.status(200).json(admin)
+        }
+    }
+
+    catch (err) {
+        console.log('Error in signing up:', err);
+        return resp.redirect('back',);
+    }
+
+}
+

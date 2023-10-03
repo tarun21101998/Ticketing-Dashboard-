@@ -10,6 +10,7 @@ router.post('/login', user.loginData)
 
 // Data is fetching from DataBase
 router.get('/users', user.getData)
-
+router.post('/requests', user.createRequests)
+router.post('/sendrequests', user.getRequests)
 
 module.exports = router;

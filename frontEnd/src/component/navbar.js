@@ -28,12 +28,14 @@ const Navbar = () => {
                         <>
                             <Link to="/">Home</Link>
                             <Link to="/users"><h3>Dashboard</h3></Link>
+                            <Link to="/myrequests"><h3>My Requests</h3></Link>
                             <Link onClick={logout} to="/login">Logout {JSON.parse(auth).name}</Link>
                         </>
                         : auth == false ?
                             <>
                                 <Link to="/"><h3>Home</h3></Link>
                                 <Link to="/createrequest">createRequests</Link>
+                                <Link to="/myrequests"><h3>My Requests</h3></Link>
                                 <Link onClick={logout} to="/login">Logout {JSON.parse(auth).name}</Link>
                             </>
                             :

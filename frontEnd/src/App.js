@@ -1,4 +1,5 @@
 import React from "react";
+import MyRequests from "./component/myRequests";
 import SignUp from "./component/signUp";
 import CreateRequests from "./component/requests";
 
@@ -25,7 +26,8 @@ const App = ()=>{
         { path: "/users", element: <Listing /> },
         { path: "/login", element: <Login /> },
         {path: "/createrequest", element: <CreateRequests />},
-        {path: "/signup", element: <SignUp/>}
+        {path: "/signup", element: <SignUp/>},
+        {path: "/myrequests", element: <MyRequests />}
       ],
     },
   ]);

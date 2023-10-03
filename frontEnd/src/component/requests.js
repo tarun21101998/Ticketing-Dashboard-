@@ -7,7 +7,7 @@ import { Link ,   useNavigate  } from "react-router-dom";
 const CreateRequests= ()=>{
     // console.log(email)
 
-    const  email1  = localStorage.getItem('user');
+    const  email1  = JSON.parse(sessionStorage.getItem('user'));
     console.log(email1)
 
     const [name, setName] = React.useState('');
@@ -15,12 +15,6 @@ const CreateRequests= ()=>{
     // console.log(JSON.stringify(email1))
     const navigate = useNavigate();
 
-    // useEffect(() => {
-        // const auth = localStorage.getItem('user');
-        // if (auth) {
-            // navigate("/")
-        // }
-        // }, [])
 
     const handleRequest= async (e) => {
         e.preventDefault()
