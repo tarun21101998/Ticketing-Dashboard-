@@ -63,8 +63,8 @@ onChange={(e) => setNumber(e.target.value)} value={number} />
 </div>
 {/* <br/> */}
 <div style={{display: "flex", justifyContent: "space-between"}}>
-<input type="date" required onChange = {handleFromDate} style={{width: "40%"}} value={fromDate}/>
-<input type="date" onChange={handleToDate} required style={{width: "40%"}} value={toDate} />
+<input type="datetime-local" step="2" required onChange = {handleFromDate} style={{width: "40%"}} value={fromDate}/>
+<input type="datetime-local" step="2" onChange={handleToDate} required style={{width: "40%"}} value={toDate} />
 </div>
 <br/>
 <span>{message}</span>
