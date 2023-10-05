@@ -7,7 +7,7 @@ import { Link ,   useNavigate  } from "react-router-dom";
 
 const MyRequests= ()=>{
 
-    const   email1 = JSON.parse(sessionStorage.getItem('user'));
+    const   email1 = JSON.parse(sessionStorage.getItem('token'));
     const [email, setEmail] = useState(email1)
     const [data, setData] = React.useState([]);
     const [arr, setArr] = useState([])
@@ -24,8 +24,7 @@ const [dataPerPage, setDataPerPage]= useState(4);
       
         if(e.target.value){
           // console.log(result)
-          let result = data.filter((item)=> item.email.toLowerCase().includes(e.target.value.toLowerCase()))
-          // console.log(result)
+          let result = data.filter((item) => item.email.toLowerCase().includes(e.target.value.toLowerCase()) || item.number.toLowerCase().includes(e.target.value.toLowerCase()))          // console.log(result)
               setArr(result)
         }
         if(e.target.value === ""){
@@ -39,7 +38,7 @@ useEffect(()=>{
     const fetchData = async()=>{    
     let result = await fetch("http://localhost:8000/sendrequests", {
             method: 'post',
-            body: JSON.stringify({email}),
+            body: JSON.stringify({email1}),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -107,17 +106,19 @@ const prePage = ()=>{
         <td className="table">{value.email}</td>
         <td className="table">{value.name}</td>
         <td className="table">{value.number}</td>
-        <td className="table">{value.createdAt}</td>
-        <td className="table">{value.updatedAt}</td>
+        <td className="table">{value.from}</td>
+        <td className="table">{value.to }</td>
       </tr>
   
   ))}
   </tbody>
   </table>
   </div>
+  <div className="paginationButton1">
   <div className="paginationButton">
     <button onClick={prePage}>Previous</button>
     <button onClick={nextPage}>Next</button>
+  </div>
   </div>
 
         </div>

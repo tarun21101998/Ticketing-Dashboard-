@@ -10,7 +10,7 @@ const SignUp= ()=>{
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [isActive, setIsActive] = useState(false);
+    const [isType, setIsType] = useState(false);
     const [err, setErr] = useState("")
     const[err1, setErr1] = useState("");
     const navigate = useNavigate();
@@ -22,22 +22,22 @@ const SignUp= ()=>{
         // const data = e.target.value.toLocaleCompare("admin")
         console.log(e.target.value)
         if(e.target.value === "admin"){
-            setIsActive(true);
+            setIsType(true);
             setAdminId(true)
         }
         else{
-            setIsActive(false)
+            setIsType(false)
             setAdminId(false)
         }
 
     }
     const handleSignUpData = async (e) => {
         e.preventDefault();
-        // console.log(20)
+        // conTypesole.log(20)
         if(email  && firstName && lastName && password){
         let result = await fetch("http://localhost:8000/users", {
             method: 'post',
-            body: JSON.stringify({firstName, lastName, email, password, isActive }),
+            body: JSON.stringify({firstName, lastName, email, password, isType}),
                 headers: {
                 'Content-Type': 'application/json'
             }
@@ -60,7 +60,7 @@ const SignUp= ()=>{
     }
 
 
-    // console.log(isActive)
+    // console.log(isType)
     return(
         <>
 <div className="form">

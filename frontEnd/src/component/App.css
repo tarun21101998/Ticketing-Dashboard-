@@ -2,8 +2,8 @@
 
 .body{
   /* text-align: center; */
-  height: 100%;
-  /* width: 70%; */
+    /* height: 100vh; */
+  width: 100%;
   /* border: 10px solid black; */
   display: flex;
   justify-content: center;
@@ -12,11 +12,12 @@
   text-align: center;
   justify-content: space-around;
   color: black;
+  overflow: auto;
 }
 .input{
   background-color: yellow;
-  height: 10%;
-  width: 70%;
+  height: 50%;
+  width: 100%;
   /* border: 5px solid red; */
   display: flex;
   justify-content: center;
@@ -27,28 +28,35 @@
   height: 100%;
   width: 20%;
   border: 1px solid red;
-  overflow: scrool;
+  /* overflow: scrool; */
+  /* border: 5px solid white; */
+  display: flex;
+  /* margin: auto; */
 }
 .sorting button{
+  width: 30%;
+  height: 10%;
   background-color:  pink;
   color: white;
+  margin: auto;
 }
 .input input{
   background-color : #d1d1d1; 
-  height: 40%;
-  width: 70%;
+  height: 10%;
+  width: 50%;
   /* border: 2px solid black; */
   color: white
 }
 .table_div{
-  height: 70%;
+  /* height: 70rem; */
   width: 100%;
-  /* border: 10px solid white; */
+  border: 2px solid white;
   overflow: scroll;
+  margin-left: auto;
 }
 .table{
   height: 80px;
-  border-left: 2px solid black;
+  border-left: 2px solid white;
 
 }
 .table1{
@@ -117,10 +125,36 @@ font-size:  2rem;
   align-items: center;
   font-size: 3rem;
 }
-.paginationButton{
+.paginationButton1{
+  width: 100%;
   height: 10%;
+  border: 5px solid white;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.paginationButton{
+  height: 100%;
   width: 50%;
   /* border: 5px solid white; */
   display: flex;
   justify-content:  space-around;
+}
+.navbar{
+  height: 100vh;
+  width: 30vh;
+  /* border: 5px solid white; */
+  /* position: absolute; */
+  /* text-decoration: none; */
+}
+.navbar ul{
+  list-style-type: none;
+  position: fixed;
+  cursor: pointer;
+  color: white; 
+  /* text-decoration: none; */
+}
+Link{
+  text-decoration: none;
+  color: white;
 }

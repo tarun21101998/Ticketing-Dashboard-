@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         require: true
     },
     isActive: {
+type: Boolean,
+require: true
+    },
+    isType: {
         type: Boolean,
         require: true
     }

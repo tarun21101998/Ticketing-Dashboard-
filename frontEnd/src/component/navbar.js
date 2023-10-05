@@ -1,52 +1,60 @@
 import { Link, useNavigate, Outlet } from "react-router-dom";
-import "./App.css"
-
+import jwt from "jwt-decode";import "./App.css"
 const Navbar = () => {
-    const auth1 = sessionStorage.getItem('isActive');
-    const data = sessionStorage.getItem('token')
-    // console.log(data)
-    const auth = JSON.parse(auth1)
+    const auth1 = sessionStorage.getItem('token');
+    let auth = JSON.parse(auth1)
+    if(auth){
+const tokenDecode = jwt(auth)
 
-    // const auth = false
-    // console.log(auth)
+    // console.log(tokenDecode.firstName)
+    auth = tokenDecode.isType
+    }
+    console.log(auth)
     const navigate = useNavigate();
     // console.log(auth)
     const logout = () => {
-        sessionStorage.removeItem('isActive');
-        sessionStorage.removeItem('firstName')
-        sessionStorage.removeItem('lastName')
-        sessionStorage.removeItem('user')
-        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('token');
         navigate('/signup')
     }
-
-    return (
+        return (
         <>
-            <div className="home">
-                {
-                    auth == true ?
-                        <>
-                            <Link to="/">Home</Link>
-                            <Link to="/users"><h3>Dashboard</h3></Link>
-                            <Link to="/myrequests"><h3>My Requests</h3></Link>
-                            <Link onClick={logout} to="/login">Logout {JSON.parse(auth).name}</Link>
-                        </>
-                        : auth == false ?
-                            <>
-                                <Link to="/"><h3>Home</h3></Link>
-                                <Link to="/createrequest">createRequests</Link>
-                                <Link to="/myrequests"><h3>My Requests</h3></Link>
-                                <Link onClick={logout} to="/login">Logout {JSON.parse(auth).name}</Link>
-                            </>
-                            :
-                            <>
-                                <Link to="/"><h3>Home</h3></Link>
-                                <Link to="/signup"><h3>SignUp</h3></Link>
-                                <Link to="/login"><h3>Login</h3></Link>
-                            </>
-                    // {/* </> */}
-                }
-            </div>
+<div className="navbar">
+    {
+    auth == true ?
+    <ul>
+    <li>                            <Link to="/">Home</Link>
+</li>
+<li>                            <Link to="/users"><h3>Dashboard</h3></Link>
+</li>
+<li>                            <Link to="/tickets"><h3>All Tickets</h3></Link>
+</li>
+<li>                            <Link onClick={logout} to="/login">Logout {JSON.parse(auth).name}</Link>
+</li>
+    
+    </ul>
+    : auth == false ?
+    <ul>
+        <li>                                <Link to="/"><h3>Home</h3></Link>
+</li>
+<li>                                <Link to="/create-ticket">Raise a ticket</Link>
+</li>
+<li>                                <Link to="/tickets"><h3>My Tickets</h3></Link>
+</li>
+<li>                                <Link onClick={logout} to="/login">Logout {JSON.parse(auth).name}</Link>
+</li>
+    </ul>
+    : 
+    <ul>
+    <li>                                <Link to="/"><h3>Home</h3></Link>
+    </li>
+    <li>                                <Link to="/signup"><h3>Sign up</h3></Link>
+    </li>
+    <li>                                <Link to="/login"><h3>Log in</h3></Link>
+    </li>
+    </ul>
+}
+</div>
+
             <Outlet />
         </>
 

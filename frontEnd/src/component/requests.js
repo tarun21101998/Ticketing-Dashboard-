@@ -1,41 +1,45 @@
 import React from "react";
-import Login from "./login";
-import { useEffect, useState } from "react";
+import jwt from "jwt-decode";import "./App.css"
 import "./App.css"
-import { Link ,   useNavigate  } from "react-router-dom";
 
 const CreateRequests= ()=>{
-    // console.log(email)
-
-    const  email1  = JSON.parse(sessionStorage.getItem('user'));
-    console.log(email1)
+    let email1  = JSON.parse(sessionStorage.getItem('token'));
 
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
-    // console.log(JSON.stringify(email1))
-    const navigate = useNavigate();
+    const [fromDate, setFromDate] = React.useState(0)
+    const [toDate, setToDate] = React.useState(0)
+    const [message, setMessage] = React.useState("")
 
+    const handleFromDate = (e)=>{
+        e.preventDefault()
+        setFromDate(e.target.value)
+    }
+    const handleToDate = (e)=>{
+        e.preventDefault()  
+        setToDate(e.target.value)
+    }
 
     const handleRequest= async (e) => {
         e.preventDefault()
         // console.log.target.value(e)
-        let result = await fetch("http://localhost:8000/requests", {
+        const date1 = new Date(fromDate)
+        const date2 = new Date(toDate)
+        if(date1 > date2){
+            console.log("short")
+            setMessage("Starting date should be less than ending date")
+            return;
+        }
+        else{
+        await fetch("http://localhost:8000/requests", {
             method: 'post',
-            body: JSON.stringify({ name, number, email1}),
+            body: JSON.stringify({ name, number, fromDate, toDate, email1}),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        // result = await result.json();
-        // console.warn(result)
-        // if (result.auth) {
-            // localStorage.setItem('user', JSON.strin  gify(result.user));
-            // localStorage.setItem('user', JSON.stringify(result.auth));
-            // navigate("/")
-        // } else {
-            // console.log(result.status)
-            // alert("Please enter connect details")
-        // }
+        setMessage("")
+    }
     }
 
 
@@ -44,15 +48,27 @@ const CreateRequests= ()=>{
 <div className="form">
 <div className="form1">
 <form>
-<label>Email ID</label>
-<br/><input type="text" placeholder="Enter your type of your vechile" 
+<label>Name of yoour vehicle</label>
+<br/><input type="text" placeholder="Enter name of your vehicle" 
 onChange={(e) => setName(e.target.value)} value={name}
 required />
-<br/> <br/><label>Password</label>
+<br/> <br/>
+<label>Number of your vehicle</label>
 <br/><input type="text" placeholder="Enter the Number" required 
 onChange={(e) => setNumber(e.target.value)} value={number} />
-
-<br/><br/><button onClick={handleRequest} type="submit">Login</button>
+<br/> <br/>
+<div style={{display: "flex", justifyContent: "space-around"}}>
+<label>From</label>
+<label>To</label>
+</div>
+{/* <br/> */}
+<div style={{display: "flex", justifyContent: "space-between"}}>
+<input type="date" required onChange = {handleFromDate} style={{width: "40%"}} value={fromDate}/>
+<input type="date" onChange={handleToDate} required style={{width: "40%"}} value={toDate} />
+</div>
+<br/>
+<span>{message}</span>
+<br/><button onClick={handleRequest} type="submit">Submit Ticket</button>
 </form>
 </div>
 </div>

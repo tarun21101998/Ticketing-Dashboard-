@@ -25,15 +25,17 @@ const App = ()=>{
         { index: true, element: <Home /> },
         { path: "/users", element: <Listing /> },
         { path: "/login", element: <Login /> },
-        {path: "/createrequest", element: <CreateRequests />},
+        {path: "/create-ticket", element: <CreateRequests />},
         {path: "/signup", element: <SignUp/>},
-        {path: "/myrequests", element: <MyRequests />}
+        {path: "/tickets", element: <MyRequests />}
       ],
     },
   ]);
   return (
     <>
+    <div style={{display: "flex",width: "100%", height: "100%", border: "1px solid white"}}>
       <RouterProvider router={router} />
+      </div>
     </>
   );
 }

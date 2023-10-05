@@ -1,7 +1,7 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import "./App.css"
-import { Link ,   useNavigate  } from "react-router-dom";
+import {useState } from "react";
+        import "./App.css"
+import {useNavigate  } from "react-router-dom";
 
 
 const Login = ()=>{
@@ -20,14 +20,10 @@ const Login = ()=>{
                 headers: {
                 'Content-Type': 'application/json'
             }
-        });
+        });        
         result = await result.json();
-        console.log(result)
+        // console.log(result)
         if (result.auth) {
-            sessionStorage.setItem('user', JSON.stringify(result.email));
-            sessionStorage.setItem('firstName', JSON.stringify(result.firstName));
-            sessionStorage.setItem('lastName', JSON.stringify(result.lastName));
-            sessionStorage.setItem('isActive', JSON.stringify(result.isActive));
                 sessionStorage.setItem('token', JSON.stringify(result.auth));
             navigate("/")
         }

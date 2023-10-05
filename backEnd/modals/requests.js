@@ -13,6 +13,14 @@ const requestsSchema = new mongoose.Schema({
     number: {
         type: String,
         require: true
+    },
+    from: {
+        type: Date,
+        require: true
+    },
+    to: {
+        type: Date,
+        require: true
     }
 },
 {timestamps : true}
