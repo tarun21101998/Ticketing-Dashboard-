@@ -48,7 +48,7 @@ const CreateRequests= ()=>{
 <div className="form">
 <div className="form1">
 <form>
-<label>Name of yoour vehicle</label>
+<label>Name of your vehicle</label>
 <br/><input type="text" placeholder="Enter name of your vehicle" 
 onChange={(e) => setName(e.target.value)} value={name}
 required />
@@ -57,9 +57,9 @@ required />
 <br/><input type="text" placeholder="Enter the Number" required 
 onChange={(e) => setNumber(e.target.value)} value={number} />
 <br/> <br/>
-<div style={{display: "flex", justifyContent: "space-around"}}>
+<div style={{display: "flex", justifyContent: "space-between"}}>
 <label>From</label>
-<label>To</label>
+<label style={{marginRight: "35%"}} >To</label>
 </div>
 {/* <br/> */}
 <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -68,7 +68,7 @@ onChange={(e) => setNumber(e.target.value)} value={number} />
 </div>
 <br/>
 <span>{message}</span>
-<br/><button onClick={handleRequest} type="submit">Submit Ticket</button>
+<br/><button onClick={handleRequest} type="submit" style={{width: "30%" }} >Submit Ticket</button>
 </form>
 </div>
 </div>

@@ -23,7 +23,7 @@ type: Boolean,
 require: true
     },
     isType: {
-        type: Boolean,
+        type: Number,
         require: true
     }
     

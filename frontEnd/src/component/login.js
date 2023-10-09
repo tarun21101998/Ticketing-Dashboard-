@@ -22,10 +22,16 @@ const Login = ()=>{
             }
         });        
         result = await result.json();
-        // console.log(result)
+        if(result.isActive == false){
+            setErr("you are not an active user")
+            return;
+        }
         if (result.auth) {
                 sessionStorage.setItem('token', JSON.stringify(result.auth));
+                sessionStorage.setItem('isType', JSON.stringify(result.isType))
+                sessionStorage.setItem('id', JSON.stringify(result._id))
             navigate("/")
+
         }
         else if(result.responce === false){
             setErr("Enter correct emailId")
@@ -51,7 +57,10 @@ required />
 onChange={(e) => setPassword(e.target.value)} value={password} />
 
 <br/>{err}
-<br/><br/><button onClick={handleLogin} type="submit">Login</button>
+<br/><br/>  
+<div style={{height: "80px", width: "100%", display: "flex", justifyContent: "center"}}>
+<button onClick={handleLogin} type="submit">Login</button>
+</div>
 </form>
 </div>
 </div>

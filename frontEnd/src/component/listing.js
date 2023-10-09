@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 const Listing = () => {
   const [message, setMessage] = useState([]);
   const [arr, setArr] = useState([])
+  const [changeActive, setChangeActive]= React.useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [dataPerPage, setDataPerPage] = useState(10);
   useEffect(() => {
@@ -22,8 +23,6 @@ const Listing = () => {
       })
     })
   }, [])
-  //   const [arr, setArr] = useState(message)
-  // console.log(message)
   const lastDataIndex = currentPage * dataPerPage
   const firstPagePerIndex = lastDataIndex - dataPerPage
   const newData = arr.slice(firstPagePerIndex, lastDataIndex)
@@ -45,6 +44,7 @@ const Listing = () => {
     }
   }
   const ascendingFunction = () => {
+    // console.log("refresh")
     let result = [...message].sort((a, b) => (a.firstName > b.firstName) ? 1 : -1);
     console.log(result)
     setArr(result)
@@ -76,6 +76,22 @@ const Listing = () => {
 
   }
 
+  const active = async (e, value)=>{
+    // e.preventDefault()
+    await setChangeActive(value)
+    console.log(changeActive)
+        let result = await fetch("http://localhost:8000/changeActive", {
+            method: 'post',
+            body: JSON.stringify({value}),
+                headers: {
+                'Content-Type': 'application/json'
+            }
+        });        
+        result = await result.json();
+await setChangeActive(result.result1)
+window.location.reload(true)
+  }
+console.log(changeActive)
   return (
     <div className="body">
       <div className="input">
@@ -107,14 +123,16 @@ const Listing = () => {
 
           <tbody>
             {newData.map((value, index) => (
+            //  <> 
               <tr key={index}>
                 <td className="table">{value.firstName}</td>
                 <td className="table">{value.lastName}</td>
                 <td className="table">{value.email}</td>
-                {value.isActive == true ? <td className="table">Yes</td> : <td className="table">No</td>}
+                {value.isActive == true ? <td    className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", background: "none", cursor: "pointer"}} >Active</button></td> : <td className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", cursor: "pointer", background: "none"}}>Not active</button></td>}
                 {value.isType== true ? <td className="table">Admin</td> : <td className="table">User</td>}
                 <td className="table">{value.createdAt}</td>
                 <td className="table">{value.updatedAt}</td>
+            
               </tr>
             ))}
 

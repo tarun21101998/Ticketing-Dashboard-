@@ -22,12 +22,17 @@ const SignUp= ()=>{
         // const data = e.target.value.toLocaleCompare("admin")
         console.log(e.target.value)
         if(e.target.value === "admin"){
-            setIsType(true);
-            setAdminId(true)
+            setIsType(0);
+            setAdminId(0)
+        }
+        else if(e.target.value === "user"){
+            setIsType(1)
+            setAdminId(1)
         }
         else{
-            setIsType(false)
-            setAdminId(false)
+            setIsType(2)
+            setAdminId(2)
+
         }
 
     }
@@ -88,8 +93,9 @@ onChange={(e) => setPassword(e.target.value)} value={password} />
 <select onChange={handleSignUp} required>
 <option value="user">User</option>
     <option value="admin">Admin</option>
+    <option value="review">Review</option>
 </select><br/><br/>
-{adminId === true ? 
+{adminId === 0 || adminId === 2 ? 
 <>
 <label>Enter the admin id</label>
 <input type="text" placeholder="enter the admin id" required />
@@ -97,7 +103,10 @@ onChange={(e) => setPassword(e.target.value)} value={password} />
  : <span></span> }
 <br/><span>{err}{err1}</span>
 
-<br/><button  onClick={handleSignUpData} type="submit">Sign up</button>
+<br/>
+<div style={{height: "80px", width: "100%", display: "flex", justifyContent: "center"}}>
+<button  onClick={handleSignUpData} type="submit">Sign up</button>
+</div>
 </form>
 </div>
 </div>

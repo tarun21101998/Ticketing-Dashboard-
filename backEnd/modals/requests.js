@@ -21,6 +21,9 @@ const requestsSchema = new mongoose.Schema({
     to: {
         type: Date,
         require: true
+    },
+    status: {
+        type: Number
     }
 },
 {timestamps : true}
