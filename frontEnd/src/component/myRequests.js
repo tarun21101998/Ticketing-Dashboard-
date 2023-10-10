@@ -7,8 +7,8 @@ import { Link ,   useNavigate  } from "react-router-dom";
 
 const MyRequests= ()=>{
 
-    const   email1 = JSON.parse(sessionStorage.getItem('token'));
-    const [email, setEmail] = useState(email1)
+    const   token  = JSON.parse(sessionStorage.getItem('token'));
+    const [email, setEmail] = useState(token)
     const [isType, setIsType]= React.useState()
     const [data, setData] = React.useState([]);
     const [arr, setArr] = useState([])
@@ -43,7 +43,7 @@ useEffect(()=>{
     const fetchData = async()=>{    
     let result = await fetch("http://localhost:8000/sendrequests", {
             method: 'post',
-            body: JSON.stringify({email1}),
+            body: JSON.stringify({token}),
             headers: {
                 'Content-Type': 'application/json'
             }

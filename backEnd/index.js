@@ -4,13 +4,15 @@ const bodyparser = require('body-parser')
 
 const cors = require('cors');
 
+// calling the express
+const app = express()
+
+
 
 // importing the DataBase and Collections
 const db = require('./mongooseDataBase/_mongoose')
 const collection = require('./modals/data')
 
-// calling the express
-const app = express()
 const PORT = 8000
 
 app.use(express.urlencoded());
@@ -18,7 +20,6 @@ app.use(bodyparser.urlencoded({ extended: true }))
 app.use(bodyparser.json())
 app.use(cors());
 // app.use(express.json());
-
 app.use('/', require('./routes'));
 
 app.listen(PORT, (err)=>{

@@ -3,7 +3,7 @@ import jwt from "jwt-decode";import "./App.css"
 import "./App.css"
 
 const CreateRequests= ()=>{
-    let email1  = JSON.parse(sessionStorage.getItem('token'));
+    let token  = JSON.parse(sessionStorage.getItem('token'));
 
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
@@ -33,7 +33,7 @@ const CreateRequests= ()=>{
         else{
         await fetch("http://localhost:8000/requests", {
             method: 'post',
-            body: JSON.stringify({ name, number, fromDate, toDate, email1}),
+            body: JSON.stringify({ name, number, fromDate, toDate, token}),
             headers: {
                 'Content-Type': 'application/json'
             }

@@ -8,7 +8,7 @@ const jwtKey = 'e-com';
 // fetching the data of user
 module.exports.getData = async (req, resp) => {
     try {
-        const dCode = Jwt.decode(req.body.token)
+        const dCode = resp.temp
         if(dCode.isType == 2 || dCode.isType == 0){
         const result = await collection.find({})
         return resp.status(200).send(result)
@@ -95,7 +95,8 @@ module.exports.createRequests= async (req, resp) => {
 
     try {
         // decode the jwt token and getting the data
-        const email1 = Jwt.decode(req.body.email1)
+        const email1 = resp.temp
+        console.log("create", email1)
 
             let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, from: req.body.fromDate, to: req.body.toDate, status: 0});
             result = result.toObject();
@@ -115,10 +116,11 @@ module.exports.createRequests= async (req, resp) => {
 // fetching the request from dataBase according the type of user
 module.exports.getRequests= async (req, resp) => {
     try {
-        console.log(req.body)
+        // console.log(req.body)
         // decoding the jwt token
-        let  email2 = Jwt.decode(req.body.email1)
+        let  email2 = resp.temp
         email2 = email2.email
+        console.log("hii", email2)
         let data = await collection.findOne({"email": email2})
         // comparing the normal user
         if(data.isType== 1){
@@ -185,10 +187,8 @@ module.exports.rejectRequest= async(req, resp)=>{
 // fetching the data of user for profile
 module.exports.profile = async (req,  resp)=>{
     try {
-        const data = Jwt.decode(req.body.token)
-        console.log(data)
+        const data = resp.temp;
         const user = await collection.findOne({_id: data._id})
-        console.log(user)
         return resp.status(200).json({firstName: user.firstName, lastName: user.lastName, email: user.email})
     
     } catch (error) {
@@ -199,11 +199,11 @@ return resp.status(500).json({responce: 500})
 
 module.exports.editNameProfile1 = async (req, resp)=>{
     try {
-        const user = Jwt.decode(req.body.token)
-
+        // const user = Jwt.decode(req.body.token)
+const user = resp.temp
         await collection.updateOne({_id: user._id}, {$set: {firstName: req.body.editFirstName, lastName: req.body.editLastName}})
 let find1 = await collection.findOne({email: user.email})
-console.log(find1)
+// console.log(find1)
 return resp.status(200).json({firstName: find1.firstName, lastName: find1.lastName})
 
     } catch (error) {
@@ -213,7 +213,7 @@ return resp.status(200).json({firstName: find1.firstName, lastName: find1.lastNa
 }
 
 module.exports.editEmailProfile = async (req, resp)=>{
-    let dCode = Jwt.decode(req.body.token)
+    const dCode = resp.temp
     console.log(dCode)
     let data = await collection.findOne({email: req.body.editNewEmail})
     // console.log(data)
@@ -223,7 +223,15 @@ module.exports.editEmailProfile = async (req, resp)=>{
     else{
 let data1 = await collection.updateOne({_id: dCode._id}, {$set: {email: req.body.editNewEmail}})
 let data3 = await collection1.updateMany({email: dCode.email}, {$set: {email: req.body.editNewEmail}})
-console.log(data1)
+// console.log(data1)
 return resp.status(200).json({responce: true, email: req.body.editNewEmail})
     }
+}
+
+
+module.exports.middleWare= (req, resp, next)=>{
+    let dCode = Jwt.decode(req.body.token)
+    console.log("hello")
+    resp.temp = dCode;
+    return next()
 }
