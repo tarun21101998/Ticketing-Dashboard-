@@ -1,10 +1,13 @@
 import React from 'react';
+import Error from './error';
 
 import "./App.css"
 import { useState } from 'react';
 import { useEffect } from 'react';
 
 const Listing = () => {
+  const token = JSON.parse(sessionStorage.getItem('token'))
+  const isType = JSON.parse(sessionStorage.getItem('isType'));
   const [message, setMessage] = useState([]);
   const [arr, setArr] = useState([])
   const [changeActive, setChangeActive]= React.useState()
@@ -12,7 +15,14 @@ const Listing = () => {
   const [dataPerPage, setDataPerPage] = useState(10);
   useEffect(() => {
     const function1 = async ()=>{
-      let result = await fetch("http://localhost:8000/users");
+      let result = await fetch("http://localhost:8000/user", {
+        method: 'post',
+        body: JSON.stringify({token}),
+        headers: {
+          'Content-Type': 'application/json'
+      }
+
+      });
       result = await result.json();
       // let d = await JSON.parse(result.isType)
       console.log(result)
@@ -79,6 +89,8 @@ window.location.reload(true)
   }
   return (
     <div className="body">
+  {isType == 0 || isType==2 ?
+  <>
       <div className="input">
         <div className="sorting">
           <button onClick={ascendingFunction}>Ascending</button>
@@ -133,6 +145,10 @@ window.location.reload(true)
           <button onClick={nextPage}>Next</button>
         </div>
       </div>
+      </>
+      :
+      <Error />
+            }
     </div>
   );
 }

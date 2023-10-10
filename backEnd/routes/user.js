@@ -9,7 +9,7 @@ router.post('/users', user.createData)
 router.post('/login', user.loginData)
 
 // Data is fetching from DataBase
-router.get('/users', user.getData)
+router.post('/user', user.getData)
 // Creating the ticket and saving  data to dataBase
 router.post('/requests', user.createRequests)
 
@@ -29,5 +29,6 @@ router.post('/profile', user.profile)
 // edit the first and last name
 router.post('/editNameProfile', user.editNameProfile1)
 
+router.post('/editEmailProfile', user.editEmailProfile)
 
 module.exports = router;

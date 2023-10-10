@@ -7,10 +7,17 @@ const jwtKey = 'e-com';
 
 // fetching the data of user
 module.exports.getData = async (req, resp) => {
-    const result = await collection.find({})
-    console.log(result)
-    // return resp.status(200).send({firstName: result.firstName, lastName: result.lastName, email: result.email, isActive: result.isActive, isType: result.isType});
-    return resp.status(200).send(result)
+    try {
+        const dCode = Jwt.decode(req.body.token)
+        if(dCode.isType == 2 || dCode.isType == 0){
+        const result = await collection.find({})
+        return resp.status(200).send(result)
+        }
+        return resp.status(404).json({responce: false})
+    
+    } catch (error) {
+return resp.status(500).send("error")
+    }
  }
 
 
@@ -62,7 +69,7 @@ module.exports.loginData = async (req, resp, next) => {
             const passwordHash = await bcrypt.compare(password, user.password)
             if (user && passwordHash) {
                 // creating the jwt token and sending  as response inside the jwt token some  data is sharing 
-                Jwt.sign({firstName: user.firstName, lastName: user.lastName, email: user.email, isType: user.isType}, jwtKey, { expiresIn: "2h" }, (err, token) => {
+                Jwt.sign({_id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, isType: user.isType}, jwtKey, { expiresIn: "2h" }, (err, token) => {
                     if (err) {
                         return resp.status(500).json({ error: false });
                     }
@@ -177,9 +184,16 @@ module.exports.rejectRequest= async(req, resp)=>{
 
 // fetching the data of user for profile
 module.exports.profile = async (req,  resp)=>{
-    const data = Jwt.decode(req.body.token)
-    const user = await collection.findOne({email: data.email})
-    return resp.status(200).json({firstName: user.firstName, lastName: user.lastName, email: user.email})
+    try {
+        const data = Jwt.decode(req.body.token)
+        console.log(data)
+        const user = await collection.findOne({_id: data._id})
+        console.log(user)
+        return resp.status(200).json({firstName: user.firstName, lastName: user.lastName, email: user.email})
+    
+    } catch (error) {
+return resp.status(500).json({responce: 500})
+    }
 }
 
 
@@ -187,7 +201,7 @@ module.exports.editNameProfile1 = async (req, resp)=>{
     try {
         const user = Jwt.decode(req.body.token)
 
-        await collection.updateOne({email: user.email}, {$set: {firstName: req.body.editFirstName, lastName: req.body.editLastName}})
+        await collection.updateOne({_id: user._id}, {$set: {firstName: req.body.editFirstName, lastName: req.body.editLastName}})
 let find1 = await collection.findOne({email: user.email})
 console.log(find1)
 return resp.status(200).json({firstName: find1.firstName, lastName: find1.lastName})
@@ -195,5 +209,21 @@ return resp.status(200).json({firstName: find1.firstName, lastName: find1.lastNa
     } catch (error) {
 
         
+    }
+}
+
+module.exports.editEmailProfile = async (req, resp)=>{
+    let dCode = Jwt.decode(req.body.token)
+    console.log(dCode)
+    let data = await collection.findOne({email: req.body.editNewEmail})
+    // console.log(data)
+    if(data){
+        return resp.status(409).json({responce: false})
+    }
+    else{
+let data1 = await collection.updateOne({_id: dCode._id}, {$set: {email: req.body.editNewEmail}})
+let data3 = await collection1.updateMany({email: dCode.email}, {$set: {email: req.body.editNewEmail}})
+console.log(data1)
+return resp.status(200).json({responce: true, email: req.body.editNewEmail})
     }
 }

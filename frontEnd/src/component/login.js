@@ -1,7 +1,10 @@
 import React from "react";
+import { ToastContainer, toast } from 'react-toastify';
 import {useState } from "react";
+import 'react-toastify/dist/ReactToastify.css';
         import "./App.css"
 import {useNavigate  } from "react-router-dom";
+// toast.configure()
 
 
 const Login = ()=>{
@@ -30,7 +33,13 @@ const Login = ()=>{
                 sessionStorage.setItem('token', JSON.stringify(result.auth));
                 sessionStorage.setItem('isType', JSON.stringify(result.isType))
                 sessionStorage.setItem('id', JSON.stringify(result._id))
-            navigate("/")
+            // navigate("/")
+            toast.success('Success Notification !', {
+                position: toast.POSITION.TOP_center
+            });
+            setTimeout(()=>{
+                navigate('/')
+            }, 3000)
 
         }
         else if(result.responce === false){
@@ -64,7 +73,7 @@ onChange={(e) => setPassword(e.target.value)} value={password} />
 </form>
 </div>
 </div>
-
+<ToastContainer />
         </>
     );
 }

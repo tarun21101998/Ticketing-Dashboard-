@@ -225,3 +225,17 @@ text-align: left;
 .profile1 ul li{
   list-style: none;
 }
+.image{
+  margin-top: 105%;
+  margin-left: 30%;
+  background: none;
+  border: none;
+}
+.errorPage{
+  height: 100vh;
+  width: 100vh;
+  border: 15px solid white;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

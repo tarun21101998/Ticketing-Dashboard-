@@ -4,6 +4,9 @@ import {useNavigate  } from "react-router-dom";
 
 
 const Profile = ()=>{
+    const[data2, setData2] = useState(false)
+    const[err1, setErr1] = useState("")
+    const [editNewEmail, setEditNewEmail] = useState("")
     const navigate = useNavigate();
 
     const   token= JSON.parse(sessionStorage.getItem('token'));
@@ -57,11 +60,59 @@ setLastName(result.lastName)
 }
 setErr("enter first and last name both")
 }
+const handleChange = async (e)=>{
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    // console.log(e.target.files)
+    const result = await fetch("https://localhost:8000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await result.json();
+ 
+}
+
 // console.log(editFirstName)
+const updateEmail = async (e)=>{
+    if(editNewEmail){
+    e.preventDefault()
+    setData2(false)
+    // window.location.reload(true)
+    // navigate("/profile")
+    let result = await fetch("http://localhost:8000/editEmailProfile", {
+        method: 'post',
+        body: JSON.stringify({token, editNewEmail}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+        // console.log(result)
+    });
+    result= await result.json();
+if(result.responce == false){
+    setErr1("email id already exist")
+    return;
+}
+sessionStorage.removeItem('token');
+sessionStorage.removeItem('isType')
+sessionStorage.removeItem('isActive')
+navigate('/')
+
+}
+setErr("enter email")
+}
+
+
+
     return (
 <>
 <div className="profile">
-    <div className="profile2"></div>
+    <div className="profile2">
+    <img src="./1.JPG" />
+    <input type="file" onChange={handleChange} className="image"/>
+
+    </div>
     <div className="profile1">
         <ul>
             <li>
@@ -86,8 +137,20 @@ setErr("enter first and last name both")
           </li>
           <li>
           <br/>
+    {data2==false ?
+    <>
     <span style={{fontSize: "2rem"}}>Email: &nbsp;</span>
-    <span style={{fontSize: "2rem"}}>{email}</span>
+    <span style={{fontSize: "2rem"}}>{email} <button  style={{background: "none", border: "none", cursor: "pointer"}} onClick={()=>setData2(!data2)}>edit</button></span>
+    <br/> <span>{err1}</span>
+    </>
+    :
+    <>
+    <label>Enter new email id</label><br/>
+    <input type="text" placeholder="enter your new email id" onChange={(e)=> setEditNewEmail(e.target.value)} value={editNewEmail} />
+    <br/><span>{err}</span>
+    <br/><br/><button style={{background: "none", border: "none", marginLeft: "60px", cursor: "pointer"}} onClick = {updateEmail}>Save</button>&nbsp; <button onClick={()=>setData2(false)} style={{background: "none", border: "none", cursor: "pointer"}}>Cancel</button>
+     </>
+     }
     </li>
     </ul>
     </div>
