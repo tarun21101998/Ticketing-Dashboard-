@@ -1,6 +1,4 @@
 import React from 'react';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import Table from 'react-bootstrap/Table'
 
 import "./App.css"
 import { useState } from 'react';
@@ -13,30 +11,26 @@ const Listing = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [dataPerPage, setDataPerPage] = useState(10);
   useEffect(() => {
-    fetch("http://localhost:8000/users").then((resp) => {
-      resp.json().then((result) => {
-        // console.log(result)
-        setMessage(result)
-        // console.log(result);
-        setArr(result)
-        // console.log(arr)
-      })
-    })
+    const function1 = async ()=>{
+      let result = await fetch("http://localhost:8000/users");
+      result = await result.json();
+      // let d = await JSON.parse(result.isType)
+      console.log(result)
+      setMessage(result)
+      setArr(result)
+    }
+    function1()
   }, [])
   const lastDataIndex = currentPage * dataPerPage
   const firstPagePerIndex = lastDataIndex - dataPerPage
   const newData = arr.slice(firstPagePerIndex, lastDataIndex)
-  // console.log(arr)
   const [val, setVal] = React.useState("")
   const filterFunction = (e) => {
-    // console.log(e.target.value);
     e.preventDefault()
     setVal(e.target.value)
 
     if (e.target.value) {
-      // console.log(result)
       let result = message.filter((item) => item.firstName.toLowerCase().includes(e.target.value.toLowerCase()) || item.email.toLowerCase().includes(e.target.value.toLowerCase()))
-      // console.log(result)
       setArr(result)
     }
     if (e.target.value === "") {
@@ -44,17 +38,12 @@ const Listing = () => {
     }
   }
   const ascendingFunction = () => {
-    // console.log("refresh")
     let result = [...message].sort((a, b) => (a.firstName > b.firstName) ? 1 : -1);
-    console.log(result)
     setArr(result)
   }
   const descendingFunction = () => {
-    // console.log(message)
     const result = [...message].sort((a, b) => (a.firstName > b.firstName) ? -1 : 1);
 
-    // console.log("tarun")
-    console.log(result)
     setArr(result)
   }
   const normalFunction = () => {
@@ -67,17 +56,14 @@ const Listing = () => {
   }
 
   const nextPage = () => {
-    // console.log(arr.length)
     if (currentPage <= (arr.length / dataPerPage)) {
       setCurrentPage(currentPage + 1)
-      console.log(currentPage)
     }
 
 
   }
 
   const active = async (e, value)=>{
-    // e.preventDefault()
     await setChangeActive(value)
     console.log(changeActive)
         let result = await fetch("http://localhost:8000/changeActive", {
@@ -91,7 +77,6 @@ const Listing = () => {
 await setChangeActive(result.result1)
 window.location.reload(true)
   }
-console.log(changeActive)
   return (
     <div className="body">
       <div className="input">
@@ -129,7 +114,8 @@ console.log(changeActive)
                 <td className="table">{value.lastName}</td>
                 <td className="table">{value.email}</td>
                 {value.isActive == true ? <td    className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", background: "none", cursor: "pointer"}} >Active</button></td> : <td className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", cursor: "pointer", background: "none"}}>Not active</button></td>}
-                {value.isType== true ? <td className="table">Admin</td> : <td className="table">User</td>}
+                {value.isType== 1 ? <td className="table">User</td> : value.isType == 0 ? <td className="table">Admin</td> : <td className="table">Reviewer</td>}
+                {/* <td className="table">{value.isType==true ? "Admin" : "User"}</td> */}
                 <td className="table">{value.createdAt}</td>
                 <td className="table">{value.updatedAt}</td>
             

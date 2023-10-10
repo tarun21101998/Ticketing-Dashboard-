@@ -8,27 +8,25 @@ const jwtKey = 'e-com';
 // fetching the data of user
 module.exports.getData = async (req, resp) => {
     const result = await collection.find({})
-    // console.log(result)
-    resp.status(200).send(result);
+    console.log(result)
+    // return resp.status(200).send({firstName: result.firstName, lastName: result.lastName, email: result.email, isActive: result.isActive, isType: result.isType});
+    return resp.status(200).send(result)
  }
 
 
 // creating a user
 module.exports.createData = async (req, resp) => {
-
     try {
-        console.log(req.body)
-        // if (req.body.firstName && req.body.lastName && req.body.email && req.body.password && req.body.isType) {
+        // checking duplicate email id
             let duplicate = await collection.findOne({ email: req.body.email });
-            console.log(duplicate)
             if (duplicate) {
                 return resp.status(409).json({responce: false });
             }
             let user = new collection(req.body);
+            // convert the password in code using hash algorithum
             const passwordHash = await bcrypt.hash(user.password, 10);
             user.password = passwordHash
 
-            console.log(user)
             let result = await collection.create({firstName: user.firstName, lastName: user.lastName, email: user.email, password: user.password, isActive: true, isType: user.isType});
             result = result.toObject();
             delete result.password
@@ -53,14 +51,17 @@ module.exports.loginData = async (req, resp, next) => {
 
     try {
         if (req.body.password && req.body.email) {
+            // deStructuring the data in request
             const { email, password } = req.body
+            // finding the user inside dataBase
             let user = await collection.findOne({ email: req.body.email });
             if(!user){
                 return resp.status(400).json({responce: false})
             }
+            // comparing the password using in hash algorithum
             const passwordHash = await bcrypt.compare(password, user.password)
-            console.log(user)   
             if (user && passwordHash) {
+                // creating the jwt token and sending  as response inside the jwt token some  data is sharing 
                 Jwt.sign({firstName: user.firstName, lastName: user.lastName, email: user.email, isType: user.isType}, jwtKey, { expiresIn: "2h" }, (err, token) => {
                     if (err) {
                         return resp.status(500).json({ error: false });
@@ -86,11 +87,9 @@ module.exports.loginData = async (req, resp, next) => {
 module.exports.createRequests= async (req, resp) => {
 
     try {
-        console.log(req.body)
+        // decode the jwt token and getting the data
         const email1 = Jwt.decode(req.body.email1)
 
-            // let user = new collection1(req.body);
-            console.log(email1.email)
             let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, from: req.body.fromDate, to: req.body.toDate, status: 0});
             result = result.toObject();
             delete result.password  
@@ -110,24 +109,24 @@ module.exports.createRequests= async (req, resp) => {
 module.exports.getRequests= async (req, resp) => {
     try {
         console.log(req.body)
+        // decoding the jwt token
         let  email2 = Jwt.decode(req.body.email1)
         email2 = email2.email
-// console.log(req.body)
         let data = await collection.findOne({"email": email2})
+        // comparing the normal user
         if(data.isType== 1){
             let user1 = await collection1.find({email: data.email});
             // console.log(user1)
             return resp.status(200).json({type: data.isType, user1: user1})
         }
         else{
+            // comparing the  type of user 0 and 2 is for admin and reviewer 
             let admin = await collection1.find({})
-            // console.log(admin)
             return resp.status(200).json({data: data.isType, user1: admin})
         }
     }
 
     catch (err) {
-        console.log('Error in signing up:', err);
         return resp.redirect('back',);
     }
 
@@ -137,7 +136,6 @@ module.exports.getRequests= async (req, resp) => {
 module.exports.changeActive= async(req, resp)=>{
     try {
         let user = await collection.findOne({_id: req.body.value})
-        console.log(user)
         if(user.isActive== false){
         await collection.updateOne({_id: req.body.value}, {$set: {isActive: true}})
         return resp.json({result1: "activate"})
@@ -181,7 +179,6 @@ module.exports.rejectRequest= async(req, resp)=>{
 module.exports.profile = async (req,  resp)=>{
     const data = Jwt.decode(req.body.token)
     const user = await collection.findOne({email: data.email})
-    console.log(user)
     return resp.status(200).json({firstName: user.firstName, lastName: user.lastName, email: user.email})
 }
 
@@ -190,11 +187,13 @@ module.exports.editNameProfile1 = async (req, resp)=>{
     try {
         const user = Jwt.decode(req.body.token)
 
-        console.log("tarun")
-        console.log(user.email);
-        await collection.updateOne({email: user.email}, {$set: {firstName: req.body.editFirstName}})
+        await collection.updateOne({email: user.email}, {$set: {firstName: req.body.editFirstName, lastName: req.body.editLastName}})
+let find1 = await collection.findOne({email: user.email})
+console.log(find1)
+return resp.status(200).json({firstName: find1.firstName, lastName: find1.lastName})
+
     } catch (error) {
-        console.log("error is happening", error)
+
         
     }
 }

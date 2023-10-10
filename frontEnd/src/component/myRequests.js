@@ -32,8 +32,12 @@ const [dataPerPage, setDataPerPage]= useState(10)
           setArr(data)
         }
       }
-      
 
+      const ascendingDateSort = ()=>{
+        const data1 =  [...data].sort((a,b)=>new Date(a.createdAt) - new Date(b.createdAt));
+        setArr(data1)
+      }
+      // ascendingDateSort()
 useEffect(()=>{
 
     const fetchData = async()=>{    
@@ -106,7 +110,7 @@ window.location.reload(true)
     return(
         <div className="body">
               <div className="input">
-        
+    <button style={{height: "10%", marginRight: "20px", border: "none", cursor: "pointer"}} onClick={ascendingDateSort }>decending</button>    
 
     <input type="text" placeholder= "Search by Number/EmailId" value={val} onChange={filterFunction} />
     </div>
@@ -165,11 +169,11 @@ window.location.reload(true)
           <span>{value.from}</span>
         </li>
         <li>
-          <span style={{fontSize: "2rem"}}>End time:</span >
+          <span style={{fontSize: "2rem"}}>End time: &nbsp;</span >
           <span>{value.to}</span>
         </li>
         <li>
-          <span style={{fontSize: "2rem"}}>Status:</span >
+          <span style={{fontSize: "2rem"}}>Status: &nbsp;</span >
           { value.status == 0 ?<span>pending</span> : value.status == 1 ? <span>accept</span> : <span>reject</span> }
           {/* </div> */}
         </li>

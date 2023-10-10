@@ -1,7 +1,11 @@
 import React from "react";
 import { useState, useEffect} from "react";
+import {useNavigate  } from "react-router-dom";
+
 
 const Profile = ()=>{
+    const navigate = useNavigate();
+
     const   token= JSON.parse(sessionStorage.getItem('token'));
 const [firstName, setFirstName] = useState("")
 const [err, setErr] = useState("")
@@ -35,19 +39,21 @@ const editData1 = async (e)=>{
     if(editFirstName && editLastName){
     // e.preventDefault()
     setData1(false)
-    window.location.reload(true)
-    await fetch("http://localhost:8000/editNameProfile", {
+    // window.location.reload(true)
+    // navigate("/profile")
+    let result = await fetch("http://localhost:8000/editNameProfile", {
         method: 'post',
         body: JSON.stringify({token, editFirstName, editLastName}),
         headers: {
             'Content-Type': 'application/json'
         }
-    });
 
-            // setData1(false)
-    
-// console.log("tarun")
-// window.location.reload(true)
+        // console.log(result)
+    });
+    result= await result.json();
+    console.log(result)
+setFirstName(result.firstName)
+setLastName(result.lastName)
 }
 setErr("enter first and last name both")
 }
@@ -55,11 +61,12 @@ setErr("enter first and last name both")
     return (
 <>
 <div className="profile">
+    <div className="profile2"></div>
     <div className="profile1">
         <ul>
             <li>
-        <span style={{fontSize: "2rem"}}>Your Name: &nbsp;</span>
-        {data1 == false ? <span style={{fontSize: "2rem"}}>{firstName} {lastName} <button  style={{background: "none", border: "none", cursor: "pointer"}} onClick={()=>setData1(!data1)}>edit</button></span> :
+
+        {data1 == false ? <span style={{fontSize: "2rem"}}>Hey, &nbsp;{firstName} {lastName} <button  style={{background: "none", border: "none", cursor: "pointer"}} onClick={()=>setData1(!data1)}>edit</button></span> :
           <>
           <br/> <label>First name</label><br/>
           <input type="text" placeholder="enter the first name" onChange={(e)=>setEditFirstName(e.target.value)}value={editFirstName} /> <br/> <br/>
