@@ -1,5 +1,4 @@
 .body{
-  /* text-align: center; */
   height: 100vh;
   /* width: 70%; */
   border: 10px solid white;
@@ -9,6 +8,8 @@
   flex-direction: column;
   text-align: center;
   justify-content: space-around;
+  box-sizing: content-box;
+  overflow: hidden;
 }
 .input{
   height: 20%;
@@ -33,7 +34,7 @@
   height: 40%;
   width: 70%;
   /* border: 2px solid white; */
-  overflow: scroll;
+  overflow: hidden;
 }
 .table{
   border: 2px solid white;

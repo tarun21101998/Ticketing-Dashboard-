@@ -1,4 +1,6 @@
 import React from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect} from "react";
 import {useNavigate  } from "react-router-dom";
 
@@ -57,6 +59,10 @@ const editData1 = async (e)=>{
     console.log(result)
 setFirstName(result.firstName)
 setLastName(result.lastName)
+toast.success('Successfully! Changed your name', {
+    position: toast.POSITION.TOP_center
+});
+
 }
 setErr("enter first and last name both")
 }
@@ -94,10 +100,16 @@ if(result.responce == false){
     setErr1("email id already exist")
     return;
 }
+toast.success('Congrats! Email ID successfully changed ', {
+    position: toast.POSITION.TOP_center
+});
+
 sessionStorage.removeItem('token');
 sessionStorage.removeItem('isType')
 sessionStorage.removeItem('isActive')
-navigate('/')
+setTimeout(()=>{
+    navigate('/')
+}, 1000)
 
 }
 setErr("enter email")
@@ -125,7 +137,7 @@ setErr("enter email")
 <input type="text" placeholder="enter the last name" onChange={(e)=>setEditLastName(e.target.value)} value={editLastName} />
 {err ? 
 <>
-<br/><span>{err}</span>
+<br/><span className="errLine">{err}</span>
 </>
 :
 <span></span>
@@ -141,7 +153,7 @@ setErr("enter email")
     <>
     <span style={{fontSize: "2rem"}}>Email: &nbsp;</span>
     <span style={{fontSize: "2rem"}}>{email} <button  style={{background: "none", border: "none", cursor: "pointer"}} onClick={()=>setData2(!data2)}>edit</button></span>
-    <br/> <span>{err1}</span>
+    <br/> <span className="errLine">{err1}</span>
     </>
     :
     <>

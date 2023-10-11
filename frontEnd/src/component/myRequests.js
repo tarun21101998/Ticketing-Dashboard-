@@ -1,4 +1,6 @@
 import React from "react";
+import moment from"moment";
+
 import "./App.css"
 import Login from "./login";
 import { useEffect, useState } from "react";
@@ -117,7 +119,7 @@ window.location.reload(true)
     {
       isType=== 0 || isType==2?
       <div className="table_div">
-          <table className="table table1">
+          <table className="table table1" style={{tableLayout: "fixed"}}>
   <thead>
   <tr>
     <th className="table table2">Email ID</th>
@@ -137,8 +139,8 @@ window.location.reload(true)
         <td className="table">{value.email}</td>
         <td className="table">{value.name}</td>
         <td className="table">{value.number}</td>
-        <td className="table">{value.from}</td>
-        <td className="table">{value.to }</td>
+        <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
+        <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
         <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : "reject"} </td>
         <td className="table"><button onClick={(e)=>acceptFunction(e, value._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={(e)=>rejectFunction(e, value._id)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject</button> </td>
 
@@ -151,37 +153,31 @@ window.location.reload(true)
         </div>
         :
     <div className="table_user">
-      <ul>
+                <table className="table table1" style={{tableLayout: "fixed"}}>
+  <thead>
+  <tr>
+    <th className="table table2">Email ID</th>
+    <th className="table table2">Name</th>
+    <th className="table table2">Number</th>
+    <th className="table table2">Start time</th>
+    <th className="table table2">End time</th>
+    <th className="table table2">Status</th>
+  </tr>
+  
+  </thead>
+<tbody>
         {newData.map((value, index)=>(
-          <div>
-        <li><span style={{fontSize: "2rem"}}>Email: &nbsp;  </span>
-        <span>{value.email}</span>
-        </li>
-        <li><span style={{fontSize: "2rem"}}>Name: &nbsp; </span>
-        <span>{value.name}</span>
-        </li>
-        <li>
-          <span style={{fontSize: "2rem"}}>Number: &nbsp;</span>
-          <span>{value.number}</span>
-        </li>
-        <li>
-          <span style={{fontSize: "2rem"}}>Start time: &nbsp;</span>
-          <span>{value.from}</span>
-        </li>
-        <li>
-          <span style={{fontSize: "2rem"}}>End time: &nbsp;</span >
-          <span>{value.to}</span>
-        </li>
-        <li>
-          <span style={{fontSize: "2rem"}}>Status: &nbsp;</span >
-          { value.status == 0 ?<span>pending</span> : value.status == 1 ? <span>accept</span> : <span>reject</span> }
-          {/* </div> */}
-        </li>
-
-        <br/><br/>
-        </div>
+                    <tr key={index}>
+        <td className="table">{value.email}</td>
+        <td className="table">{value.name}</td>
+        <td className="table">{value.number}</td>
+        <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
+        <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
+        <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : "reject"} </td>
+      </tr>
         ))}
-      </ul>
+        </tbody>
+      </table>
     </div>
 }
   <div className="paginationButton1">

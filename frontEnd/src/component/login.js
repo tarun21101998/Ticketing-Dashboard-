@@ -34,7 +34,7 @@ const Login = ()=>{
                 sessionStorage.setItem('isType', JSON.stringify(result.isType))
                 sessionStorage.setItem('id', JSON.stringify(result._id))
             // navigate("/")
-            toast.success('Success Notification !', {
+            toast.success('Successfully! logged in', {
                 position: toast.POSITION.TOP_center
             });
             setTimeout(()=>{
@@ -47,7 +47,7 @@ const Login = ()=>{
             // console.log("enter correct email")
         }
          else {
-            alert("Please enter connect details")
+setErr("Enter correct password")
         }
     }
 
@@ -65,7 +65,7 @@ required />
 <br/><input type="password" placeholder="Enter the password" required 
 onChange={(e) => setPassword(e.target.value)} value={password} />
 
-<br/>{err}
+<br/><span className="errLine" style={{marginLeft: "10px"}}>{err}</span>
 <br/><br/>  
 <div style={{height: "80px", width: "100%", display: "flex", justifyContent: "center"}}>
 <button onClick={handleLogin} type="submit">Login</button>

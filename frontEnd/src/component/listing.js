@@ -1,4 +1,5 @@
 import React from 'react';
+  import moment from"moment";
 import Error from './error';
 
 import "./App.css"
@@ -47,17 +48,21 @@ const Listing = () => {
       setArr(message)
     }
   }
-  const ascendingFunction = () => {
+  const sortFilterFunction= (e) => {
+    console.log(e.target.value)
+    if(e.target.value === "ascending"){
     let result = [...message].sort((a, b) => (a.firstName > b.firstName) ? 1 : -1);
     setArr(result)
-  }
-  const descendingFunction = () => {
-    const result = [...message].sort((a, b) => (a.firstName > b.firstName) ? -1 : 1);
+    }
+else if(e.target.value === "descending"){
+  const result = [...message].sort((a, b) => (a.firstName > b.firstName) ? -1 : 1);
+  setArr(result)
+}
+else{
+  setArr(message);
 
-    setArr(result)
-  }
-  const normalFunction = () => {
-    setArr(message);
+}
+
   }
   const prePage = () => {
     if (currentPage > 1) {
@@ -93,9 +98,12 @@ window.location.reload(true)
   <>
       <div className="input">
         <div className="sorting">
-          <button onClick={ascendingFunction}>Ascending</button>
-          <button onClick={descendingFunction} >Descending</button>
-          <button onClick={normalFunction}>Back to noromal</button>
+          <select onChange={sortFilterFunction}>
+            <option value="defaule">Sort</option>
+            <option value="ascending">Ascending</option>
+            <option value="descending">Descending</option>
+            <option value="DescendingDate">Descending (Date)</option>
+          </select>
         </div>
 
 
@@ -128,8 +136,8 @@ window.location.reload(true)
                 {value.isActive == true ? <td    className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", background: "none", cursor: "pointer"}} >Active</button></td> : <td className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", cursor: "pointer", background: "none"}}>Not active</button></td>}
                 {value.isType== 1 ? <td className="table">User</td> : value.isType == 0 ? <td className="table">Admin</td> : <td className="table">Reviewer</td>}
                 {/* <td className="table">{value.isType==true ? "Admin" : "User"}</td> */}
-                <td className="table">{value.createdAt}</td>
-                <td className="table">{value.updatedAt}</td>
+                <td className="table">{moment(value.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                <td className="table">{moment(value.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
             
               </tr>
             ))}
