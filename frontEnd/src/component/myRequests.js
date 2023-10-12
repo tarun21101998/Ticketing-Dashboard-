@@ -1,4 +1,6 @@
 import React from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import moment from"moment";
 
 import "./App.css"
@@ -8,7 +10,11 @@ import "./App.css"
 import { Link ,   useNavigate  } from "react-router-dom";
 
 const MyRequests= ()=>{
-
+  const [userComment, setUserComment] = useState("")
+  const [valueComment, setValueComment]= useState("")
+  const [hideCommentDiv, setHideCommentDiv] = useState(false)
+  const [commentInput, setCommentInput] = useState("")
+const [hide, setHide]= useState(false)
     const   token  = JSON.parse(sessionStorage.getItem('token'));
     const [email, setEmail] = useState(token)
     const [isType, setIsType]= React.useState()
@@ -54,8 +60,8 @@ useEffect(()=>{
         // console.log(result.data)
         setIsType(result.data)
         result= result.user1
-        const data1 =  [...result].sort((a,b)=>new Date(b.updatedAt) - new Date(a.updatedAt));
-        console.log(data1)
+        const data1 =  [...result].sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt));
+        // console.log(data1)
         if(result){
             setData(data1)
             setArr(data1)
@@ -80,7 +86,7 @@ const prePage = ()=>{
     // console.log(arr.length)
     if(currentPage  <= (arr.length / dataPerPage)){
       setCurrentPage(currentPage+1)
-      console.log(currentPage)
+      // console.log(currentPage)
     }
     
   
@@ -98,21 +104,33 @@ window.location.reload(true )
 
   }
   const rejectFunction = async  (e, value)=>{
+    e.preventDefault()
+    // setHide(false)
+    console.log(value);
+    if(commentInput){
+      setHide(false)
     await fetch("http://localhost:8000/rejectRequest", {
   method: 'post',
-  body: JSON.stringify({value}),
+  body: JSON.stringify({value, comment: commentInput}),
   headers: {
       'Content-Type': 'application/json'
   }
 });
 
 window.location.reload(true)
+    }
+    else{
+      toast.error('please add a comment', {
+        position: toast.POSITION.TOP_center
+    });
+
+    }
   }
-  
+
     return(
         <div className="body">
               <div className="input">
-    <button style={{height: "10%", marginRight: "20px", border: "none", cursor: "pointer"}} onClick={ascendingDateSort }>decending</button>    
+    <button style={{backgroundColor: "brown", height: "10%", marginRight: "20px", border: "none", cursor: "pointer"}} onClick={ascendingDateSort }>Descending</button>    
 
     <input type="text" placeholder= "Search by Number/EmailId" value={val} onChange={filterFunction} />
     </div>
@@ -129,20 +147,50 @@ window.location.reload(true)
     <th className="table table2">Start time</th>
     <th className="table table2">End time</th>
     <th className="table table2">Status</th>
-    <th className="table table2">Accept or Reject the requests</th>
+    <th className="table table2">Accept/Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th>
   </tr>
   
   </thead>
   <tbody>
-  {newData.map((value, index)=>(
+  {newData.map((values, index)=>(
         <tr key={index}>
-        <td className="table">{value.email}</td>
-        <td className="table">{value.name}</td>
-        <td className="table">{value.number}</td>
-        <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
-        <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
-        <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : "reject"} </td>
-        <td className="table"><button onClick={(e)=>acceptFunction(e, value._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={(e)=>rejectFunction(e, value._id)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject</button> </td>
+        <td className="table">{values.email}</td>
+        <td className="table">{values.name}</td>
+        <td className="table">{values.number}</td>
+        <td className="table">  {moment(values.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
+        <td className="table">{moment(values.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
+        <td className="table"> {values.status == 0?"pending" : values.status==1 ? "accept" : "reject"} </td>
+        <td className="table"><button onClick={(e)=>acceptFunction(e, values._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={()=>setHide(!hide)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject </button><br/><button style={{background: "none", border: "none", fontSize: "15px", cursor: "pointer"}}
+        onClick={(e)=>{
+          console.log(values.Comment)
+          setValueComment(values.Comment)
+          setHideCommentDiv(!hideCommentDiv)
+        }}>Comment <span style={{fontSize: "5px"}}>(click here)</span></button></td> 
+        
+        {hide==false ? 
+<></>:  
+        <div className="popup1">
+        <h1>Add a comment:</h1><br/>
+        <div className="commentFirstDiv">
+        <textarea   rows="4"  cols="50" onChange={(e)=>setCommentInput(e.target.value)} />
+        <div className="commentDiv">
+            <button type="submit"  onClick={(e)=>rejectFunction(e, values._id)}>Save</button><br/>
+          <button onClick={()=>setHide(!hide)}>Cancel</button>
+        </div>
+        </div>
+      </div>
+
+}
+{
+  hideCommentDiv===false ?
+  <></>
+  :
+  <div className="popup1">
+    <h1>Comment</h1>
+    <p>{valueComment}</p>
+    <button onClick={()=> setHideCommentDiv(false)} style={{background: "none", marginLeft: "70%", cursor: "pointer",  border: "none", fontSize: "2rem"}}>Ok</button>
+</div>
+}
 
       </tr>
   
@@ -162,7 +210,11 @@ window.location.reload(true)
     <th className="table table2">Start time</th>
     <th className="table table2">End time</th>
     <th className="table table2">Status</th>
+    {/* <th className="table table2">Comment</th> */}
+
   </tr>
+
+
   
   </thead>
 <tbody>
@@ -173,7 +225,24 @@ window.location.reload(true)
         <td className="table">{value.number}</td>
         <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
         <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
-        <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : "reject"} </td>
+        <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : "reject"}
+         <br/><button onClick={()=>{
+          setUserComment(value.Comment)
+          setHideCommentDiv(!hideCommentDiv)
+         }} style={{cursor: "pointer", border: "none", background: "none"}}  >See comment</button>
+         </td>
+         {
+  hideCommentDiv===false ?
+  <></>
+  :
+  <div className="popup1">
+    <h1>Comment</h1>
+    <p>{userComment}</p>
+    <button onClick={()=> setHideCommentDiv(false)} style={{background: "none", marginLeft: "70%", cursor: "pointer",  border: "none", fontSize: "2rem"}}>Ok</button>
+</div>
+}
+
+
       </tr>
         ))}
         </tbody>
@@ -186,6 +255,7 @@ window.location.reload(true)
     <button onClick={nextPage}>Next</button>
   </div>
   </div>
+  <ToastContainer />
 
         </div>
     );

@@ -43,11 +43,17 @@ const Login = ()=>{
 
         }
         else if(result.responce === false){
-            setErr("Enter correct emailId")
+            toast.error('Enter correct Email Id', {
+                position: toast.POSITION.TOP_center
+            });
+
             // console.log("enter correct email")
         }
          else {
-setErr("Enter correct password")
+            toast.error('Enter correct Email Password', {
+                position: toast.POSITION.TOP_center
+            });
+
         }
     }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import jwt from "jwt-decode";import "./App.css"
 import "./App.css"
+import {useNavigate  } from "react-router-dom";
 
 const CreateRequests= ()=>{
     let token  = JSON.parse(sessionStorage.getItem('token'));
@@ -8,6 +9,7 @@ const CreateRequests= ()=>{
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
     const [fromDate, setFromDate] = React.useState(0)
+    const navigate = useNavigate();
     const [toDate, setToDate] = React.useState(0)
     const [message, setMessage] = React.useState("")
 
@@ -39,6 +41,7 @@ const CreateRequests= ()=>{
             }
         });
         setMessage("")
+        navigate('/tickets')
     }
     }
 

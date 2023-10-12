@@ -9,6 +9,8 @@
   color: black;
   overflow: hidden;
   box-sizing: content-box;
+  /* filter: blur(8px); */
+  /* position: relative; */
 }
 .input{
   background-color: yellow;
@@ -49,6 +51,7 @@
   border-left: 1px solid white;
   word-wrap: break-word;
   table-layout: fixed;
+  overflow: scroll;
 }
 .table1{
   width: 100%;
@@ -226,4 +229,34 @@ text-align: left;
 }
 .errLine{
   color: red;
+}
+.popup1{
+  height: 30%;
+  width: 40%;
+  border: 5px solid white;
+  position: absolute;
+  top: 35%;
+  left: 30%;
+  position: fixed;
+  background-color: black;
+  overflow: scroll;
+}
+.commentFirstDiv{
+  height: 40%;
+  width: 100%;
+  /* border: 5px solid white; */
+  display: flex;
+  justify-content: space-around;
+}
+.commentDiv{
+  height: 100%;
+  width: 100px;
+  /* border: 5px solid white; */
+}
+.commentDiv button{
+  height: 50%;
+  width: 100px;
+/* border: 5px solid white; */
+border: none;
+background-color: blue;
 }

@@ -98,7 +98,7 @@ module.exports.createRequests= async (req, resp) => {
         const email1 = resp.temp
         console.log("create", email1)
 
-            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, from: req.body.fromDate, to: req.body.toDate, status: 0});
+            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, from: req.body.fromDate, to: req.body.toDate, status: 0, Comment: "No Comment"});
             result = result.toObject();
             delete result.password  
 
@@ -166,7 +166,7 @@ module.exports.changeActive= async(req, resp)=>{
 module.exports.acceptRequest= async(req, resp)=>{
     try {
         console.log(req.body)
-        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 1}})
+        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 1, Comment: "Request Accepted"}})
         return resp.status(200).json({responce: "successfully accepted"})
     } catch (error) {
  return resp.status(500).send("error")       
@@ -177,7 +177,7 @@ module.exports.acceptRequest= async(req, resp)=>{
 module.exports.rejectRequest= async(req, resp)=>{
     try {
         console.log(req.body)
-        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 2}})
+        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 2, Comment: req.body.comment}})
         return resp.status(200).json({responce: "successfully Rejected"})
     } catch (error) {
  return resp.status(500).send("error")       

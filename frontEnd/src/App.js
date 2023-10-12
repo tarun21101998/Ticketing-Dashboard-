@@ -35,11 +35,7 @@ const App = ()=>{
   ]);
   return (
     <>
-    <div style={{display: "flex",width: "99%",     boxSizing: "content-box", padding: "0", margin: "0", height: "100%", border: "1px solid white"}}>
-    {/* <div style={{border: "5px solid white", width: "100%", height: "20px"}}></div> */}
       <RouterProvider router={router} />
-      {/* <div style={{border: "5px solid white", width: "100%", height: "20px"}}></div> */}
-      </div>
     </>
   );
 }

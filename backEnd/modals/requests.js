@@ -24,6 +24,9 @@ const requestsSchema = new mongoose.Schema({
     },
     status: {
         type: Number
+    },
+    Comment: {
+        type: String
     }
 },
 {timestamps : true}
