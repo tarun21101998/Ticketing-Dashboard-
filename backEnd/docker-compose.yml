@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  api:
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      PORT: 8000
+      MONGO_URL: mongodb://mongo_db:2701cls
+      DB_NAME:  my_db
+      NAME: Trulymittal
+    depends_on:
+      - mongo_db
