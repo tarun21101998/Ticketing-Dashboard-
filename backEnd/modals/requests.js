@@ -14,6 +14,10 @@ const requestsSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    contactNumber: {
+        type: Number,
+        require: true
+    },
     from: {
         type: Date,
         require: true

@@ -8,8 +8,10 @@ import Login from "./login";
 import { useEffect, useState } from "react";
 import "./App.css"
 import { Link ,   useNavigate  } from "react-router-dom";
+import EditTicket from "./editTicket";
 
 const MyRequests= ()=>{
+  const [editData, setEditData] = useState(false)
   const [userComment, setUserComment] = useState("")
   const [valueComment, setValueComment]= useState("")
   const [hideCommentDiv, setHideCommentDiv] = useState(false)
@@ -92,6 +94,7 @@ const prePage = ()=>{
   
   }
   const acceptFunction = async (e, value)=>{
+    // <EditData />
 // console.log(value)
 await fetch("http://localhost:8000/acceptRequest", {
   method: 'post',
@@ -125,6 +128,17 @@ window.location.reload(true)
     });
 
     }
+  }
+  const deleteTicket = async (value)=>{
+    window.location.reload(true)
+    await fetch("http://localhost:8000/deleteTicket", {
+      method: 'post',
+      body: JSON.stringify({value}),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    });
+    
   }
 
     return(
@@ -207,10 +221,11 @@ window.location.reload(true)
     <th className="table table2">Email ID</th>
     <th className="table table2">Name</th>
     <th className="table table2">Number</th>
+    <th className="table table2">Contact Number</th>
     <th className="table table2">Start time</th>
     <th className="table table2">End time</th>
     <th className="table table2">Status</th>
-    {/* <th className="table table2">Comment</th> */}
+    <th className="table table2">Edit/Delete</th>
 
   </tr>
 
@@ -220,9 +235,11 @@ window.location.reload(true)
 <tbody>
         {newData.map((value, index)=>(
                     <tr key={index}>
+                      {/* {editData == false ?  <></> : <EditTicket props="home" />} */}
         <td className="table">{value.email}</td>
         <td className="table">{value.name}</td>
         <td className="table">{value.number}</td>
+        <td className="table">{value.contactNumber}</td>
         <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
         <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
         <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : "reject"}
@@ -231,6 +248,16 @@ window.location.reload(true)
           setHideCommentDiv(!hideCommentDiv)
          }} style={{cursor: "pointer", border: "none", background: "none"}}  >See comment</button>
          </td>
+         { value.status ==0 ? <td className="table"><button style={{background: "none", border: "none", cursor: "pointer"}} onClick={()=>{
+          setEditData(!editData)
+          sessionStorage.setItem('editId', JSON.stringify(value._id))
+          navigate('/editTicket')
+         }}>edit</button>/ <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
+         :
+          <></>
+          }
+         {/* </tbody> */}
+
          {
   hideCommentDiv===false ?
   <></>

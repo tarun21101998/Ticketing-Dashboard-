@@ -10,7 +10,7 @@ const Home = ()=>{
 
         <div className="homepage_details">
 
-        {/* <h1>Welcome to Home Page </h1> */}
+        <h1>Parking Management System (PMS)</h1>
 
         </div>
 

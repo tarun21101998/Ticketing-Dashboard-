@@ -1,4 +1,5 @@
   import React from "react";
+  import EditTicket from "./component/editTicket";
 import Profile from "./component/profile";
 import MyRequests from "./component/myRequests";
 import SignUp from "./component/signUp";
@@ -29,7 +30,8 @@ const App = ()=>{
         {path: "/create-ticket", element: <CreateRequests />},
         {path: "/signup", element: <SignUp/>},
         {path: "/tickets", element: <MyRequests />},
-        {path: "/profile", element: <Profile />}
+        {path: "/profile", element: <Profile />},
+        {path: "/editTicket", element: <EditTicket />}
       ],
     },
   ]);

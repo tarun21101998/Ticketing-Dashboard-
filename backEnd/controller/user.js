@@ -98,7 +98,7 @@ module.exports.createRequests= async (req, resp) => {
         const email1 = resp.temp
         console.log("create", email1)
 
-            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, from: req.body.fromDate, to: req.body.toDate, status: 0, Comment: "No Comment"});
+            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber,  from: req.body.fromDate, to: req.body.toDate, status: 0, Comment: "No Comment"});
             result = result.toObject();
             delete result.password  
 
@@ -166,7 +166,7 @@ module.exports.changeActive= async(req, resp)=>{
 module.exports.acceptRequest= async(req, resp)=>{
     try {
         console.log(req.body)
-        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 1, Comment: "Request Accepted"}})
+        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 1, Comment: "Request Accepted  "}})
         return resp.status(200).json({responce: "successfully accepted"})
     } catch (error) {
  return resp.status(500).send("error")       
@@ -227,8 +227,36 @@ let data3 = await collection1.updateMany({email: dCode.email}, {$set: {email: re
 return resp.status(200).json({responce: true, email: req.body.editNewEmail})
     }
 }
+module.exports.editRequest= async (req, resp)=>{
+    try {
+        console.log(req.body)
+        let user = await collection1.findOne({_id: req.body.ticketId})
+if(user.status ==0){
+        await collection1.updateOne({_id: req.body.ticketId}, {$set: {name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber, from: req.body.from, to: req.body.to}})
+        resp.status(200).send("successfully updated")
+        }
+        else{
+            return resp.status(500).send("not updated")
+        }
+    } catch (error) {
+        resp.send("error is showing")
+    }
+}
+
+// Deleting the ticket
+module.exports.deleteTicket = async (req, resp)=>{
+    try {
+        // console.log({_id: req.body.value})
+        let user =await collection1.deleteOne({_id: req.body.value});
+        // console.log(user)
+        return resp.send("deleted")
+    } catch (error) {
+        
+    }
+}
 
 
+// Middleware of all the  functions
 module.exports.middleWare= (req, resp, next)=>{
     let dCode = Jwt.decode(req.body.token)
     console.log("hello")

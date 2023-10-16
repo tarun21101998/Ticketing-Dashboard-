@@ -5,8 +5,8 @@ import {useNavigate  } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CreateRequests= ()=>{
-    let token  = JSON.parse(sessionStorage.getItem('token'));
+const EditTicket = ()=>{
+    let ticketId  = JSON.parse(sessionStorage.getItem('editId'));
 
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
@@ -33,24 +33,33 @@ const CreateRequests= ()=>{
         const date2 = new Date(toDate)
         if(date1 > date2){
             console.log("short")
-            setMessage("Starting date should be less than ending date")
+            toast.error('Starting date should be less than ending date', {
+                position: toast.POSITION.TOP_right
+            });
+            
+            // setMessage("Starting date should be less than ending date")
             return;
         }
         else{
-        await fetch("http://localhost:8000/requests", {
+            sessionStorage.removeItem('editId')
+            navigate('/tickets  ')    
+        await fetch("http://localhost:8000/editTicket", {
             method: 'post',
-            body: JSON.stringify({ name, number, contactNumber, fromDate, toDate, token}),
+            body: JSON.stringify({ name, number, contactNumber, fromDate, toDate, ticketId}),
             headers: {
                 'Content-Type': 'application/json'
             }
+            // navigate('/')
         });
         setMessage("")
         navigate('/tickets')
     }
 }
+else{
 toast.error('Please fill all field', {
     position: toast.POSITION.TOP_right
 });
+}
 
 }
 
@@ -58,7 +67,10 @@ toast.error('Please fill all field', {
     return(
         <>
 <div className="form">
+    {/* <h1>Edit your ticket</h1> */}
 <div className="form1">
+<h1 className="formHeading">Edit your form</h1>
+<br/><br/>
 <form>
 <label>Name of your vehicle</label>
 <br/><input type="text" placeholder="Enter name of your vehicle" 
@@ -86,6 +98,10 @@ onChange={(e) => setContactNumber(e.target.value)} value={contactNumber} />
 <br/>
 <span>{message}</span>
 <br/><button onClick={handleRequest} type="submit" style={{width: "30%" }} >Submit Ticket</button>
+<button onClick={()=>{
+    sessionStorage.removeItem('editId')
+    navigate('/tickets')
+}} type="submit" style={{width: "30%" }} >Cancel</button>
 </form>
 </div>
 </div>
@@ -94,4 +110,4 @@ onChange={(e) => setContactNumber(e.target.value)} value={contactNumber} />
     );
 
 }
-export default CreateRequests;
+export default EditTicket;

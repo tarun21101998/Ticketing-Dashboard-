@@ -70,6 +70,9 @@ const SignUp= ()=>{
         <>
 <div className="form">
 <div className="form1">
+<h1 className="formHeading">Signup</h1>
+<br/><br/>
+
 <form>
 <label> First Name </label>
 <br/><input type="text" placeholder="Enter your first name" 

@@ -39,7 +39,7 @@ const Login = ()=>{
             });
             setTimeout(()=>{
                 navigate('/')
-            }, 3000)
+            }, 1000)
 
         }
         else if(result.responce === false){
@@ -62,6 +62,9 @@ const Login = ()=>{
         <>
 <div className="form">
 <div className="form1">
+<h1 className="formHeading">Login</h1>
+<br/><br/>
+
 <form>
 <label>Email ID</label>
 <br/><input type="text" placeholder="Enter your emailId" 
