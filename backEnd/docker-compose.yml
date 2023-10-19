@@ -1,20 +1,32 @@
-version: '3.9'
-services:
-  mongo_db:
-    container_name: db_container
-    image: mongo:latest
-    restart: always
-    volumes:
-      - mongo_db:/data/db
+version: '3.8'
 
-  api:
+services:
+  node-app:
     build: .
-    ports:
-      - 8000:8000
+    image: node-app
     environment:
-      PORT: 8000
-      MONGO_URL: mongodb://mongo_db:2701cls
-      DB_NAME:  my_db
-      NAME: Trulymittal
+      - MONGO_URL=mongodb://mongodb:27017/customerData
+    ports:
+      - '8000:8000'
     depends_on:
-      - mongo_db
+      - mongodb
+    volumes:
+      - .:/src
+    networks:
+      - node-network
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - node-network
+
+volumes:
+  dbdata6:
+
+networks:
+  node-network:
+    driver: bridge

@@ -161,7 +161,7 @@ window.location.reload(true)
     <th className="table table2">Start time</th>
     <th className="table table2">End time</th>
     <th className="table table2">Status</th>
-    <th className="table table2">Accept/Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th>
+    {isType == 2 ?<th className="table table2">Accept/Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th> : <></>}
   </tr>
   
   </thead>
@@ -174,12 +174,12 @@ window.location.reload(true)
         <td className="table">  {moment(values.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
         <td className="table">{moment(values.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
         <td className="table"> {values.status == 0?"pending" : values.status==1 ? "accept" : "reject"} </td>
-        <td className="table"><button onClick={(e)=>acceptFunction(e, values._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={()=>setHide(!hide)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject </button><br/><button style={{background: "none", border: "none", fontSize: "15px", cursor: "pointer"}}
+        {isType == 2 ?<td className="table"><button onClick={(e)=>acceptFunction(e, values._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={()=>setHide(!hide)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject </button><br/><button style={{background: "none", border: "none", fontSize: "15px", cursor: "pointer"}}
         onClick={(e)=>{
           console.log(values.Comment)
           setValueComment(values.Comment)
           setHideCommentDiv(!hideCommentDiv)
-        }}>Comment <span style={{fontSize: "5px"}}>(click here)</span></button></td> 
+        }}>Comment <span style={{fontSize: "5px"}}>(click here)</span></button></td> : <></>}
         
         {hide==false ? 
 <></>:  

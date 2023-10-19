@@ -116,7 +116,7 @@ window.location.reload(true)
               <th className="table table2">First Name</th>
               <th className="table table2">Last Name</th>
               <th className="table table2">Email ID</th>
-              <th className="table table2">Active</th>
+              <th className="table table2">Active <br/> <span style={{fontSize: "1rem"}}>(click)</span></th>
 
               <th className="table table2">Type</th>
               <th className="table table2">Created At</th>
