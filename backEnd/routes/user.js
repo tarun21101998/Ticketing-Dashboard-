@@ -12,7 +12,7 @@ router.post('/users', user.createData)
 router.post('/login', user.loginData)
 
 // Data is fetching from DataBase
-router.post('/user', user.middleWare,  user.getData)
+router.get('/users', user.getMiddleWare,  user.getData)
 // Creating the ticket and saving  data to dataBase
 router.post('/requests', user.middleWare,  user.createRequests)
 

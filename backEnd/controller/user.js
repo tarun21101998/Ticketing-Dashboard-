@@ -8,6 +8,7 @@ const jwtKey = 'e-com';
 // fetching the data of user
 module.exports.getData = async (req, resp) => {
     try {
+        console.log(req.query   )
         const dCode = resp.temp
         if(dCode.isType == 2 || dCode.isType == 0){
         const result = await collection.find({})
@@ -259,6 +260,14 @@ module.exports.deleteTicket = async (req, resp)=>{
 // Middleware of all the  functions
 module.exports.middleWare= (req, resp, next)=>{
     let dCode = Jwt.decode(req.body.token)
+    console.log("hello")
+    resp.temp = dCode;
+    return next()
+}
+
+// Middleware for get requests
+module.exports.getMiddleWare= (req, resp, next)=>{
+    let dCode = Jwt.decode(req.query.token)
     console.log("hello")
     resp.temp = dCode;
     return next()

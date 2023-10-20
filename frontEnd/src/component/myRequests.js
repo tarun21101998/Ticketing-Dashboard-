@@ -157,11 +157,12 @@ window.location.reload(true)
     <th className="table table2">Email ID</th>
     <th className="table table2">Name</th>
     <th className="table table2">Number</th>
+    <th className="table table2">Contact Number</th>
     {/* <th className="table table2">isActive</th> */}
     <th className="table table2">Start time</th>
     <th className="table table2">End time</th>
     <th className="table table2">Status</th>
-    {isType == 2 ?<th className="table table2">Accept/Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th> : <></>}
+    { isType == 2 ? <th className="table table2">Accept/Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th> : <></>}
   </tr>
   
   </thead>
@@ -171,10 +172,11 @@ window.location.reload(true)
         <td className="table">{values.email}</td>
         <td className="table">{values.name}</td>
         <td className="table">{values.number}</td>
+        <td className="table">{values.contactNumber}</td>
         <td className="table">  {moment(values.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
         <td className="table">{moment(values.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
         <td className="table"> {values.status == 0?"pending" : values.status==1 ? "accept" : "reject"} </td>
-        {isType == 2 ?<td className="table"><button onClick={(e)=>acceptFunction(e, values._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={()=>setHide(!hide)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject </button><br/><button style={{background: "none", border: "none", fontSize: "15px", cursor: "pointer"}}
+        {isType == 2 ? <td className="table"><button onClick={(e)=>acceptFunction(e, values._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={()=>setHide(!hide)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject </button><br/><button style={{background: "none", border: "none", fontSize: "15px", cursor: "pointer"}}
         onClick={(e)=>{
           console.log(values.Comment)
           setValueComment(values.Comment)

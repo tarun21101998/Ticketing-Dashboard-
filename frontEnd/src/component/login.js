@@ -26,7 +26,7 @@ const Login = ()=>{
         });        
         result = await result.json();
         if(result.isActive == false){
-            setErr("you are not an active user")
+            setErr("Wrong credentials")
             return;
         }
         if (result.auth) {
@@ -50,7 +50,7 @@ const Login = ()=>{
             // console.log("enter correct email")
         }
          else {
-            toast.error('Enter correct Email Password', {
+            toast.error('Enter EmailId or Password', {
                 position: toast.POSITION.TOP_center
             });
 

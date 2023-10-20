@@ -16,9 +16,9 @@ const Listing = () => {
   const [dataPerPage, setDataPerPage] = useState(10);
   useEffect(() => {
     const function1 = async ()=>{
-      let result = await fetch("http://localhost:8000/user", {
-        method: 'post',
-        body: JSON.stringify({token}),
+      let result = await fetch(`http://localhost:8000/users?token=${token}`, {
+        method: 'get',
+        // body: JSON.stringify({token}),
         headers: {
           'Content-Type': 'application/json'
       }
@@ -116,7 +116,7 @@ window.location.reload(true)
               <th className="table table2">First Name</th>
               <th className="table table2">Last Name</th>
               <th className="table table2">Email ID</th>
-              <th className="table table2">Active <br/> <span style={{fontSize: "1rem"}}>(click)</span></th>
+              <th className="table table2">Active<br/><span style={{fontSize: "1rem"}}>(click me)</span> <br/> <span style={{fontSize: "1rem"}}>(click)</span></th>
 
               <th className="table table2">Type</th>
               <th className="table table2">Created At</th>
