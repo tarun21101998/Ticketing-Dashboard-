@@ -10,7 +10,8 @@ const app = express()
 
 
 // importing the DataBase and Collections
-const db = require('./mongooseDataBase/_mongoose')
+const dotEnv = require("dotenv").config()
+const db = require('./mongooseDataBase/initDB')
 const collection = require('./modals/data')
 
 const PORT = 8000
