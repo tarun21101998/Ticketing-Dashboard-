@@ -107,7 +107,7 @@ window.location.reload(true)
         </div>
 
 
-        <input type="text" placeholder="Search by firstName/emailId" value={val} onChange={filterFunction} />
+        <input type="text"  placeholder="Search by firstName/emailId" value={val} onChange={filterFunction} />
       </div>
       <div className="table_div">
         <table className="table table1">

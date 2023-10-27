@@ -4,10 +4,12 @@ import {useState } from "react";
 import 'react-toastify/dist/ReactToastify.css';
         import "./App.css"
 import {useNavigate  } from "react-router-dom";
+import { defaultFormat } from "moment/moment";
 // toast.configure()
 
 
 const Login = ()=>{
+    const [showHidePassword, setShowHidePassword] = useState(false)
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const navigate = useNavigate();
@@ -71,8 +73,10 @@ const Login = ()=>{
 onChange={(e) => setEmail(e.target.value)} value={email}
 required />
 <br/> <br/><label>Password</label>
-<br/><input type="password" placeholder="Enter the password" required 
+<br/><input type={showHidePassword===false ? "password" : "text"} placeholder="Enter the password" required 
 onChange={(e) => setPassword(e.target.value)} value={password} />
+<br/>
+<input type="checkbox"  style={{width: "20px"}}     onChange={()=>setShowHidePassword(!showHidePassword)} /><label>Show Password</label>
 
 <br/><span className="errLine" style={{marginLeft: "10px"}}>{err}</span>
 <br/><br/>  
@@ -86,4 +90,5 @@ onChange={(e) => setPassword(e.target.value)} value={password} />
         </>
     );
 }
+
 export default Login;
