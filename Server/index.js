@@ -20,9 +20,9 @@ app.use(express.urlencoded());
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use(bodyparser.json())
 app.use(cors());
-// app.use(express.json());
+// app.use(express.static("./Client/build/index.html"));
 app.use('/', require('./routes'));
-
+// app.use(express.static("Client/build"))
 app.listen(PORT, (err)=>{
     if(!err){
         console.log("Server is running on PORT " + PORT)
