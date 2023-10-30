@@ -14,7 +14,7 @@ const dotEnv = require("dotenv").config()
 const db = require('./mongooseDataBase/initDB')
 const collection = require('./modals/data')
 
-const PORT = 8000
+const PORT = process.env.PORT || 8000
 
 app.use(express.urlencoded());
 app.use(bodyparser.urlencoded({ extended: true }))
