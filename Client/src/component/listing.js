@@ -16,7 +16,7 @@ const Listing = () => {
   const [dataPerPage, setDataPerPage] = useState(10);
   useEffect(() => {
     const function1 = async ()=>{
-      let result = await fetch(`http://localhost:8000/users?token=${token}`, {
+      let result = await fetch(`https://backend-parking-management-system.onrender.com/users?token=${token}`, {
         method: 'get',
         // body: JSON.stringify({token}),
         headers: {
@@ -81,7 +81,7 @@ else{
   const active = async (e, value)=>{
     await setChangeActive(value)
     console.log(changeActive)
-        let result = await fetch("http://localhost:8000/changeActive", {
+        let result = await fetch("https://backend-parking-management-system.onrender.com/changeActive", {
             method: 'post',
             body: JSON.stringify({value}),
                 headers: {

@@ -19,7 +19,7 @@ const Login = ()=>{
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        let result = await fetch("http://localhost:8000/login", {
+        let result = await fetch("https://backend-parking-management-system.onrender.com/login", {
             method: 'post',
             body: JSON.stringify({ email, password }),
                 headers: {
@@ -39,9 +39,9 @@ const Login = ()=>{
             toast.success('Successfully! logged in', {
                 position: toast.POSITION.TOP_center
             });
-            setTimeout(()=>{
+            // setTimeout(()=>{
                 navigate('/')
-            }, 1000)
+            // }, 1000)
 
         }
         else if(result.responce === false){

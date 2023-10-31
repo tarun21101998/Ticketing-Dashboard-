@@ -48,28 +48,31 @@ const [dataPerPage, setDataPerPage]= useState(10)
         setArr(data1)
       }
       // ascendingDateSort()
+      const fetchData = async()=>{    
+        let result = await fetch("https://backend-parking-management-system.onrender.com/sendrequests", {
+                method: 'post',
+                body: JSON.stringify({token}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            result = await result.json();
+            // console.log(result.data)
+            setIsType(result.data)
+            result= result.user1
+            const data1 =  [...result].sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt));
+            // console.log(data1)
+            if(result){
+                setData(data1)
+                setArr(data1)
+                // console.log(data)
+            }
+        }
+    
+
+
 useEffect(()=>{
 
-    const fetchData = async()=>{    
-    let result = await fetch("http://localhost:8000/sendrequests", {
-            method: 'post',
-            body: JSON.stringify({token}),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        result = await result.json();
-        // console.log(result.data)
-        setIsType(result.data)
-        result= result.user1
-        const data1 =  [...result].sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt));
-        // console.log(data1)
-        if(result){
-            setData(data1)
-            setArr(data1)
-            // console.log(data)
-        }
-    }
     fetchData();
     }, [])
 
@@ -96,7 +99,7 @@ const prePage = ()=>{
   const acceptFunction = async (e, value)=>{
     // <EditData />
 // console.log(value)
-await fetch("http://localhost:8000/acceptRequest", {
+await fetch("https://backend-parking-management-system.onrender.com/acceptRequest", {
   method: 'post',
   body: JSON.stringify({value}),
   headers: {
@@ -112,7 +115,7 @@ window.location.reload(true )
     console.log(value);
     if(commentInput){
       setHide(false)
-    await fetch("http://localhost:8000/rejectRequest", {
+    await fetch("https://backend-parking-management-system.onrender.com/rejectRequest", {
   method: 'post',
   body: JSON.stringify({value, comment: commentInput}),
   headers: {
@@ -129,15 +132,22 @@ window.location.reload(true)
 
     }
   }
-  const deleteTicket = async (value)=>{
-    window.location.reload(true)
-    await fetch("http://localhost:8000/deleteTicket", {
-      method: 'post',
+  const deleteTicket =  (value)=>{
+    setTimeout(()=>{
+      window.location.reload(true)
+      // fetchData();
+    }, 3000)
+    const delete1 = async()=>{
+    await fetch("https://backend-parking-management-system.onrender.com/deleteTicket", {
+      method: 'delete',
       body: JSON.stringify({value}),
       headers: {
           'Content-Type': 'application/json'
       }
     });
+  }
+  delete1()
+    // window.location(true);
     
   }
 

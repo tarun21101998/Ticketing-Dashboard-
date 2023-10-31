@@ -43,7 +43,7 @@ const EditTicket = ()=>{
         else{
             sessionStorage.removeItem('editId')
             navigate('/tickets  ')    
-        await fetch("http://localhost:8000/editTicket", {
+        await fetch("https://backend-parking-management-system.onrender.com/editTicket", {
             method: 'post',
             body: JSON.stringify({ name, number, contactNumber, fromDate, toDate, ticketId}),
             headers: {
