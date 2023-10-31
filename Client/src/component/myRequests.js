@@ -49,7 +49,7 @@ const [dataPerPage, setDataPerPage]= useState(10)
       }
       // ascendingDateSort()
       const fetchData = async()=>{    
-        let result = await fetch("https://backend-parking-management-system.onrender.com/sendrequests", {
+        let result = await fetch("https://parking-management-system-pms.onrender.com/sendrequests", {
                 method: 'post',
                 body: JSON.stringify({token}),
                 headers: {
@@ -99,7 +99,7 @@ const prePage = ()=>{
   const acceptFunction = async (e, value)=>{
     // <EditData />
 // console.log(value)
-await fetch("https://backend-parking-management-system.onrender.com/acceptRequest", {
+await fetch("https://parking-management-system-pms.onrender.com/acceptRequest", {
   method: 'post',
   body: JSON.stringify({value}),
   headers: {
@@ -115,7 +115,7 @@ window.location.reload(true )
     console.log(value);
     if(commentInput){
       setHide(false)
-    await fetch("https://backend-parking-management-system.onrender.com/rejectRequest", {
+    await fetch("https://parking-management-system-pms.onrender.com/rejectRequest", {
   method: 'post',
   body: JSON.stringify({value, comment: commentInput}),
   headers: {
@@ -138,7 +138,7 @@ window.location.reload(true)
       // fetchData();
     }, 3000)
     const delete1 = async()=>{
-    await fetch("https://backend-parking-management-system.onrender.com/deleteTicket", {
+    await fetch("https://parking-management-system-pms.onrender.com/deleteTicket", {
       method: 'delete',
       body: JSON.stringify({value}),
       headers: {

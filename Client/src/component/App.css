@@ -14,7 +14,7 @@
   background-color: black;
 }
 .input{
-  background-color: yellow;
+  background-color: grey;
   height: 40vh;
   width: 100%;
   display: flex;
@@ -86,16 +86,16 @@ background-color: #0275dd;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: yellow;
+  background-color: blue;
 }
-@media (min-width: 0px) and (max-width: 10px){
+/* @media (min-width: 0px) and (max-width: 10px){ */
 .form1{
   width: 40%;
   background-color: white;
   color: black;
   /* border: 5px solid white; */
 }
-}
+/* } */
 .form1 label{
 font-size:  2rem;
 }
@@ -179,7 +179,7 @@ cursor: pointer;
   border: 5px solid white;
   position: fixed;
   /* text-decoration: none; */
-  background-color: grey;
+  background-color: brown;
   /* margin-top: 50px; */
   /* transition: all 15s ease-in-out; */
 }
@@ -289,4 +289,11 @@ background-color: blue;
   text-align: center;
   /* margin-left: 30%; */
   /* margin-right: auto; */
+}
+
+thead tr th{
+  background-color: blue;
+}
+tbody tr td{
+  background-color:   white;
 }

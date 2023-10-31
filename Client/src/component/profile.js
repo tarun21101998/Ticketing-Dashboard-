@@ -24,7 +24,7 @@ const[editLastName, setEditLastName] = useState("")
     useEffect(()=>{
 
         const fetchData = async()=>{    
-        let result = await fetch("https://backend-parking-management-system.onrender.com/profile", {
+        let result = await fetch("https://parking-management-system-pms.onrender.com/profile", {
                 method: 'post',
                 body: JSON.stringify({token}),
                 headers: {
@@ -46,7 +46,7 @@ const editData1 = async (e)=>{
     setData1(false)
     // window.location.reload(true)
     // navigate("/profile")
-    let result = await fetch("https://backend-parking-management-system.onrender.com/editNameProfile", {
+    let result = await fetch("https://parking-management-system-pms.onrender.com/editNameProfile", {
         method: 'post',
         body: JSON.stringify({token, editFirstName, editLastName}),
         headers: {
@@ -70,7 +70,7 @@ const handleChange = async (e)=>{
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     // console.log(e.target.files)
-    const result = await fetch("https://backend-parking-management-system.onrender.com/upload", {
+    const result = await fetch("https://parking-management-system-pms.onrender.com/upload", {
         method: "POST",
         body: formData,
       });
@@ -86,7 +86,7 @@ const updateEmail = async (e)=>{
     setData2(false)
     // window.location.reload(true)
     // navigate("/profile")
-    let result = await fetch("https://backend-parking-management-system.onrender.com/editEmailProfile", {
+    let result = await fetch("https://parking-management-system-pms.onrender.com/editEmailProfile", {
         method: 'post',
         body: JSON.stringify({token, editNewEmail}),
         headers: {

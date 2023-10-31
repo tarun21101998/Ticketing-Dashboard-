@@ -40,7 +40,7 @@ const SignUp= ()=>{
         e.preventDefault();
         // conTypesole.log(20)
         if(email  && firstName && lastName && password){
-        let result = await fetch("https://backend-parking-management-system.onrender.com/users", {
+        let result = await fetch("https://parking-management-system-pms.onrender.com/users", {
             method: 'post',
             body: JSON.stringify({firstName, lastName, email, password, isType}),
                 headers: {

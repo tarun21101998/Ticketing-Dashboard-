@@ -16,7 +16,7 @@ const Listing = () => {
   const [dataPerPage, setDataPerPage] = useState(10);
   useEffect(() => {
     const function1 = async ()=>{
-      let result = await fetch(`https://backend-parking-management-system.onrender.com/users?token=${token}`, {
+      let result = await fetch(`https://parking-management-system-pms.onrender.com/users?token=${token}`, {
         method: 'get',
         // body: JSON.stringify({token}),
         headers: {
@@ -81,7 +81,7 @@ else{
   const active = async (e, value)=>{
     await setChangeActive(value)
     console.log(changeActive)
-        let result = await fetch("https://backend-parking-management-system.onrender.com/changeActive", {
+        let result = await fetch("https://parking-management-system-pms.onrender.com/changeActive", {
             method: 'post',
             body: JSON.stringify({value}),
                 headers: {
@@ -107,12 +107,12 @@ window.location.reload(true)
         </div>
 
 
-        <input type="text"  placeholder="Search by firstName/emailId" value={val} onChange={filterFunction} />
+        <input type="text" placeholder="Search by firstName/emailId" value={val} onChange={filterFunction} />
       </div>
       <div className="table_div">
         <table className="table table1">
           <thead>
-            <tr>
+            <tr className="tableHead">
               <th className="table table2">First Name</th>
               <th className="table table2">Last Name</th>
               <th className="table table2">Email ID</th>

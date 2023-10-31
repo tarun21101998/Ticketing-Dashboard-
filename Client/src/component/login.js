@@ -19,7 +19,7 @@ const Login = ()=>{
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        let result = await fetch("https://backend-parking-management-system.onrender.com/login", {
+        let result = await fetch("https://parking-management-system-pms.onrender.com/login", {
             method: 'post',
             body: JSON.stringify({ email, password }),
                 headers: {
