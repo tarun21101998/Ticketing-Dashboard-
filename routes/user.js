@@ -41,4 +41,6 @@ router.post('/publishTicket', user.publishTicket)
 // reReview the ticket
 router.post('/reviewAgainTicket', user.reviewAgainTicket)
 
+// Get data for update
+router.post('/getUserDetail', user.getUserDetail)
 module.exports = router;

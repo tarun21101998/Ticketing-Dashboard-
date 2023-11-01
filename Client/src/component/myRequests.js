@@ -306,11 +306,7 @@ fetchData()
           setHideCommentDiv(!hideCommentDiv)
          }} style={{cursor: "pointer", border: "none", background: "none"}}  >See comment</button>
          </td>
-         { value.status ==0 ? <td className="table"><button style={{background: "none", border: "none", cursor: "pointer"}} onClick={()=>{
-          setEditData(!editData)
-          sessionStorage.setItem('editId', JSON.stringify(value._id))
-          navigate('/editTicket')
-         }}>edit</button>/ <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
+         { value.status ==0 ? <td className="table"><Link to={"/editTicket/"+value._id}>Edit</Link> / <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
          :
           <></>
           }

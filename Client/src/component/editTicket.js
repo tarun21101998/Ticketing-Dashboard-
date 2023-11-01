@@ -1,12 +1,13 @@
 import React from "react";
 import jwt from "jwt-decode";import "./App.css"
 import "./App.css"
-import {useNavigate  } from "react-router-dom";
+import { useParams, useNavigate  } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditTicket = ()=>{
-    let ticketId  = JSON.parse(sessionStorage.getItem('editId'));
+const param = useParams();
+
 
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
@@ -15,6 +16,33 @@ const EditTicket = ()=>{
     const navigate = useNavigate();
     const [toDate, setToDate] = React.useState(0)
     const [message, setMessage] = React.useState("")
+
+    const getUserDetails = async()=>{    
+        let result = await fetch("http://localhost:8000/getUserDetail", {
+                method: 'post',
+                body: JSON.stringify({param}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            result = await result.json();
+if(result){
+    setName(result.name);
+    setNumber(result.number)
+    setContactNumber(result.contactNumber);
+    // setFromDate(11-11-2020)
+    // setToDate(result.toDate);
+}
+
+        }
+
+        React.useEffect(() => {
+            getUserDetails();
+        }, [])
+    
+
+
+
 
     const handleFromDate = (e)=>{
         e.preventDefault()
@@ -43,9 +71,9 @@ const EditTicket = ()=>{
         else{
             sessionStorage.removeItem('editId')
             navigate('/tickets  ')    
-        await fetch("https://parking-management-system-pms.onrender.com/editTicket", {
+        await fetch("http://localhost:8000/editTicket", {
             method: 'post',
-            body: JSON.stringify({ name, number, contactNumber, fromDate, toDate, ticketId}),
+            body: JSON.stringify({ name, number, contactNumber, fromDate, toDate,   param}),
             headers: {
                 'Content-Type': 'application/json'
             }

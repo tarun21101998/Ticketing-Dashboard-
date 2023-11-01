@@ -198,8 +198,9 @@ return resp.status(500).json({responce: 500})
 }
 
 
-module.exports.editNameProfile1 = async (req, resp)=>{
+module.exports. editNameProfile1 = async (req, resp)=>{
     try {
+        console.log("update")
         // const user = Jwt.decode(req.body.token)
 const user = resp.temp
         await collection.updateOne({_id: user._id}, {$set: {firstName: req.body.editFirstName, lastName: req.body.editLastName}})
@@ -231,9 +232,10 @@ return resp.status(200).json({responce: true, email: req.body.editNewEmail})
 module.exports.editRequest= async (req, resp)=>{
     try {
         console.log(req.body)
-        let user = await collection1.findOne({_id: req.body.ticketId})
+        let user = await collection1.findOne({_id: req.body.param.id})
+        console.log(user)
 if(user.status ==0){
-        await collection1.updateOne({_id: req.body.ticketId}, {$set: {name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber, from: req.body.from, to: req.body.to}})
+        await collection1.updateOne({_id: req.body.param.id}, {$set: {name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber, from: req.body.from, to: req.body.to}})
         resp.status(200).send("successfully updated")
         }
         else{
@@ -289,6 +291,17 @@ module.exports.reviewAgainTicket= async (req, resp)=>{
     }
 }
 
+// get data for update
+module.exports.getUserDetail = async(req, resp)=>{
+    try {
+        // console.log(req.body.param.id)
+        const user = await collection1.findOne({_id: req.body.param.id})
+        console.log(user);
+        return resp.status(200).send(user)
+    } catch (error) {
+        
+    }
+}
 
 // Middleware of all the  functions
 module.exports.middleWare= (req, resp, next)=>{

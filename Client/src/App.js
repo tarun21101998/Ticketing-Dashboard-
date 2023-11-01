@@ -31,7 +31,7 @@ const App = ()=>{
         {path: "/signup", element: <SignUp/>},
         {path: "/tickets", element: <MyRequests />},
         {path: "/profile", element: <Profile />},
-        {path: "/editTicket", element: <EditTicket />}
+        {path: "/editTicket/:id", element: <EditTicket />}
       ],
     },
   ]);

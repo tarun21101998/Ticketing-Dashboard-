@@ -14,22 +14,24 @@ const Listing = () => {
   const [changeActive, setChangeActive]= React.useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [dataPerPage, setDataPerPage] = useState(10);
-  useEffect(() => {
-    const function1 = async ()=>{
-      let result = await fetch(`https://parking-management-system-pms.onrender.com/users?token=${token}`, {
-        method: 'get',
-        // body: JSON.stringify({token}),
-        headers: {
-          'Content-Type': 'application/json'
-      }
-
-      });
-      result = await result.json();
-      // let d = await JSON.parse(result.isType)
-      console.log(result)
-      setMessage(result)
-      setArr(result)
+  const function1 = async ()=>{
+    let result = await fetch(`https://parking-management-system-pms.onrender.com/users?token=${token}`, {
+      method: 'get',
+      // body: JSON.stringify({token}),
+      headers: {
+        'Content-Type': 'application/json'
     }
+
+    });
+    result = await result.json();
+    // let d = await JSON.parse(result.isType)
+    console.log(result)
+    setMessage(result)
+    setArr(result)
+  }
+
+
+  useEffect(() => {
     function1()
   }, [])
   const lastDataIndex = currentPage * dataPerPage
@@ -90,7 +92,8 @@ else{
         });        
         result = await result.json();
 await setChangeActive(result.result1)
-window.location.reload(true)
+// window.location.reload(true)
+function1()
   }
   return (
     <div className="body">
