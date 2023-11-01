@@ -37,7 +37,7 @@ const CreateRequests= ()=>{
             return;
         }
         else{
-        await fetch("https://parking-management-system-pms.onrender.com/requests", {
+        await fetch("http://localhost:8000/requests", {
             method: 'post',
             body: JSON.stringify({ name, number, contactNumber, fromDate, toDate, token}),
             headers: {

@@ -29,6 +29,12 @@ const requestsSchema = new mongoose.Schema({
     status: {
         type: Number
     },
+    semiStatus: {
+        type: Number
+    },
+    semiComment: {
+        type: String
+    },
     Comment: {
         type: String
     }

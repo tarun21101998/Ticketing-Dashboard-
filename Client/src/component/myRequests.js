@@ -49,7 +49,7 @@ const [dataPerPage, setDataPerPage]= useState(10)
       }
       // ascendingDateSort()
       const fetchData = async()=>{    
-        let result = await fetch("https://parking-management-system-pms.onrender.com/sendrequests", {
+        let result = await fetch("http://localhost:8000/sendrequests", {
                 method: 'post',
                 body: JSON.stringify({token}),
                 headers: {
@@ -99,7 +99,7 @@ const prePage = ()=>{
   const acceptFunction = async (e, value)=>{
     // <EditData />
 // console.log(value)
-await fetch("https://parking-management-system-pms.onrender.com/acceptRequest", {
+await fetch("http://localhost:8000/acceptRequest", {
   method: 'post',
   body: JSON.stringify({value}),
   headers: {
@@ -115,7 +115,7 @@ window.location.reload(true )
     console.log(value);
     if(commentInput){
       setHide(false)
-    await fetch("https://parking-management-system-pms.onrender.com/rejectRequest", {
+    await fetch("http://localhost:8000/rejectRequest", {
   method: 'post',
   body: JSON.stringify({value, comment: commentInput}),
   headers: {
@@ -131,25 +131,47 @@ window.location.reload(true)
     });
 
     }
-  }
-  const deleteTicket =  (value)=>{
-    setTimeout(()=>{
-      window.location.reload(true)
-      // fetchData();
-    }, 3000)
-    const delete1 = async()=>{
-    await fetch("https://parking-management-system-pms.onrender.com/deleteTicket", {
+  } 
+  const deleteTicket =  async(value)=>{
+    await fetch("http://localhost:8000/deleteTicket", {
       method: 'delete',
       body: JSON.stringify({value}),
       headers: {
           'Content-Type': 'application/json'
       }
     });
+    fetchData()
   }
-  delete1()
-    // window.location(true);
-    
+
+  const publish = async (e, value)=>{
+// e.preventDefault()
+    await fetch("http://localhost:8000/publishTicket", {
+      method: 'post',
+      body: JSON.stringify({value}),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    });
+fetchData()
   }
+  const reReview = async (value)=>{
+// e.preventDefault()
+console.log(value)
+// setTimeout(()=>{
+// window.location.reload(true)
+// fetchData()
+// }, 0)
+    await fetch("http://localhost:8000/reviewAgainTicket", {
+      method: 'post',
+      body: JSON.stringify({value}),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    });
+
+fetchData()
+  }
+
 
     return(
         <div className="body">
@@ -173,7 +195,7 @@ window.location.reload(true)
     <th className="table table2">End time</th>
     <th className="table table2">Status</th>
     { isType == 2 ? <th className="table table2">Accept/Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th> : <></>}
-  </tr>
+  {isType==0 ? <th className="table table2">Action</th> : <></>}</tr>
   
   </thead>
   <tbody>
@@ -185,11 +207,23 @@ window.location.reload(true)
         <td className="table">{values.contactNumber}</td>
         <td className="table">  {moment(values.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
         <td className="table">{moment(values.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
-        <td className="table"> {values.status == 0?"pending" : values.status==1 ? "accept" : "reject"} </td>
+        <td className="table"> <>{values.semiStatus == 0?"pending" : values.semiStatus==1 ? "accept" : values.semiStatus== 2 ? "reject" : "Re-Review"}</>
+          <span>
+{isType==0 ? 
+<span><br/>
+  {values.status == 1 || values.status==2 ?
+"published"
+: <></>
+}
+</span>
+  
+ : <></>}
+        </span>
+          </td>
         {isType == 2 ? <td className="table"><button onClick={(e)=>acceptFunction(e, values._id)} style={{border: "none", background: "none", cursor: "pointer",}}>Accept</button>/ <button onClick={()=>setHide(!hide)} style={{cursor: "pointer", border: "none", background: "none"}}>Reject </button><br/><button style={{background: "none", border: "none", fontSize: "15px", cursor: "pointer"}}
         onClick={(e)=>{
           console.log(values.Comment)
-          setValueComment(values.Comment)
+          setValueComment(values.semiComment)
           setHideCommentDiv(!hideCommentDiv)
         }}>Comment <span style={{fontSize: "5px"}}>(click here)</span></button></td> : <></>}
         
@@ -207,6 +241,7 @@ window.location.reload(true)
       </div>
 
 }
+{/* popUp of comment  */}
 {
   hideCommentDiv===false ?
   <></>
@@ -217,7 +252,18 @@ window.location.reload(true)
     <button onClick={()=> setHideCommentDiv(false)} style={{background: "none", marginLeft: "70%", cursor: "pointer",  border: "none", fontSize: "2rem"}}>Ok</button>
 </div>
 }
+<td className="table">
+{isType==0 ? 
+<>
+<button className="buttonStyle" onClick={()=>reReview(values._id)}>Re-review</button>
+/
+<button className="buttonStyle" onClick={(e)=>publish(e, values._id)}>Publish</button>
+</>
+:
+<></>
+}
 
+</td>
       </tr>
   
   ))}
@@ -254,7 +300,7 @@ window.location.reload(true)
         <td className="table">{value.contactNumber}</td>
         <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
         <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
-        <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : "reject"}
+        <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : value.status==2 ? "reject" : "Pending"}
          <br/><button onClick={()=>{
           setUserComment(value.Comment)
           setHideCommentDiv(!hideCommentDiv)

@@ -99,7 +99,7 @@ module.exports.createRequests= async (req, resp) => {
         const email1 = resp.temp
         console.log("create", email1)
 
-            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber,  from: req.body.fromDate, to: req.body.toDate, status: 0, Comment: "No Comment"});
+            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber,  from: req.body.fromDate, to: req.body.toDate, status: 0, semiStatus: 0, semiComment: "no comment",  Comment: "No Comment"});
             result = result.toObject();
             delete result.password  
 
@@ -121,7 +121,7 @@ module.exports.getRequests= async (req, resp) => {
         // decoding the jwt token
         let  email2 = resp.temp
         email2 = email2.email
-        console.log("hii", email2)
+        // console.log("hii", email2)
         let data = await collection.findOne({"email": email2})
         // comparing the normal user
         if(data.isType== 1){
@@ -166,8 +166,8 @@ module.exports.changeActive= async(req, resp)=>{
 // accepting the request of user by admin
 module.exports.acceptRequest= async(req, resp)=>{
     try {
-        console.log(req.body)
-        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 1, Comment: "Request Accepted  "}})
+        console.log("accept request")
+        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 3,  semiStatus: 1, semiComment: "Request Accepted", Comment: "Your ticket is reviewing"}})
         return resp.status(200).json({responce: "successfully accepted"})
     } catch (error) {
  return resp.status(500).send("error")       
@@ -178,7 +178,7 @@ module.exports.acceptRequest= async(req, resp)=>{
 module.exports.rejectRequest= async(req, resp)=>{
     try {
         console.log(req.body)
-        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 2, Comment: req.body.comment}})
+        let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 3,  semiStatus: 2, semiComment: req.body.comment, Comment: "Waiting for review"}})
         return resp.status(200).json({responce: "successfully Rejected"})
     } catch (error) {
  return resp.status(500).send("error")       
@@ -256,11 +256,44 @@ module.exports.deleteTicket = async (req, resp)=>{
     }
 }
 
+// publishing the  ticket
+module.exports.publishTicket = async (req, resp)=>{
+    try {
+        console.log(req.body.value)
+        const user = await collection1.findOne({_id: req.body.value})
+        console.log(user)
+        await collection1.updateOne({_id: req.body.value}, {$set: {status : user.semiStatus, Comment: user.semiComment}})
+
+        // let user =await collection1.deleteOne({_id: req.body.value});
+        // console.log(user)
+        return resp.status(200).send("Published")
+    } catch (error) {
+        
+    }
+}
+
+
+// Review the ticket again
+module.exports.reviewAgainTicket= async (req, resp)=>{
+    try {
+        console.log("reviewing")
+        const user = await collection1.findOne({_id: req.body.value})
+        console.log(user)
+        await collection1.updateOne({_id: user._id}, {$set: {status: 3,  semiStatus: 3, Comment: "Your ticket is reviewing"}})
+
+        // let user =await collection1.deleteOne({_id: req.body.value});
+        // console.log(user)
+        return resp.status(200).send("Published")
+    } catch (error) {
+        
+    }
+}
+
 
 // Middleware of all the  functions
 module.exports.middleWare= (req, resp, next)=>{
     let dCode = Jwt.decode(req.body.token)
-    console.log("hello")
+    // console.log("hello")
     resp.temp = dCode;
     return next()
 }

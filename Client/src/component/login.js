@@ -19,7 +19,7 @@ const Login = ()=>{
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        let result = await fetch("https://parking-management-system-pms.onrender.com/login", {
+        let result = await fetch("http://localhost:8000/login", {
             method: 'post',
             body: JSON.stringify({ email, password }),
                 headers: {
@@ -41,7 +41,7 @@ const Login = ()=>{
             });
             // setTimeout(()=>{
                 navigate('/')
-            // }, 1000)
+            // }, 0)
 
         }
         else if(result.responce === false){

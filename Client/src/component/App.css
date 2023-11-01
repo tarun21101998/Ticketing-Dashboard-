@@ -297,3 +297,8 @@ thead tr th{
 tbody tr td{
   background-color:   white;
 }
+.buttonStyle{
+  border: none;
+  background: none;
+  cursor: pointer;
+}
