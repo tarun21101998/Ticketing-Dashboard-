@@ -96,7 +96,7 @@ onChange={(e) => setPassword(e.target.value)} value={password} />
 <select onChange={handleSignUp} required>
 <option value="user">User</option>
     <option value="admin">Admin</option>
-    <option value="review">Review</option>
+    <option value="review">Reviewer</option>
 </select><br/><br/>
 {adminId === 0 || adminId === 2 ? 
 <>

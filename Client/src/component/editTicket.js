@@ -1,4 +1,5 @@
 import React from "react";
+import moment from"moment";
 import jwt from "jwt-decode";import "./App.css"
 import "./App.css"
 import { useParams, useNavigate  } from "react-router-dom";
@@ -12,9 +13,9 @@ const param = useParams();
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
     const [contactNumber, setContactNumber] = React.useState(0);
-    const [fromDate, setFromDate] = React.useState(0)
+    let [fromDate, setFromDate] = React.useState('2010-01-01T11:00')
     const navigate = useNavigate();
-    const [toDate, setToDate] = React.useState(0)
+    const [toDate, setToDate] = React.useState('0000-00-00T00:00')
     const [message, setMessage] = React.useState("")
 
     const getUserDetails = async()=>{    
@@ -26,12 +27,19 @@ const param = useParams();
                 }
             });
             result = await result.json();
+            let startDate = moment(result.from).format("YYYY-MM-DDTHH:mm:SS")
+            let endDate = moment(result.to).format("YYYY-MM-DDTHH:mm:SS")
+
+            startDate = startDate.toString()
+            endDate = endDate.toString()
+// d1 = d1.toString();
+            // console.log(d1)
 if(result){
     setName(result.name);
     setNumber(result.number)
     setContactNumber(result.contactNumber);
-    // setFromDate(11-11-2020)
-    // setToDate(result.toDate);
+    setFromDate(startDate)    
+    setToDate(endDate);
 }
 
         }
@@ -57,10 +65,13 @@ if(result){
         if(name && number && contactNumber && fromDate && toDate){
         e.preventDefault()
         // console.log.target.value(e)
-        const date1 = new Date(fromDate)
-        const date2 = new Date(toDate)
+        const date1 = new Date(Date.parse(fromDate))
+        const date2 = new Date(Date.parse(toDate))
+        // console.log(date1)
+        setFromDate(date1);
+        setToDate(date2)
         if(date1 > date2){
-            console.log("short")
+            // console.log("short")
             toast.error('Starting date should be less than ending date', {
                 position: toast.POSITION.TOP_right
             });
@@ -69,8 +80,8 @@ if(result){
             return;
         }
         else{
-            sessionStorage.removeItem('editId')
-            navigate('/tickets  ')    
+            // sessionStorage.removeItem('editId')
+            // navigate('/tickets  ')    
         await fetch("http://localhost:8000/editTicket", {
             method: 'post',
             body: JSON.stringify({ name, number, contactNumber, fromDate, toDate,   param}),

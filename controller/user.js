@@ -231,11 +231,11 @@ return resp.status(200).json({responce: true, email: req.body.editNewEmail})
 }
 module.exports.editRequest= async (req, resp)=>{
     try {
-        console.log(req.body)
+        console.log(req.body.fromDate)
         let user = await collection1.findOne({_id: req.body.param.id})
         console.log(user)
 if(user.status ==0){
-        await collection1.updateOne({_id: req.body.param.id}, {$set: {name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber, from: req.body.from, to: req.body.to}})
+        await collection1.updateOne({_id: req.body.param.id}, {$set: {name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber, from: req.body.fromDate, to: req.body.toDate}})
         resp.status(200).send("successfully updated")
         }
         else{
