@@ -1,0 +1,23 @@
+To run the Project  through docker  in windows
+
+Step1:  Install docker in windows
+
+<!-- Run command to create docker image through docker file -->
+Step2: docker build -t <image name> .
+
+<!-- Start the docker container through docker image  -->
+Step3: docker run -it -p 3000:3000 --name <container name> <image name>
+
+<!-- Dependencies  installed to run this react app on windows -->
+first install <node v20.9.0> <10.1.0>
+1. npm install <Install node_modules>
+2.  npm install moment
+3. npm install react-dom
+4. react-router-dom
+5. npm install react-scripts
+6. npm install react-toastify
+7.  npm install web-vitals
+
+
+Run command 
+<npm start>
