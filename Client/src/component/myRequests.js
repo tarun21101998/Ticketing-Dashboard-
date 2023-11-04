@@ -1,4 +1,5 @@
 import React from "react";
+import variable from "./env.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from"moment";
@@ -49,7 +50,7 @@ const [dataPerPage, setDataPerPage]= useState(10)
       }
       // ascendingDateSort()
       const fetchData = async()=>{    
-        let result = await fetch("http://51.20.190.136:8000/sendrequests", {
+        let result = await fetch(variable+"/sendrequests", {
                 method: 'post',
                 body: JSON.stringify({token}),
                 headers: {
@@ -99,7 +100,7 @@ const prePage = ()=>{
   const acceptFunction = async (e, value)=>{
     // <EditData />
 // console.log(value)
-await fetch("http://51.20.190.136:8000/acceptRequest", {
+await fetch(variable+"/acceptRequest", {
   method: 'post',
   body: JSON.stringify({value}),
   headers: {
@@ -115,7 +116,7 @@ window.location.reload(true )
     console.log(value);
     if(commentInput){
       setHide(false)
-    await fetch("http://51.20.190.136:8000/rejectRequest", {
+    await fetch(variable+"/rejectRequest", {
   method: 'post',
   body: JSON.stringify({value, comment: commentInput}),
   headers: {
@@ -133,7 +134,7 @@ window.location.reload(true)
     }
   } 
   const deleteTicket =  async(value)=>{
-    await fetch("http://51.20.190.136:8000/deleteTicket", {
+    await fetch(variable+"/deleteTicket", {
       method: 'delete',
       body: JSON.stringify({value}),
       headers: {
@@ -145,7 +146,7 @@ window.location.reload(true)
 
   const publish = async (e, value)=>{
 // e.preventDefault()
-    await fetch("http://51.20.190.136:8000/publishTicket", {
+    await fetch(variable+"/publishTicket", {
       method: 'post',
       body: JSON.stringify({value}),
       headers: {
@@ -161,7 +162,7 @@ console.log(value)
 // window.location.reload(true)
 // fetchData()
 // }, 0)
-    await fetch("http://51.20.190.136:8000/reviewAgainTicket", {
+    await fetch(variable+"/reviewAgainTicket", {
       method: 'post',
       body: JSON.stringify({value}),
       headers: {

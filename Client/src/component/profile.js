@@ -2,6 +2,7 @@ import React from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect} from "react";
+import variable from "./env.js";
 import {useNavigate  } from "react-router-dom";
 
 
@@ -24,7 +25,7 @@ const[editLastName, setEditLastName] = useState("")
     useEffect(()=>{
 
         const fetchData = async()=>{    
-        let result = await fetch("http://51.20.190.136:8000/profile", {
+        let result = await fetch(variable+"/profile", {
                 method: 'post',
                 body: JSON.stringify({token}),
                 headers: {
@@ -46,7 +47,7 @@ const editData1 = async (e)=>{
     setData1(false)
     // window.location.reload(true)
     // navigate("/profile")
-    let result = await fetch("http://51.20.190.136:8000/editNameProfile", {
+    let result = await fetch(variable+"/editNameProfile", {
         method: 'post',
         body: JSON.stringify({token, editFirstName, editLastName}),
         headers: {
@@ -70,7 +71,7 @@ const handleChange = async (e)=>{
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     // console.log(e.target.files)
-    const result = await fetch("http://51.20.190.136:8000/upload", {
+    const result = await fetch(variable+"/upload", {
         method: "POST",
         body: formData,
       });
@@ -86,7 +87,7 @@ const updateEmail = async (e)=>{
     setData2(false)
     // window.location.reload(true)
     // navigate("/profile")
-    let result = await fetch("http://51.20.190.136:8000/editEmailProfile", {
+    let result = await fetch(variable+"/editEmailProfile", {
         method: 'post',
         body: JSON.stringify({token, editNewEmail}),
         headers: {

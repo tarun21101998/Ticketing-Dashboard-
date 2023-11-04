@@ -1,4 +1,5 @@
 import React from "react";
+import variable from "./env.js";
 import jwt from "jwt-decode";import "./App.css"
 import "./App.css"
 import {useNavigate  } from "react-router-dom";
@@ -41,7 +42,7 @@ const CreateRequests= ()=>{
             return;
         }
         else{
-        await fetch("http://51.20.190.136:8000/requests", {
+        await fetch(variable+"/requests", {
             method: 'post',
             body: JSON.stringify({ name, number, contactNumber, fromDate, toDate, token}),
             headers: {

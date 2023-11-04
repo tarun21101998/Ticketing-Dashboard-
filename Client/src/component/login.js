@@ -5,10 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
         import "./App.css"
 import {useNavigate  } from "react-router-dom";
 import { defaultFormat } from "moment/moment";
+import variable from "./env.js";
 // toast.configure()
 
 
 const Login = ()=>{
+    console.log(variable)
     const [showHidePassword, setShowHidePassword] = useState(false)
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -19,7 +21,7 @@ const Login = ()=>{
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        let result = await fetch("http://51.20.190.136:8000/login", {
+        let result = await fetch(variable+"/login", {
             method: 'post',
             body: JSON.stringify({ email, password }),
                 headers: {

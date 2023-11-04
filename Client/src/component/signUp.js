@@ -1,4 +1,5 @@
 import React from "react";
+import variable from "./env.js";
 import { useEffect, useState } from "react";
 import "./App.css"
 import { Link ,   useNavigate  } from "react-router-dom";
@@ -40,7 +41,7 @@ const SignUp= ()=>{
         e.preventDefault();
         // conTypesole.log(20)
         if(email  && firstName && lastName && password){
-        let result = await fetch("http://51.20.190.136:8000/users", {
+        let result = await fetch(variable+"/users", {
             method: 'post',
             body: JSON.stringify({firstName, lastName, email, password, isType}),
                 headers: {

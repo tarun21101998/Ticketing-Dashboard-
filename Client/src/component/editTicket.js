@@ -1,4 +1,5 @@
 import React from "react";
+import variable from "./env.js";
 import moment from"moment";
 import jwt from "jwt-decode";import "./App.css"
 import "./App.css"
@@ -19,7 +20,7 @@ const param = useParams();
     const [message, setMessage] = React.useState("")
 
     const getUserDetails = async()=>{    
-        let result = await fetch("http://51.20.190.136:8000/getUserDetail", {
+        let result = await fetch(variable+"/getUserDetail", {
                 method: 'post',
                 body: JSON.stringify({param}),
                 headers: {
@@ -83,7 +84,7 @@ if(result){
         else{
             // sessionStorage.removeItem('editId')
             // navigate('/tickets  ')    
-        await fetch("http://51.20.190.136/editTicket", {
+        await fetch(variable+"/editTicket", {
             method: 'post',
             body: JSON.stringify({ name, number, contactNumber, fromDate, toDate,   param}),
             headers: {

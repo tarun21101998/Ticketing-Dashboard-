@@ -5,6 +5,7 @@ import Error from './error';
 import "./App.css"
 import { useState } from 'react';
 import { useEffect } from 'react';
+import variable from "./env.js";
 
 const Listing = () => {
   const token = JSON.parse(sessionStorage.getItem('token'))
@@ -15,7 +16,7 @@ const Listing = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [dataPerPage, setDataPerPage] = useState(10);
   const function1 = async ()=>{
-    let result = await fetch(`http://51.20.190.136:8000/users?token=${token}`, {
+    let result = await fetch(`${variable}/users?token=${token}`, {
       method: 'get',
       // body: JSON.stringify({token}),
       headers: {
@@ -83,7 +84,7 @@ else{
   const active = async (e, value)=>{
     await setChangeActive(value)
     console.log(changeActive)
-        let result = await fetch("http://51.20.190.136/changeActive", {
+        let result = await fetch(variable+"/changeActive", {
             method: 'post',
             body: JSON.stringify({value}),
                 headers: {
