@@ -84,7 +84,7 @@ required />
 onChange={(e) => setLastName(e.target.value)} value={lastName}
 required />
 
-
+<br/>
 <br/><label>Email ID</label>
 <br/> <br/><input type="text" placeholder="Enter your emailId" 
 onChange={(e) => setEmail(e.target.value)} value={email}
