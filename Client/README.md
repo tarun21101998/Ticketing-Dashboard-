@@ -9,7 +9,7 @@ Step2: docker build -t <image name> .
 Step3: docker run -it -p 3000:3000 --name <container name> <image name>
 
 <!-- Dependencies  installed to run this react app on windows -->
-first install <node v20.9.0> <10.1.0>
+first install <node v20.9.0>                npm <10.1.0>
 1. npm install <Install node_modules>
 2.  npm install moment
 3. npm install react-dom

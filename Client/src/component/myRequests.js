@@ -101,7 +101,7 @@ const prePage = ()=>{
     // <EditData />
 // console.log(value)
 await fetch(variable+"/acceptRequest", {
-  method: 'post',
+  method: 'put',
   body: JSON.stringify({value}),
   headers: {
       'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ window.location.reload(true )
     if(commentInput){
       setHide(false)
     await fetch(variable+"/rejectRequest", {
-  method: 'post',
+  method: 'put',
   body: JSON.stringify({value, comment: commentInput}),
   headers: {
       'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ window.location.reload(true)
   const publish = async (e, value)=>{
 // e.preventDefault()
     await fetch(variable+"/publishTicket", {
-      method: 'post',
+      method: 'put',
       body: JSON.stringify({value}),
       headers: {
           'Content-Type': 'application/json'
@@ -163,7 +163,7 @@ console.log(value)
 // fetchData()
 // }, 0)
     await fetch(variable+"/reviewAgainTicket", {
-      method: 'post',
+      method: 'put',
       body: JSON.stringify({value}),
       headers: {
           'Content-Type': 'application/json'

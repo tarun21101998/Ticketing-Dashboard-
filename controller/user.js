@@ -8,7 +8,7 @@ const jwtKey = 'e-com';
 // fetching the data of user
 module.exports.getData = async (req, resp) => {
     try {
-        console.log(req.query   )
+        // console.log(req.query.params.param.id)
         const dCode = resp.temp
         if(dCode.isType == 2 || dCode.isType == 0){
         const result = await collection.find({})
@@ -188,6 +188,7 @@ module.exports.rejectRequest= async(req, resp)=>{
 // fetching the data of user for profile
 module.exports.profile = async (req,  resp)=>{
     try {
+        // console.log(req.body)
         const data = resp.temp;
         const user = await collection.findOne({_id: data._id})
         return resp.status(200).json({firstName: user.firstName, lastName: user.lastName, email: user.email})
@@ -198,7 +199,7 @@ return resp.status(500).json({responce: 500})
 }
 
 
-module.exports. editNameProfile1 = async (req, resp)=>{
+module.exports.editNameProfile1 = async (req, resp)=>{
     try {
         console.log("update")
         // const user = Jwt.decode(req.body.token)
@@ -231,7 +232,7 @@ return resp.status(200).json({responce: true, email: req.body.editNewEmail})
 }
 module.exports.editRequest= async (req, resp)=>{
     try {
-        console.log(req.body.fromDate)
+        console.log(req.body)
         let user = await collection1.findOne({_id: req.body.param.id})
         console.log(user)
 if(user.status ==0){
@@ -294,9 +295,9 @@ module.exports.reviewAgainTicket= async (req, resp)=>{
 // get data for update
 module.exports.getUserDetail = async(req, resp)=>{
     try {
-        // console.log(req.body.param.id)
-        const user = await collection1.findOne({_id: req.body.param.id})
-        console.log(user);
+        console.log(req.query.params)
+        const user = await collection1.findOne({_id: req.query.params})
+        // console.log(user);
         return resp.status(200).send(user)
     } catch (error) {
         

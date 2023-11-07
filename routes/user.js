@@ -20,27 +20,27 @@ router.post('/requests', user.middleWare,  user.createRequests)
 router.post('/sendrequests', user.middleWare,  user.getRequests)
 
 // activation and deactivation of user
-router.post('/changeActive', user.changeActive)
+router.put('/changeActive', user.changeActive)
 // Request is accepting
-router.post('/acceptRequest', user.acceptRequest)
+router.put('/acceptRequest', user.acceptRequest)
 
 // rejecting the request
-router.post('/rejectRequest', user.rejectRequest)
+router.put('/rejectRequest', user.rejectRequest)
 // profile fetch data
-router.post('/profile', user.middleWare,  user.profile)
+router.get('/profile', user.getMiddleWare,  user.profile)
 
 // edit the first and last name
-router.post('/editNameProfile', user.middleWare, user.editNameProfile1)
+router.put('/editNameProfile', user.middleWare, user.editNameProfile1)
 
-router.post('/editEmailProfile', user.middleWare,   user.editEmailProfile)
-router.post('/editTicket', user.editRequest)
+router.put('/editEmailProfile', user.middleWare,   user.editEmailProfile)
+router.put('/editTicket', user.editRequest)
 router.delete('/deleteTicket', user.deleteTicket)
 // Publish ticket
-router.post('/publishTicket', user.publishTicket)
+router.put('/publishTicket', user.publishTicket)
 
 // reReview the ticket
-router.post('/reviewAgainTicket', user.reviewAgainTicket)
+router.put('/reviewAgainTicket', user.reviewAgainTicket)
 
 // Get data for update
-router.post('/getUserDetail', user.getUserDetail)
+router.get('/getUserDetail', user.getUserDetail)
 module.exports = router;

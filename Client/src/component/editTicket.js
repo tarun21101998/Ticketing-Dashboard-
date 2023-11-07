@@ -8,7 +8,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditTicket = ()=>{
-const param = useParams();
+let param = useParams();
+let param1 = param.id;
+console.log(param1)
+
 
 
     const [name, setName] = React.useState('');
@@ -20,9 +23,8 @@ const param = useParams();
     const [message, setMessage] = React.useState("")
 
     const getUserDetails = async()=>{    
-        let result = await fetch(variable+"/getUserDetail", {
-                method: 'post',
-                body: JSON.stringify({param}),
+        let result = await fetch(`${variable}/getUserDetail?params=${param1}`, {
+                method: 'get',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -85,7 +87,7 @@ if(result){
             // sessionStorage.removeItem('editId')
             // navigate('/tickets  ')    
         await fetch(variable+"/editTicket", {
-            method: 'post',
+            method: 'put',
             body: JSON.stringify({ name, number, contactNumber, fromDate, toDate,   param}),
             headers: {
                 'Content-Type': 'application/json'

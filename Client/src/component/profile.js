@@ -13,7 +13,8 @@ const Profile = ()=>{
     const navigate = useNavigate();
 
     const   token= JSON.parse(sessionStorage.getItem('token'));
-const [firstName, setFirstName] = useState("")
+console.log(token)
+    const [firstName, setFirstName] = useState("")
 const [err, setErr] = useState("")
 const [lastName, setLastName] = useState("");
 const [email, setEmail] = useState("")
@@ -25,9 +26,9 @@ const[editLastName, setEditLastName] = useState("")
     useEffect(()=>{
 
         const fetchData = async()=>{    
-        let result = await fetch(variable+"/profile", {
-                method: 'post',
-                body: JSON.stringify({token}),
+        let result = await fetch(`${variable}/profile?token=${token}`, {
+                method: 'get',
+                // body: JSON.stringify({token}),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -48,7 +49,7 @@ const editData1 = async (e)=>{
     // window.location.reload(true)
     // navigate("/profile")
     let result = await fetch(variable+"/editNameProfile", {
-        method: 'post',
+        method: 'put',
         body: JSON.stringify({token, editFirstName, editLastName}),
         headers: {
             'Content-Type': 'application/json'
@@ -88,7 +89,7 @@ const updateEmail = async (e)=>{
     // window.location.reload(true)
     // navigate("/profile")
     let result = await fetch(variable+"/editEmailProfile", {
-        method: 'post',
+        method: 'put',
         body: JSON.stringify({token, editNewEmail}),
         headers: {
             'Content-Type': 'application/json'
