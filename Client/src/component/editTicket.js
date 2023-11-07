@@ -13,7 +13,7 @@ let param1 = param.id;
 console.log(param1)
 
 
-
+const [slot, setSlot]= React.useState()
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
     const [contactNumber, setContactNumber] = React.useState(0);
@@ -41,6 +41,7 @@ if(result){
     setName(result.name);
     setNumber(result.number)
     setContactNumber(result.contactNumber);
+    setSlot(result.slot)
     setFromDate(startDate)    
     setToDate(endDate);
 }
@@ -138,6 +139,13 @@ onChange={(e) => setContactNumber(e.target.value)} value={contactNumber} />
 <input type="datetime-local" step="2" required onChange = {handleFromDate} style={{width: "40%"}} value={fromDate}/>
 <input type="datetime-local" step="2" onChange={handleToDate} required style={{width: "40%"}} value={toDate} />
 </div>
+<br/> 
+<label>Slot</label>
+<br/><input type="text" placeholder="Enter the Slot Number" required 
+onChange={(e) => setSlot(e.target.value)} value={slot} />
+
+
+
 <br/>
 <span>{message}</span>
 <br/><button onClick={handleRequest} type="submit" style={{width: "30%" }} >Submit Ticket</button>

@@ -12,6 +12,12 @@ import { Link ,   useNavigate  } from "react-router-dom";
 import EditTicket from "./editTicket";
 
 const MyRequests= ()=>{
+  const [userContactNumber, setUserContactNumber] = React.useState()
+  const [userCarName, setUserCarName] = React.useState("")
+  const [userSlot, setUserSlot] = React.useState()
+  const [userCarNumber, setUserCarNumber] = React.useState("")
+  const [userFrom, setUserFrom] = React.useState("")
+  const [userTo, setUserTo] = React.useState("")
   const [editData, setEditData] = useState(false)
   const [firstName, setFirstName] = React.useState("")
   const [userComment, setUserComment] = useState("")
@@ -176,7 +182,7 @@ fetchData()
 
     return(
         <div className="body">
-          <div className="header">Hey,{firstName} </div>
+          <div className="header">Hey,{firstName}<> {isType===0  ? <span><br/>(Admin)</span> : isType===2 ? <span><br/>(Reviewer)</span> : <> </>}</>  </div>
               <div className="input">
     <button style={{backgroundColor: "brown", height: "10%", marginRight: "20px", border: "none", cursor: "pointer"}} onClick={ascendingDateSort }>Descending</button>    
 
@@ -192,6 +198,8 @@ fetchData()
     <th className="table table2">Name</th>
     <th className="table table2">Number</th>
     <th className="table table2">Contact Number</th>
+    <th className="table table2">Slot</th>
+
     {/* <th className="table table2">isActive</th> */}
     <th className="table table2">Start time</th>
     <th className="table table2">End time</th>
@@ -208,6 +216,7 @@ fetchData()
         <td className="table">{values.name}</td>
         <td className="table">{values.number}</td>
         <td className="table">{values.contactNumber}</td>
+        <td className="table">{values.slot}</td>
         <td className="table">  {moment(values.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
         <td className="table">{moment(values.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
         <td className="table"> <>{values.semiStatus == 0?"pending" : values.semiStatus==1 ? "accept" : values.semiStatus== 2 ? "reject" : "Re-Review"}</>
@@ -286,9 +295,10 @@ fetchData()
     <th className="table table2">Name</th>
     <th className="table table2">Number</th>
     <th className="table table2">Contact Number</th>
-    <th className="table table2">Start time</th>
-    <th className="table table2">End time</th>
+    {/* <th className="table table2">Start time</th> */}
+    {/* <th className="table table2">End time</th> */}
     <th className="table table2">Status</th>
+    <th className="table table2">Ticket ID</th>
     <th className="table table2">Edit/Delete</th>
 
   </tr>
@@ -304,13 +314,21 @@ fetchData()
         <td className="table">{value.name}</td>
         <td className="table">{value.number}</td>
         <td className="table">{value.contactNumber}</td>
-        <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td>
-        <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td>
+        {/* <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td> */}
+        {/* <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td> */}
         <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : value.status==2 ? "reject" : "Pending"}
-         <br/><button onClick={()=>{
+         </td>
+         <td className="table">
+         <button onClick={()=>{
           setUserComment(value.Comment)
+          setUserCarName(value.name)
+          setUserCarNumber(value.number)
+          setUserContactNumber(value.contactNumber)
+          setUserFrom(value.from)
+          setUserTo(value.to)
+          setUserSlot(value.slot)
           setHideCommentDiv(!hideCommentDiv)
-         }} style={{cursor: "pointer", border: "none", background: "none"}}  >See comment</button>
+         }} style={{cursor: "pointer", border: "none", background: "none"}}  >#{value._id}</button>
          </td>
          { value.status ==0 ? <td className="table"><Link to={"/editTicket/"+value._id}>Edit</Link> / <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
          :
@@ -322,9 +340,20 @@ fetchData()
   hideCommentDiv===false ?
   <></>
   :
-  <div className="popup1">
-    <h1>Comment</h1>
-    <p>{userComment}</p>
+  <div className="popup1 popup2">
+    <h1 style={{textAlign: "center"}}>Ticket Details</h1>
+    <ul>
+    {/* <ul> */}
+    <li>Vehicle: &nbsp;{userCarName}</li>
+    <li>Vehicle Number: &nbsp;{userCarNumber}</li>
+    <li>Contact Number: &nbsp;{userContactNumber}</li>
+    <li>Slot: &nbsp;{userSlot}</li>
+    <li>Start Time: &nbsp; {moment(userFrom).format('MMMM Do YYYY, h:mm:ss a')}</li>
+    <li>End Time: &nbsp; {moment(userTo).format('MMMM Do YYYY, h:mm:ss a')}</li>
+    <li>Comment: &nbsp;{userComment}</li>
+    {/* </ul> */}
+
+    </ul>
     <button onClick={()=> setHideCommentDiv(false)} style={{background: "none", marginLeft: "70%", cursor: "pointer",  border: "none", fontSize: "2rem"}}>Ok</button>
 </div>
 }

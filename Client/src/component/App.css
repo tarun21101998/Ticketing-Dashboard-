@@ -309,3 +309,10 @@ tbody tr td{
   text-align : center;
   font-size: 2rem;
 }
+.popup2{
+  /* display: none; */
+  display: fex;
+  justify-content: right;
+  flex-direction: row;
+  text-align: left;
+}

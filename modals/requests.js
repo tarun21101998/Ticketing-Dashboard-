@@ -18,6 +18,10 @@ const requestsSchema = new mongoose.Schema({
         type: Number,
         require: true
     },
+    slot: {
+        type: String,
+        require: true
+    },
     from: {
         type: Date,
         require: true

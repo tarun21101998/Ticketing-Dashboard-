@@ -99,7 +99,7 @@ module.exports.createRequests= async (req, resp) => {
         const email1 = resp.temp
         console.log("create", email1)
 
-            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber,  from: req.body.fromDate, to: req.body.toDate, status: 0, semiStatus: 0, semiComment: "no comment",  Comment: "No Comment"});
+            let result = await collection1.create({email: email1.email, name: req.body.name, number: req.body.number, contactNumber: req.body.contactNumber, slot: req.body.slot, from: req.body.fromDate, to: req.body.toDate, status: 0, semiStatus: 0, semiComment: "no comment",  Comment: "No Comment"});
             result = result.toObject();
             delete result.password  
 
