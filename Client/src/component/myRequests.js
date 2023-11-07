@@ -196,8 +196,9 @@ fetchData()
     <th className="table table2">Start time</th>
     <th className="table table2">End time</th>
     <th className="table table2">Status</th>
-    { isType == 2 ? <th className="table table2">Accept/Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th> : <></>}
-  {isType==0 ? <th className="table table2">Action</th> : <></>}</tr>
+    { isType == 2 ? <th className="table table2">Accept/<br/>Reject<br/> <span style={{fontSize: "1rem"}}>(click)</span></th> : <></>}
+  {isType==0 ? <th className="table table2">Action</th> : <></>}
+  </tr>
   
   </thead>
   <tbody>
@@ -254,18 +255,21 @@ fetchData()
     <button onClick={()=> setHideCommentDiv(false)} style={{background: "none", marginLeft: "70%", cursor: "pointer",  border: "none", fontSize: "2rem"}}>Ok</button>
 </div>
 }
-<td className="table">
+
 {isType==0 ? 
-<>
+  <td className="table">
+
 <button className="buttonStyle" onClick={()=>reReview(values._id)}>Re-review</button>
 /
 <button className="buttonStyle" onClick={(e)=>publish(e, values._id)}>Publish</button>
-</>
-:
-<></>
-}
 
 </td>
+:
+<></>
+// 
+}
+
+
       </tr>
   
   ))}

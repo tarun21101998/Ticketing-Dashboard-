@@ -42,5 +42,5 @@ const requestsSchema = new mongoose.Schema({
 {timestamps : true}
 )
 
-const requests= mongoose.model('Requests', requestsSchema)
-module.exports = requests;
+const Tickets= mongoose.model('Tickets', requestsSchema)
+module.exports = Tickets;
