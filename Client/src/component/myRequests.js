@@ -194,6 +194,7 @@ fetchData()
           <table className="table table1" style={{tableLayout: "fixed"}}>
   <thead>
   <tr>
+  <th className="table table2">Ticket ID</th>
     <th className="table table2">Email ID</th>
     <th className="table table2">Name</th>
     <th className="table table2">Number</th>
@@ -212,6 +213,7 @@ fetchData()
   <tbody>
   {newData.map((values, index)=>(
         <tr key={index}>
+          <td className="table">#{values._id}</td>
         <td className="table">{values.email}</td>
         <td className="table">{values.name}</td>
         <td className="table">{values.number}</td>
