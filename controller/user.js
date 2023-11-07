@@ -123,16 +123,19 @@ module.exports.getRequests= async (req, resp) => {
         email2 = email2.email
         // console.log("hii", email2)
         let data = await collection.findOne({"email": email2})
+        console.log(data.firstName)
         // comparing the normal user
         if(data.isType== 1){
             let user1 = await collection1.find({email: data.email});
+            // let user2 = await collection.find({email: data.email});
+// console.log(user2)
             // console.log(user1)
-            return resp.status(200).json({type: data.isType, user1: user1})
+            return resp.status(200).json({lastName: data.lastName,  type: data.isType, user1: user1, firstName: data.firstName})
         }
         else{
             // comparing the  type of user 0 and 2 is for admin and reviewer 
             let admin = await collection1.find({})
-            return resp.status(200).json({data: data.isType, user1: admin})
+            return resp.status(200).json({lastName: data.lastName,  data: data.isType, user1: admin, firstName: data.firstName})
         }
     }
 

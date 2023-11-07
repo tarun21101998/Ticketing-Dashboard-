@@ -17,7 +17,7 @@ router.get('/users', user.getMiddleWare,  user.getData)
 router.post('/requests', user.middleWare,  user.createRequests)
 
 // getting data from and compare from dataBase and sending the result  frontEnd
-router.post('/sendrequests', user.middleWare,  user.getRequests)
+router.get('/sendrequests', user.getMiddleWare,  user.getRequests)
 
 // activation and deactivation of user
 router.put('/changeActive', user.changeActive)

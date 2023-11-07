@@ -13,6 +13,7 @@ import EditTicket from "./editTicket";
 
 const MyRequests= ()=>{
   const [editData, setEditData] = useState(false)
+  const [firstName, setFirstName] = React.useState("")
   const [userComment, setUserComment] = useState("")
   const [valueComment, setValueComment]= useState("")
   const [hideCommentDiv, setHideCommentDiv] = useState(false)
@@ -50,23 +51,22 @@ const [dataPerPage, setDataPerPage]= useState(10)
       }
       // ascendingDateSort()
       const fetchData = async()=>{    
-        let result = await fetch(variable+"/sendrequests", {
-                method: 'post',
-                body: JSON.stringify({token}),
+        let result = await fetch(`${variable}/sendrequests?token=${token}`, {
+                method: 'get',
+                // body: JSON.stringify({token}),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             result = await result.json();
-            // console.log(result.data)
+            console.log(result.firstName)
             setIsType(result.data)
+            setFirstName(result.firstName + " "+result.lastName);
             result= result.user1
             const data1 =  [...result].sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt));
-            // console.log(data1)
             if(result){
                 setData(data1)
                 setArr(data1)
-                // console.log(data)
             }
         }
     
@@ -176,6 +176,7 @@ fetchData()
 
     return(
         <div className="body">
+          <div className="header">Hey,{firstName} </div>
               <div className="input">
     <button style={{backgroundColor: "brown", height: "10%", marginRight: "20px", border: "none", cursor: "pointer"}} onClick={ascendingDateSort }>Descending</button>    
 
