@@ -20,12 +20,12 @@ router.post('/requests', user.middleWare,  user.createRequests)
 router.get('/sendrequests', user.getMiddleWare,  user.getRequests)
 
 // activation and deactivation of user
-router.put('/changeActive', user.changeActive)
+router.put('/changeActive', user.middleWare,  user.changeActive)
 // Request is accepting
-router.put('/acceptRequest', user.acceptRequest)
+router.put('/acceptRequest', user.middleWare,  user.acceptRequest)
 
 // rejecting the request
-router.put('/rejectRequest', user.rejectRequest)
+router.put('/rejectRequest', user.middleWare,  user.rejectRequest)
 // profile fetch data
 router.get('/profile', user.getMiddleWare,  user.profile)
 
@@ -33,8 +33,8 @@ router.get('/profile', user.getMiddleWare,  user.profile)
 router.put('/editNameProfile', user.middleWare, user.editNameProfile1)
 
 router.put('/editEmailProfile', user.middleWare,   user.editEmailProfile)
-router.put('/editTicket', user.editRequest)
-router.delete('/deleteTicket', user.deleteTicket)
+router.put('/editTicket', user.middleWare,  user.editRequest)
+router.delete('/deleteTicket', user.middleWare,  user.deleteTicket)
 // Publish ticket
 router.put('/publishTicket', user.publishTicket)
 

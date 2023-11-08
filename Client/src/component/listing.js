@@ -85,8 +85,8 @@ else{
     await setChangeActive(value)
     console.log(changeActive)
         let result = await fetch(variable+"/changeActive", {
-            method: 'post',
-            body: JSON.stringify({value}),
+            method: 'put',
+            body: JSON.stringify({value, token}),
                 headers: {
                 'Content-Type': 'application/json'
             }

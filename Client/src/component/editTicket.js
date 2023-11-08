@@ -12,7 +12,8 @@ let param = useParams();
 let param1 = param.id;
 console.log(param1)
 
-
+const token = JSON.parse(sessionStorage.getItem('token'))
+console.log(token)
 const [slot, setSlot]= React.useState()
     const [name, setName] = React.useState('');
     const [number, setNumber] = React.useState('');
@@ -89,7 +90,7 @@ if(result){
             // navigate('/tickets  ')    
         await fetch(variable+"/editTicket", {
             method: 'put',
-            body: JSON.stringify({ name, number, contactNumber, fromDate, toDate,   param}),
+            body: JSON.stringify({ name, number, contactNumber, fromDate, toDate,   param, token}),
             headers: {
                 'Content-Type': 'application/json'
             }

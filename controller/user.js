@@ -64,7 +64,7 @@ module.exports.loginData = async (req, resp, next) => {
             // finding the user inside dataBase
             let user = await collection.findOne({ email: req.body.email });
             if(!user){
-                return resp.status(400).json({responce: false})
+                return resp.status(401).json({responce: false})
             }
             // comparing the password using in hash algorithum
             const passwordHash = await bcrypt.compare(password, user.password)
@@ -77,10 +77,10 @@ module.exports.loginData = async (req, resp, next) => {
                     return resp.status(200).json({firstName: user.firstName, lastName: user.lastName, isActive: user.isActive, isType: user.isType, id: user._id, auth: token })
                 })
             } else {
-                return resp.status(400).json({ result: 'no user found' });
+                return resp.status(401).json({ result: 'no user found' });
             }
         } else {
-            return resp.status(400).json({ result: false });
+            return resp.status(401).json({ result: false });
         }
     }
     catch (err) {
@@ -128,7 +128,7 @@ module.exports.getRequests= async (req, resp) => {
         if(data.isType== 1){
             let user1 = await collection1.find({email: data.email});
             // let user2 = await collection.find({email: data.email});
-// console.log(user2)
+// console.log(user2)N
             // console.log(user1)
             return resp.status(200).json({lastName: data.lastName,  type: data.isType, user1: user1, firstName: data.firstName})
         }
@@ -169,7 +169,7 @@ module.exports.changeActive= async(req, resp)=>{
 // accepting the request of user by admin
 module.exports.acceptRequest= async(req, resp)=>{
     try {
-        console.log("accept request")
+        console.log(req.body)
         let result = await collection1.updateOne({_id:  req.body.value}, {$set: {status: 3,  semiStatus: 1, semiComment: "Request Accepted", Comment: "Your ticket is reviewing"}})
         return resp.status(200).json({responce: "successfully accepted"})
     } catch (error) {
@@ -310,7 +310,7 @@ module.exports.getUserDetail = async(req, resp)=>{
 // Middleware of all the  functions
 module.exports.middleWare= (req, resp, next)=>{
     let dCode = Jwt.decode(req.body.token)
-    // console.log("hello")
+    console.log("middleware is calling")
     resp.temp = dCode;
     return next()
 }

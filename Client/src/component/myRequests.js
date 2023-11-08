@@ -108,7 +108,7 @@ const prePage = ()=>{
 // console.log(value)
 await fetch(variable+"/acceptRequest", {
   method: 'put',
-  body: JSON.stringify({value}),
+  body: JSON.stringify({value, token}),
   headers: {
       'Content-Type': 'application/json'
   }
@@ -124,7 +124,7 @@ window.location.reload(true )
       setHide(false)
     await fetch(variable+"/rejectRequest", {
   method: 'put',
-  body: JSON.stringify({value, comment: commentInput}),
+  body: JSON.stringify({value, comment: commentInput, token}),
   headers: {
       'Content-Type': 'application/json'
   }
@@ -142,7 +142,7 @@ window.location.reload(true)
   const deleteTicket =  async(value)=>{
     await fetch(variable+"/deleteTicket", {
       method: 'delete',
-      body: JSON.stringify({value}),
+      body: JSON.stringify({value, token}),
       headers: {
           'Content-Type': 'application/json'
       }
@@ -213,7 +213,7 @@ fetchData()
   <tbody>
   {newData.map((values, index)=>(
         <tr key={index}>
-          <td className="table">#{values._id}</td>
+          <td className="table">#8{values._id}</td>
         <td className="table">{values.email}</td>
         <td className="table">{values.name}</td>
         <td className="table">{values.number}</td>
@@ -330,7 +330,7 @@ fetchData()
           setUserTo(value.to)
           setUserSlot(value.slot)
           setHideCommentDiv(!hideCommentDiv)
-         }} style={{cursor: "pointer", border: "none", background: "none"}}  >#{value._id}</button>
+         }} style={{cursor: "pointer", border: "none", background: "none"}}  >#8{value._id}</button>
          </td>
          { value.status ==0 ? <td className="table"><Link to={"/editTicket/"+value._id}>Edit</Link> / <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
          :
