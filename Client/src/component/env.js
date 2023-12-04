@@ -1,2 +1,2 @@
-const  variable = 'http://localhost:8000'
+const  variable = 'https://pms-website.onrender.com'
 export default variable;
