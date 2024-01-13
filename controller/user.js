@@ -235,7 +235,7 @@ return resp.status(200).json({responce: true, email: req.body.editNewEmail})
 }
 module.exports.editRequest= async (req, resp)=>{
     try {
-        console.log(req.body)
+        console.log(req.body.param.id)
         let user = await collection1.findOne({_id: req.body.param.id})
         console.log(user)
 if(user.status ==0){
