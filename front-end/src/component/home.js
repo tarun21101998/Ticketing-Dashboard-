@@ -1,16 +1,13 @@
 import React from "react";
-import "./App.css"
+import "./CSS/home.css"
 
 // function for home page
 const Home = ()=>{
     return(
 
-        <div className= "homepage_details">
-
-        Parking Management System (PMS)
-
-        </div>
-
+<div className="body">
+    <div class="rotating-name">Parking Management System (PMS)</div>
+</div>
     );
 }
 export default Home;
