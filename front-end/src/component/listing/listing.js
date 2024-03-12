@@ -1,20 +1,19 @@
 import React from 'react';
-  import moment from"moment";
-import Error from './error';
-
-import "./App.css"
+import Table from './table.js';
+import Error from '../error';
+import "../App.css"
 import { useState } from 'react';
 import { useEffect } from 'react';
-import variable from "./env.js";
+import variable from "../env.js";
 
 const Listing = () => {
   const token = JSON.parse(sessionStorage.getItem('token'))
   const isType = JSON.parse(sessionStorage.getItem('isType'));
   const [message, setMessage] = useState([]);
   const [arr, setArr] = useState([])
-  const [changeActive, setChangeActive]= React.useState()
+
   const [currentPage, setCurrentPage] = useState(1)
-  const [dataPerPage, setDataPerPage] = useState(10);
+  const [dataPerPage, setDataPerPage] = useState(2);
   const function1 = async ()=>{
     let result = await fetch(`${variable}/users?token=${token}`, {
       method: 'get',
@@ -81,21 +80,6 @@ else{
 
   }
 
-  const active = async (e, value)=>{
-    await setChangeActive(value)
-    console.log(changeActive)
-        let result = await fetch(variable+"/changeActive", {
-            method: 'put',
-            body: JSON.stringify({value, token}),
-                headers: {
-                'Content-Type': 'application/json'
-            }
-        });        
-        result = await result.json();
-await setChangeActive(result.result1)
-// window.location.reload(true)
-function1()
-  }
   return (
     <div className="body">
   {isType === 0 || isType===2 ?
@@ -113,43 +97,7 @@ function1()
 
         <input type="text" placeholder="Search by firstName/emailId" value={val} onChange={filterFunction} />
       </div>
-      <div className="table_div">
-        <table className="table table1">
-          <thead>
-            <tr className="tableHead">
-              <th className="table table2">First Name</th>
-              <th className="table table2">Last Name</th>
-              <th className="table table2">Email ID</th>
-              <th className="table table2">Active<br/><span style={{fontSize: "1rem"}}>(click me)</span></th>
-
-              <th className="table table2">Type</th>
-              <th className="table table2">Created At</th>
-              <th className="table table2">Updated At</th>
-            </tr>
-
-          </thead>
-
-
-          <tbody>
-            {newData.map((value, index) => (
-            //  <> 
-              <tr key={index}>
-                <td className="table">{value.firstName}</td>
-                <td className="table">{value.lastName}</td>
-                <td className="table">{value.email}</td>
-                {value.isActive === true ? <td    className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", background: "none", cursor: "pointer"}} >Active</button></td> : <td className="table"><button onClick={(e)=>active(e, value._id)} style={{border: "none", cursor: "pointer", background: "none"}}>Not active</button></td>}
-                {value.isType=== 1 ? <td className="table">User</td> : value.isType == 0 ? <td className="table">Admin</td> : <td className="table">Reviewer</td>}
-                {/* <td className="table">{value.isType===true ? "Admin" : "User"}</td> */}
-                <td className="table">{moment(value.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
-                <td className="table">{moment(value.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
-            
-              </tr>
-            ))}
-
-          </tbody>
-        </table>
-        {/* } */}
-      </div>
+      <Table data={newData} token={token} variable={variable} function1 = {function1}  />
       <div className="paginationButton1">
 
         <div className="paginationButton">

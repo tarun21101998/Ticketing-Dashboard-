@@ -3,10 +3,10 @@ import {useState } from "react";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./CSS/login.css"
+import "../CSS/login.css"
 import {useNavigate  } from "react-router-dom";
 import { defaultFormat } from "moment/moment";
-import variable from "./env.js";
+import variable from "../env.js";
 // toast.configure()
 
 

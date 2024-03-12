@@ -1,6 +1,6 @@
 import React from "react";
-import variable from "./env.js";
-import "./App.css"
+import variable from "../env.js";
+import "../App.css"
 import {useNavigate  } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

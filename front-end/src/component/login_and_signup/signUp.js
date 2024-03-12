@@ -1,10 +1,10 @@
 import React from "react";
-import variable from "./env.js";
+import variable from "../env.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {useState } from "react";
-import "./CSS/signup.css"
+import "../CSS/signup.css"
 import {useNavigate  } from "react-router-dom";
 
 // function for signing up

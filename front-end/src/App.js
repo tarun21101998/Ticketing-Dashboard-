@@ -1,9 +1,9 @@
   import React from "react";
   import EditTicket from "./component/editTicket";
 import Profile from "./component/profile";
-import MyRequests from "./component/myRequests";
-import SignUp from "./component/signUp";
-import CreateRequests from "./component/requests";
+import MyRequests from "./component/user_request/index";
+import SignUp from "./component/login_and_signup/signUp";
+import CreateRequests from "./component/user_request/requests";
 
 import {
   createBrowserRouter,
@@ -13,8 +13,8 @@ import {
 } from "react-router-dom";
 
 import Navbar from "./component/navbar";
-import Login from "./component/login";
-import Listing from "./component/listing";
+import Login from "./component/login_and_signup/login";
+import Listing from "./component/listing/listing";
 import Home from "./component/home";
 
 const App = ()=>{
