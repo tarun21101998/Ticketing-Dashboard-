@@ -1,6 +1,6 @@
   import React from "react";
-  import EditTicket from "./component/editTicket";
-import Profile from "./component/profile";
+  import EditTicket from "./component/user_request/edit_request_data";
+import Profile from "./component/navbar_profile/profile";
 import MyRequests from "./component/user_request/index";
 import SignUp from "./component/login_and_signup/signUp";
 import CreateRequests from "./component/user_request/requests";
@@ -12,7 +12,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import Navbar from "./component/navbar";
+import Navbar from "./component/navbar_profile/navbar";
 import Login from "./component/login_and_signup/login";
 import Listing from "./component/listing/listing";
 import Home from "./component/home";

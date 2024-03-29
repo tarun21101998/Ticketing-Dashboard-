@@ -1,46 +1,58 @@
-
 const express = require('express')
 const router = express.Router();
-const user = require('../controller/user')
+const listing = require('../controller/listing.js')
+const login_and_signup = require('../controller/login_and_signup')
+const user_request = require('../controller/user_request')
+const profile = require('../controller/profile')
+const user = require('../controller/middleware')
 
 
+// sign_up_user
+router.post('/users', login_and_signup.sign_up_user)
 
+// log_in user
+router.post('/login', login_and_signup.login_user)
 
-// Data saving to Data Base
-router.post('/users', user.createData)
-// login API is handling
-router.post('/login', user.loginData)
+// fetch user
+router.get('/users', user.getMiddleWare,  listing.getData)
 
-// Data is fetching from DataBase
-router.get('/users', user.getMiddleWare,  user.getData)
-// Creating the ticket and saving  data to dataBase
-router.post('/requests', user.middleWare,  user.createRequests)
+// Create ticket
+router.post('/requests', user.middleWare,  user_request.create_requests)
 
-// getting data from and compare from dataBase and sending the result  frontEnd
-router.get('/sendrequests', user.getMiddleWare,  user.getRequests)
+// fetch individual user
+router.get('/sendrequests', user.getMiddleWare,  user_request.get_requests)
 
-// activation and deactivation of user
-router.put('/changeActive', user.middleWare,  user.changeActive)
-// Request is accepting
-router.put('/acceptRequest', user.middleWare,  user.acceptRequest)
+// activate/deactivate user
+router.put('/changeActive', user.middleWare,  listing.activate_deactivate)
 
-// rejecting the request
-router.put('/rejectRequest', user.middleWare,  user.rejectRequest)
-// profile fetch data
-router.get('/profile', user.getMiddleWare,  user.profile)
+// accept request
+router.put('/acceptRequest', user.middleWare,  user_request.accept_request)
 
-// edit the first and last name
-router.put('/editNameProfile', user.middleWare, user.editNameProfile1)
+// reject request
+router.put('/rejectRequest', user.middleWare,  user_request.reject_request)
 
-router.put('/editEmailProfile', user.middleWare,   user.editEmailProfile)
-router.put('/editTicket', user.middleWare,  user.editRequest)
-router.delete('/deleteTicket', user.middleWare,  user.deleteTicket)
+// edit request
+router.put('/editTicket', user.middleWare,  user_request.edit_request)
+
+// delete ticket
+router.delete('/deleteTicket', user.middleWare,  user_request.delete_ticket)
+
 // Publish ticket
-router.put('/publishTicket', user.publishTicket)
+router.put('/publishTicket', user_request.publish_ticket)
 
-// reReview the ticket
-router.put('/reviewAgainTicket', user.reviewAgainTicket)
+// review ticket
+router.put('/reviewAgainTicket', user_request.review_ticket)
 
-// Get data for update
-router.get('/getUserDetail', user.getUserDetail)
+// profile fetch data
+router.get('/profile', user.getMiddleWare,  profile.profile)
+
+// edit name
+router.put('/editNameProfile', user.middleWare, profile.edit_name)
+
+// edit email
+router.put('/editEmailProfile', user.middleWare,   profile.edit_email)
+
+// fetch old request
+router.get('/getUserDetail', user_request.get_old_request)
+
 module.exports = router;

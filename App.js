@@ -11,7 +11,7 @@ const app = express()
 
 // importing the DataBase and Collections
 const dotEnv = require("dotenv").config()
-const db = require('./mongooseDataBase/initDB')
+const db = require('./data_base/initDB')
 const collection = require('./modals/data')
 
 const PORT = process.env.PORT || 8000

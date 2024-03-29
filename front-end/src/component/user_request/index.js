@@ -7,7 +7,7 @@ import variable from "../env.js";
 import "../App.css"
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import EditTicket from "../editTicket";
+import EditTicket from "./edit_request_data";
 
 const MyRequests = () => {
   const [firstName, setFirstName] = React.useState("")

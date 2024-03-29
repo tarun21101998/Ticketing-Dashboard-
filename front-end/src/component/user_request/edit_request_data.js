@@ -1,7 +1,7 @@
 import React from "react";
-import variable from "./env.js";
+import variable from "../env.js";
 import moment from"moment";
-import "./App.css"
+import "../App.css"
 import { useParams, useNavigate  } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

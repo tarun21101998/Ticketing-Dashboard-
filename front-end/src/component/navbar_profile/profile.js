@@ -1,7 +1,7 @@
 import React from "react";
 import {toast } from 'react-toastify';
 import { useState, useEffect} from "react";
-import variable from "./env.js";
+import variable from "../env.js";
 import {useNavigate  } from "react-router-dom";
 
 

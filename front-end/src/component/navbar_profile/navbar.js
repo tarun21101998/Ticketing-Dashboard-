@@ -1,6 +1,6 @@
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import React from "react";
-import "./CSS/navbar.css"
+import "../CSS/navbar.css"
 // function for nav_bar
 const Navbar = () => {
     const auth_1 = sessionStorage.getItem('isType');
