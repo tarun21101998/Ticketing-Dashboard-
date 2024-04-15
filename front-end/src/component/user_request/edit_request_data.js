@@ -106,52 +106,44 @@ toast.error('Please fill all field', {
 
     return(
         <>
-<div className="form">
-    {/* <h1>Edit your ticket</h1> */}
-<div className="form1">
-<h1 className="formHeading">Edit your form</h1>
-<br/><br/>
-<form>
-<label>Name of your vehicle</label>
-<br/><input type="text" placeholder="Enter name of your vehicle" 
-onChange={(e) => setName(e.target.value)} value={name}
-required />
-<br/> <br/>
-<label>Number of your vehicle</label>
-<br/><input type="text" placeholder="Enter the Number" required 
-onChange={(e) => setNumber(e.target.value)} value={number} />
-<br/> <br/>
-<label>Contact Number </label>
-<br/><input type="number" placeholder="Enter the Contact Number" required 
-onChange={(e) => setContactNumber(e.target.value)} value={contactNumber} />
+<div className="container">
+    <h2>Parking Reservation Form</h2>
+    <form>
+        <div className="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" onChange={(e) => setName(e.target.value)} value={name}
+  required />
+        </div>
+        <div className="form-group">
+            <label for="carNumber">Car Number:</label>
+            <input type="text" id="carNumber" onChange={(e) => setNumber(e.target.value)} value={number}  required />
+        </div>
+        <div className="form-group">
+            <label for="contactNumber">Contact Number:</label>
+            <input type="tel" id="contactNumber" onChange={(e) => setContactNumber(e.target.value)} value={contactNumber}  required />
+        </div>
+        <div className="form-group">
+            <label for="startDate">Start Date:</label>
+            <input type="datetime-local" step="2" id="startDate" onChange = {handleFromDate} style={{width: "40%"}} value={fromDate}  required />
+        </div>
+        <div className="form-group">
+            <label for="endDate">End Date:</label>
+            <input type="datetime-local" step="2" id="endDate" onChange={handleToDate}  value={toDate}  required />
+        </div>
+        <div class="form-group">
+            <label for="slotNumber">Slot Number:</label>
+            <input type="text" id="slotNumber" onChange={(e) => setSlot(e.target.value)} value={slot}  required />
+        </div>
+        <button type="submit" onClick={handleRequest}>Submit</button>
+        <button type="submit" onClick={()=>{{
+                sessionStorage.removeItem('editId')
+                navigate('/tickets')
+            }}}>Cancel</button>
 
-<br/> <br/>
-<div style={{display: "flex", justifyContent: "space-between"}}>
-<label>From</label>
-<label style={{marginRight: "35%"}} >To</label>
+    </form>
 </div>
-{/* <br/> */}
-<div style={{display: "flex", justifyContent: "space-between"}}>
-<input type="datetime-local" step="2" required onChange = {handleFromDate} style={{width: "40%"}} value={fromDate}/>
-<input type="datetime-local" step="2" onChange={handleToDate} required style={{width: "40%"}} value={toDate} />
-</div>
-<br/> 
-<label>Slot</label>
-<br/><input type="text" placeholder="Enter the Slot Number" required 
-onChange={(e) => setSlot(e.target.value)} value={slot} />
 
 
-
-<br/>
-<span>{message}</span>
-<br/><button onClick={handleRequest} type="submit" style={{width: "30%" }} >Submit Ticket</button>
-<button onClick={()=>{
-    sessionStorage.removeItem('editId')
-    navigate('/tickets')
-}} type="submit" style={{width: "30%" }} >Cancel</button>
-</form>
-</div>
-</div>
 <ToastContainer />
         </>
     );

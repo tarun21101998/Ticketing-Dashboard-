@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import moment from"moment";
 
 import "../App.css"
+import "./admin.css"
 import { useEffect, useState } from "react";
 
 const User = (props)=>{
@@ -34,11 +35,41 @@ const User = (props)=>{
         });
         props.fetchData()
       }
+
+      const user_details = (value)=>{
+        setUserComment(value.Comment)
+        setUserCarName(value.name)
+        setUserCarNumber(value.number)
+        setUserContactNumber(value.contactNumber)
+        setUserFrom(value.from)
+        setUserTo(value.to)
+        setUserSlot(value.slot)
+        setHideCommentDiv(!hideCommentDiv)
+
+        document.getElementById("main").style.filter="blur(5px)";
+        // document.getElementById("pop").style.display="none"
+
+      
+      }
+      useEffect(() => {
+        const handleKeyPress = (event) => {
+          if (event.keyCode === 27) { // Check if the pressed key is the Escape key
+            setHideCommentDiv(false);
+            document.getElementById("main").style.filter="none"
+          }
+        };
+    
+        document.addEventListener('keydown', handleKeyPress);
+    
+        return () => {
+          document.removeEventListener('keydown', handleKeyPress);
+        };
+      }, []); // Empty dependency array ensures the effect runs only once
     
 
     return(
         <>
-        <div className="table_user">
+    <div class="table-container" id="main">
         <table className="table table1" style={{tableLayout: "fixed"}}>
 <thead>
 <tr>
@@ -65,33 +96,26 @@ const User = (props)=>{
 <td className="table">{value.name}</td>
 <td className="table">{value.number}</td>
 <td className="table">{value.contactNumber}</td>
-{/* <td className="table">  {moment(value.from).format('MMMM Do YYYY, h:mm:ss a')}</td> */}
-{/* <td className="table">{moment(value.to).format('MMMM Do YYYY, h:mm:ss a') }</td> */}
 <td className="table"> {value.status == 0?"pending" : value.status==1 ? "accept" : value.status==2 ? "reject" : "Pending"}
  </td>
  <td className="table">
- <button onClick={()=>{
-  setUserComment(value.Comment)
-  setUserCarName(value.name)
-  setUserCarNumber(value.number)
-  setUserContactNumber(value.contactNumber)
-  setUserFrom(value.from)
-  setUserTo(value.to)
-  setUserSlot(value.slot)
-  setHideCommentDiv(!hideCommentDiv)
- }} style={{cursor: "pointer", border: "none", background: "none"}}  >#8{value._id}</button>
+ <button onClick={()=>user_details(value)} style={{cursor: "pointer", border: "none", background: "none"}}  >#8{value._id}</button>
  </td>
  { value.status ==0 ? <td className="table"><Link to={"/editTicket/"+value._id}>Edit</Link> / <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
  :
   <></>
   }
- {/* </tbody> */}
-
- {
+</tr>
+))}
+</tbody>
+</table>
+</div>
+{/* <div className="table_user"> */}
+{
 hideCommentDiv===false ?
 <></>
 :
-<div className="popup1 popup2">
+<div  className="popup1 popup2">
 <h1 style={{textAlign: "center"}}>Ticket Details</h1>
 <ul>
 {/* <ul> */}
@@ -105,16 +129,15 @@ hideCommentDiv===false ?
 {/* </ul> */}
 
 </ul>
-<button onClick={()=> setHideCommentDiv(false)} style={{background: "none", marginLeft: "70%", cursor: "pointer",  border: "none", fontSize: "2rem"}}>Ok</button>
+<button onClick={()=>{{ setHideCommentDiv(false)
+document.getElementById("main").style.filter="none"
+}}} style={{background: "none", marginLeft: "70%", cursor: "pointer",  border: "none", fontSize: "2rem"}}>Ok</button>
 </div>
 }
 
 
-</tr>
-))}
-</tbody>
-</table>
-</div>
+
+{/* </div> */}
 <ToastContainer />
 </>
     );
