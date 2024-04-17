@@ -5,7 +5,7 @@ import User from "./user.js";
 import variable from "../env.js";
 
 import "./index.css"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import EditTicket from "./edit_request_data";
 
@@ -21,13 +21,19 @@ const MyRequests = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [dataPerPage, setDataPerPage] = useState(5)
 
+  // focus on input field
+  const search_ref = useRef(null);
+  
+useEffect(()=>{
+  search_ref.current.focus()
+},[])
 
   const filterFunction = (e) => {
     e.preventDefault()
     setVal(e.target.value)
 
     if (e.target.value) {
-      let result = data.filter((item) => item.email.toLowerCase().includes(e.target.value.toLowerCase()) || item.number.toLowerCase().includes(e.target.value.toLowerCase()))          // console.log(result)
+      let result = data.filter((item) => item.email.toLowerCase().includes(e.target.value.toLowerCase()) || item.number.toLowerCase().includes(e.target.value.toLowerCase()))
       setArr(result)
     }
     if (e.target.value === "") {
@@ -54,7 +60,6 @@ const MyRequests = () => {
       }
     });
     result = await result.json();
-    console.log(result.firstName)
     setIsType(result.data)
     setFirstName(result.firstName + " " + result.lastName);
     result = result.user1
@@ -110,7 +115,7 @@ const MyRequests = () => {
           <span className="username">{firstName}</span>
         </div>
         <div className="search">
-          <input type="text" placeholder="Search..." value={val} onChange={filterFunction} />
+          <input type="text" placeholder="Search..." ref={search_ref} value={val} onChange={filterFunction} />
           <select onChange={select_option}>
             <option value="reset">Reset</option>
 

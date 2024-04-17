@@ -101,10 +101,7 @@ const User = (props)=>{
  <td className="table">
  <button onClick={()=>user_details(value)} style={{cursor: "pointer", border: "none", background: "none"}}  >#8{value._id}</button>
  </td>
- { value.status ==0 ? <td className="table"><Link to={"/editTicket/"+value._id}>Edit</Link> / <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
- :
-  <></>
-  }
+<td className="table"><Link to={"/editTicket/"+value._id}>Edit</Link> / <button onClick={()=> deleteTicket(value._id)}  style={{background: "none", border: "none", cursor: "pointer"}}>Delete</button> </td>
 </tr>
 ))}
 </tbody>

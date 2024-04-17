@@ -10,6 +10,8 @@ const user = require('../controller/middleware')
 // sign_up_user
 router.post('/users', login_and_signup.sign_up_user)
 
+// otp match and sign_up user
+router.post('/otp', login_and_signup.otp)
 // log_in user
 router.post('/login', login_and_signup.login_user)
 

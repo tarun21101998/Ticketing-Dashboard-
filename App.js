@@ -6,7 +6,7 @@ const cors = require('cors');
 
 // calling the express
 const app = express()
-
+// const temporaryUsers = {};
 
 
 // importing the DataBase and Collections
@@ -23,11 +23,11 @@ app.use(cors());
 // app.use(express.static("./Client/build/index.html"));
 app.use('/', require('./routes'));
 // app.use(express.static("Client/build"))
-app.listen(PORT, (err)=>{
-    if(!err){
+app.listen(PORT, (err) => {
+    if (!err) {
         console.log("Server is running on PORT " + PORT)
     }
-    else{
+    else {
         console.log("Error is happening")
     }
 })

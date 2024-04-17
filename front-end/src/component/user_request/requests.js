@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect , useRef} from "react";
 import variable from "../env.js";
 import "./requests.css"
 import {useNavigate  } from "react-router-dom";
@@ -20,6 +20,14 @@ const CreateRequests= ()=>{
 
 
     const [message, setMessage] = React.useState("")
+// focus on input field
+const vehicle_name = useRef(null);
+const contact_number_ref = useRef(null);
+const date_time_ref = useRef(null);
+
+    useEffect(()=>{
+        vehicle_name.current.focus();
+    }, [])
 
     // setting the from date to variable
     const handleFromDate = (e)=>{
@@ -41,11 +49,17 @@ const CreateRequests= ()=>{
         const date2 = new Date(toDate)
         const LatestDate = new Date()
         if(date1 > date2 || date1 < LatestDate){
+            date_time_ref.current.focus()
             toast.error('Please enter correct Date and Time', {
                 position: toast.POSITION.TOP_right
             });
-
             return;
+        }
+        else if(contactNumber.length < 10  || contactNumber.length > 10){
+contact_number_ref.current.focus()
+toast.error("contact number contains only 10 characters", {
+    position: toast.POSITION.TOP_CENTER
+})
         }
         else{
         await fetch(variable+"/requests", {
@@ -55,17 +69,14 @@ const CreateRequests= ()=>{
                 'Content-Type': 'application/json'
             }
         });
-        setMessage("")
         navigate('/tickets')
     }
 }
+vehicle_name.current.focus()
 toast.error('Please fill all field', {
     position: toast.POSITION.TOP_right
 });
-
 }
-
-
     return(
         <>
 <div className="container">
@@ -74,7 +85,7 @@ toast.error('Please fill all field', {
         <div className="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" onChange={(e) => setName(e.target.value)} value={name}
-  required />
+  ref={vehicle_name} required />
         </div>
         <div className="form-group">
             <label for="carNumber">Car Number:</label>
@@ -82,11 +93,11 @@ toast.error('Please fill all field', {
         </div>
         <div className="form-group">
             <label for="contactNumber">Contact Number:</label>
-            <input type="tel" id="contactNumber" onChange={(e) => setContactNumber(e.target.value)} value={contactNumber}  required />
+            <input type="tel" id="contactNumber" onChange={(e) => setContactNumber(e.target.value)} value={contactNumber} ref={contact_number_ref}  required />
         </div>
         <div className="form-group">
             <label for="startDate">Start Date:</label>
-            <input type="datetime-local" step="2" id="startDate" onChange = {handleFromDate} style={{width: "40%"}} value={fromDate}  required />
+            <input type="datetime-local" step="2" id="startDate" onChange = {handleFromDate} style={{width: "40%"}} value={fromDate} ref={date_time_ref}  required />
         </div>
         <div className="form-group">
             <label for="endDate">End Date:</label>

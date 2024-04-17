@@ -86,7 +86,6 @@ if(user.status ==0){
 // Delet ticket
 module.exports.delete_ticket = async (req, resp)=>{
     try {
-        // console.log({_id: req.body.value})
         let user =await collection1.deleteOne({_id: req.body.value});
         // console.log(user)
         return resp.send("deleted")
