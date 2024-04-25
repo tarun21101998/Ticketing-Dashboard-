@@ -24,7 +24,6 @@ module.exports.sign_up_user = async (req, resp) => {
         // generating OTP
         const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false, alphabets: false });
 
-        // saving user to temporary_user
         let user = new collection(req.body);
 
         // checking user data exists
@@ -106,8 +105,8 @@ module.exports.otp = async (req, resp) => {
         let temporary_user_data = await temporary_user.findOne({ email: req.body.param.id })
         console.log(temporary_user_data)
         if (req.body.otp != temporary_user_data.otp) {
-console.log(temporary_user_data.otp)
-console.log(req.body.otp)
+            console.log(temporary_user_data.otp)
+            console.log(req.body.otp)
             return resp.status(400).json({ response: 401 })
         }
         // convert the password in code using hash algorithum
@@ -116,11 +115,55 @@ console.log(req.body.otp)
 
         // saving user
         let result = await collection.create({ firstName: temporary_user_data.firstName, lastName: temporary_user_data.lastName, email: temporary_user_data.email, password: temporary_user_data.password, isActive: true, isType: temporary_user_data.isType });
-console.log("success")      
-const delete_temporary_data = await temporary_user.deleteOne({ email: temporary_user_data.email });
-        return resp.status(200).json({response: true})
+        console.log("success")
+        const delete_temporary_data = await temporary_user.deleteOne({ email: temporary_user_data.email });
+        return resp.status(200).json({ response: true })
     } catch (error) {
         console.error('Error inserting documents:', error);
         // Handle the error appropriately
+    }
+}
+
+module.exports.resend_otp = async (req, resp) => {
+    try {
+        if (!req.body.param.id) {
+            return resp.status(400).json({ response: false })
+        }
+
+        // generating OTP
+        const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false, alphabets: false });
+
+        // update otp 
+        await temporary_user.updateOne({ email: req.body.param.id }, { $set: { otp: otp } })
+// fetch temporary_user
+        let temporary_users = await temporary_user.findOne({ email: req.body.param.id })
+        // send OTP through mail 
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'tarunsinghal8295437364@gmail.com', // Your email address
+                pass: 'mtsl mnuo aqda ucmc' // Your password
+            }
+        });
+
+        // Email content
+        let mailOptions = {
+            from: 'Tarun Singhal', // Sender address
+            to: req.body.param.id, // List of recipients
+            subject: 'OTP Verification', // Subject line
+            text: `Hello ${temporary_users.firstName} ${temporary_users.lastName} \n Your OTP is ${otp} \n Do not share the OTP with anyone. ` // Plain text body
+        };
+
+        // Sending email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error)
+                return resp.status(400).json({ response: false })
+            }
+            return resp.status(200).json({ response: true, email: req.body.email })
+        });
+
+    } catch (error) {
+        console.log("error is showing")
     }
 }

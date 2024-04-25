@@ -12,6 +12,10 @@ router.post('/users', login_and_signup.sign_up_user)
 
 // otp match and sign_up user
 router.post('/otp', login_and_signup.otp)
+
+// resend OTP
+router.post('/resend_otp', login_and_signup.resend_otp)
+
 // log_in user
 router.post('/login', login_and_signup.login_user)
 
