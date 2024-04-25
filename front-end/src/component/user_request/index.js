@@ -4,8 +4,8 @@ import Reviewer from "./reviewer.js";
 import User from "./user.js";
 import variable from "../env.js";
 
-import "../App.css"
-import { useEffect, useState } from "react";
+import "./index.css"
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import EditTicket from "./edit_request_data";
 
@@ -19,17 +19,21 @@ const MyRequests = () => {
   const navigate = useNavigate();
   const [val, setVal] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const [dataPerPage, setDataPerPage] = useState(10)
+  const [dataPerPage, setDataPerPage] = useState(5)
 
+  // focus on input field
+  const search_ref = useRef(null);
+  
+useEffect(()=>{
+  search_ref.current.focus()
+},[])
 
   const filterFunction = (e) => {
-    // console.log(e.target.value);
     e.preventDefault()
     setVal(e.target.value)
 
     if (e.target.value) {
-      // console.log(result)
-      let result = data.filter((item) => item.email.toLowerCase().includes(e.target.value.toLowerCase()) || item.number.toLowerCase().includes(e.target.value.toLowerCase()))          // console.log(result)
+      let result = data.filter((item) => item.email.toLowerCase().includes(e.target.value.toLowerCase()) || item.number.toLowerCase().includes(e.target.value.toLowerCase()))
       setArr(result)
     }
     if (e.target.value === "") {
@@ -37,11 +41,16 @@ const MyRequests = () => {
     }
   }
 
-  const ascendingDateSort = () => {
+  const ascending_date_sort = () => {
     const data1 = [...data].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
     setArr(data1)
   }
-  // ascendingDateSort()
+
+  const descending_date_sort = () => {
+    const data1 = [...data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    setArr(data1)
+  }
+
   const fetchData = async () => {
     let result = await fetch(`${variable}/sendrequests?token=${token}`, {
       method: 'get',
@@ -51,7 +60,6 @@ const MyRequests = () => {
       }
     });
     result = await result.json();
-    console.log(result.firstName)
     setIsType(result.data)
     setFirstName(result.firstName + " " + result.lastName);
     result = result.user1
@@ -87,21 +95,39 @@ const MyRequests = () => {
       // console.log(currentPage)
     }
   }
-
+  const select_option = (e) => {
+    e.preventDefault()
+    console.log(e.target.value)
+    if (e.target.value === "ascending") {
+      ascending_date_sort()
+    }
+    else if (e.target.value === "descending") {
+      descending_date_sort()
+    }
+    else {
+      fetchData()
+    }
+  }
   return (
     <div className="body">
-      <div className="header">Hey,{firstName}<> {isType === 0 ? <span><br />(Admin)</span> : isType === 2 ? <span><br />(Reviewer)</span> : <> </>}</>  </div>
-      <div className="input">
-        <button style={{ backgroundColor: "brown", height: "10%", marginRight: "20px", border: "none", cursor: "pointer" }} onClick={ascendingDateSort}>Descending</button>
-
-        <input type="text" placeholder="Search by Number/EmailId" value={val} onChange={filterFunction} />
-      </div>
-      {isType === 0 ? <Admin variable={variable} ticketArrayList={newData} fetchData={fetchData} /> : isType === 2 ? <Reviewer variable={variable} ticketArrayList={newData} fetchData={fetchData} /> : <User variable={variable} ticketArrayList={newData} fetchData={fetchData} />}
-      <div className="paginationButton1">
-        <div className="paginationButton">
-          <button onClick={prePage}>Previous</button>
-          <button onClick={nextPage}>Next</button>
+      <header className="header">
+        <div className="user">
+          <span className="username">{firstName}</span>
         </div>
+        <div className="search">
+          <input type="text" placeholder="Search..." ref={search_ref} value={val} onChange={filterFunction} />
+          <select onChange={select_option}>
+            <option value="reset">Reset</option>
+
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+          </select>
+        </div>
+      </header>
+      {isType === 0 ? <Admin variable={variable} ticketArrayList={newData} fetchData={fetchData} /> : isType === 2 ? <Reviewer variable={variable} ticketArrayList={newData} fetchData={fetchData} /> : <User variable={variable} ticketArrayList={newData} fetchData={fetchData} />}
+      <div className="button-container">
+        <button onClick={prePage} className="button">Previous</button>
+        <button onClick={nextPage} className="button">Next</button>
       </div>
 
 

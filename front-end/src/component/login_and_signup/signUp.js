@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import variable from "../env.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import {useState } from "react";
+import { useState, useRef } from "react";
 import "../CSS/signup.css"
 import {useNavigate  } from "react-router-dom";
 
@@ -16,13 +15,21 @@ const SignUp= ()=>{
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [isType, setIsType] = useState(false);
+    const [isType, setIsType] = useState();
 
 
     // variable for navigation
     const navigate = useNavigate();
+// focus on input field
+    const input_ref = useRef(null);
+    const password_ref = useRef(null)
+const sign_up_ref = useRef(null);
 
-    // function to provide the numeric value to  user
+useEffect(()=>{
+    sign_up_ref.current.focus()
+}, [])
+
+// function to provide the numeric value to  user
     const handleSignUp= (e) => {
         e.preventDefault()
         if(e.target.value === "admin"){
@@ -40,6 +47,21 @@ const SignUp= ()=>{
     const handleSignUpData = async (e) => {
         e.preventDefault();
         if(email  && firstName && lastName && password){
+            if(!email.endsWith('@gmail.com')){
+                toast.error('Please enter proper email id', {
+                    position: toast.POSITION.TOP_CENTER
+                })
+                input_ref.current.focus();
+                return;
+            }
+            if(password.length < 8){
+                // console.log("enter here")
+                toast.error('Password should be atleast 8 characters', {
+                    position: toast.POSITION.TOP_CENTER
+                })
+                password_ref.current.focus()
+                return;
+            }
         let result = await fetch(variable+"/users", {
             method: 'post',
             body: JSON.stringify({firstName, lastName, email, password, isType}),
@@ -48,24 +70,22 @@ const SignUp= ()=>{
             }
         });     
         result = await result.json();
-        if(result.responce === true) {    
-            navigate("/login")
+        console.log(result)
+        if(result.response === true) {    
+            setEmail(result.email)
+            navigate('/otp/'+email);
         }
-        else if(result.responce === false){
+        else if(result.response === "already_exists"){
             toast.error('Email id already exists', {
-                position: toast.POSITION.TOP_center
-            });
-        }
-        else if(result.responce ===  10){
-            toast.error('Enter complete Details', {
                 position: toast.POSITION.TOP_center
             });
         }
     }
     else{
-        toast.error('Enter complete details', {
+        toast.error('Please fill out the complete form', {
             position: toast.POSITION.TOP_center
         });
+        sign_up_ref.current.focus();
 }
     }
 
@@ -76,19 +96,20 @@ const SignUp= ()=>{
         <h2>Sign Up</h2>
         <form action="#" method="post">
             <label for="firstName">First Name:</label>
-            <input type="text"  onChange={(e) => setFirstName(e.target.value)} value={firstName} required />
+            <input type="text" ref={sign_up_ref}  onChange={(e) => setFirstName(e.target.value)} value={firstName} placeholder="Enter your first name" required />
 
             <label for="lastName">Last Name:</label>
-            <input type="text"  onChange={(e) => setLastName(e.target.value)} value={lastName} required />
+            <input type="text"  onChange={(e) => setLastName(e.target.value)} value={lastName} placeholder="Enter your last name" required />
 
             <label for="email">Email:</label>
-            <input type="email" onChange={(e) => setEmail(e.target.value)} value={email}  required />
+            <input type="email" ref={input_ref} onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Enter your email id" required />
 
             <label for="password">Password:</label>
-            <input type="password" onChange={(e) => setPassword(e.target.value)} value={password}   required />
+            <input type="password" ref={password_ref} onChange={(e) => setPassword(e.target.value)} value={password}   placeholder="Enter your password" required />
 
             <label for="type">Select Role:</label>
             <select onChange={handleSignUp} required>
+                <option>Select</option>
 <option value="user">User</option>
     <option value="admin">Admin</option>
     <option value="review">Reviewer</option>

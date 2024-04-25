@@ -1,5 +1,6 @@
-  import React from "react";
-  import EditTicket from "./component/user_request/edit_request_data";
+import React from "react";
+import Otp from "./component/login_and_signup/otp";
+import EditTicket from "./component/user_request/edit_request_data";
 import Profile from "./component/navbar_profile/profile";
 import MyRequests from "./component/user_request/index";
 import SignUp from "./component/login_and_signup/signUp";
@@ -17,7 +18,7 @@ import Login from "./component/login_and_signup/login";
 import Listing from "./component/listing/listing";
 import Home from "./component/home";
 
-const App = ()=>{
+const App = () => {
 
   const router = createBrowserRouter([
     {
@@ -27,11 +28,12 @@ const App = ()=>{
         { index: true, element: <Home /> },
         { path: "/users", element: <Listing /> },
         { path: "/login", element: <Login /> },
-        {path: "/create-ticket", element: <CreateRequests />},
-        {path: "/signup", element: <SignUp/>},
-        {path: "/tickets", element: <MyRequests />},
-        {path: "/profile", element: <Profile />},
-        {path: "/editTicket/:id", element: <EditTicket />}
+        { path: "/create-ticket", element: <CreateRequests /> },
+        {path: "/signup", element: <SignUp />,},
+        { path: "/tickets", element: <MyRequests /> },
+        { path: "/profile", element: <Profile /> },
+        { path: "/editTicket/:id", element: <EditTicket /> },
+        { path: "/otp/:id", element: <Otp /> } // Corrected the path for nested route
       ],
     },
   ]);

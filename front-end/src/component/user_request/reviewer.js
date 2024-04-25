@@ -1,6 +1,7 @@
 import React from "react";
 import "../App.css"
 import { useState } from "react";
+import "./admin.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from "moment";
@@ -54,7 +55,8 @@ const Reviewer = (props) => {
 
 
     return (
-        <div className="table_div">
+        <div class="table-container">
+
             <table className="table table1" style={{ tableLayout: "fixed" }}>
                 <thead>
                     <tr>
